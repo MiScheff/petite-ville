@@ -1,7 +1,22 @@
-<div>
-	<ul>
-		<li>Comment ça marche ?</li>
-		<li>Se connecter</li>
-		<li (click)="newGame()">Créer une partie</li>
-	</ul>
+<div class="d-flex justify-content-center">
+	<div class="col-8 text-center">
+		<ul class="list-group pb-4">
+			<li class="list-group-item list-group-item-action pointer">Comment ça marche ?</li>
+			<div *ngIf="!isLogged; then noLogged else logged"></div>
+			<ng-template #noLogged>
+				<li class="list-group-item list-group-item-action pointer" (click)="toggle()">Se connecter</li>
+			</ng-template>
+			<ng-template #logged>
+				<li class="list-group-item list-group-item-action pointer" (click)="toggle()">Se déconnecter</li>
+			</ng-template>
+		</ul>
+		<p *ngIf="!isLogged">Pour créer une partie, veuillez vous connecter.</p>
+		<ul class="list-group">
+			<li class="list-group-item list-group-item-action pointer"
+					[class.disabled]="!isLogged"
+					(click)="newGame()">
+				Créer une partie
+			</li>
+		</ul>
+	</div>
 </div>
