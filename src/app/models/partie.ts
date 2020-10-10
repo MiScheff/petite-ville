@@ -8,9 +8,9 @@ export class Partie {
   dateFin: Date;
   dernieresActions: string[] = [];
 
-  constructor(joueur: Joueur) {
-    this.joueurActif = 'joueurID'; // TODO: récupérer l'idUser dans le LocalStorage
-    this.joueurs['joueurID'] = joueur;
+  constructor(joueur: Joueur, idJoueur) {
+    this.joueurActif = idJoueur;
+    this.joueurs[idJoueur] = joueur;
     this.dernieresActions.push(joueur.nom + ' a créé la partie.');
   }
 }

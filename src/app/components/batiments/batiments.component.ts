@@ -15,8 +15,7 @@ export class BatimentsComponent implements OnInit {
   constructor(private batimentsS: BatimentsService) { }
 
   ngOnInit(): void {
-    // Uniquement si la partie n'a pas encore été créée .
-    // TODO: à déplacer dans la BDD
+    // TODO: à déplacer dans partie component ou service lors de l'initialisation de la partie
     this.batiments = this.batimentsS.getRandomBatiments();
     this.champsBle = this.batimentsS.getChampsBle();
     this.champsDispo = this.champsBle.length;

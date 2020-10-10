@@ -9,20 +9,22 @@ import { PartiesService } from 'src/app/services/parties.service';
   styleUrls: ['./menu.component.sass']
 })
 export class MenuComponent implements OnInit {
-  isLogged: boolean;
+  idJoueur: string;
 
   constructor(private router: Router,
               private partiesS: PartiesService,
               private authS: AuthService) { }
 
   ngOnInit(): void {
-    // TODO : Vérifier si l'utilisateur est connecté
-    this.authS.user$.subscribe(user => this.isLogged = user ? true : false);
-    // this.authS.user$.subscribe(user => user ? this.isLogged = true : this.isLogged = false);
+    // Vérifie si l'utilisateur est connecté
+    this.authS.user$.subscribe(user => {
+      this.idJoueur = user ? user.uid : null;
+    });
   }
 
   async newGame() {
-    const partieID = (await this.partiesS.createPartie()).key;
+
+    const partieID = (await this.partiesS.createPartie(this.idJoueur)).key;
     this.router.navigate(['/partie/', partieID]);
   }
 

@@ -10,6 +10,7 @@ export class CartesService {
   constructor() { }
 
   initCarte() {
+    // TODO: stocker ces tableaux en BDD
     // tous les tableaux sont de type array[y][x];
     const casesPierre = ['0,0', '0,3', '0,7', '0,8'];
     const casesBois = ['0,2', '3,0', '4,6', '5,1', '5,2', '5,8'];

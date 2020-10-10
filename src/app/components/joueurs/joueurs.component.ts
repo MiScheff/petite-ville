@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Joueur } from 'src/app/models/joueur';
 
 @Component({
   selector: 'pv-joueurs',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./joueurs.component.sass']
 })
 export class JoueursComponent implements OnInit {
+  @Input() joueurs: Joueur[];
+  list = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.joueurs);
   }
 
 }

@@ -14,7 +14,6 @@ import { HomeComponent } from './components/home/home.component';
 import { JoueursComponent } from './components/joueurs/joueurs.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { PartieComponent } from './components/partie/partie.component';
-import { ScoreComponent } from './components/score/score.component';
 import { AuthService } from './services/auth.service';
 import { BatimentsService } from './services/batiments.service';
 import { CartesService } from './services/cartes.service';
@@ -27,7 +26,6 @@ import { PartiesService } from './services/parties.service';
     MenuComponent,
     PartieComponent,
     CarteComponent,
-    ScoreComponent,
     BatimentsComponent,
     JoueursComponent,
   ],
