@@ -15,17 +15,17 @@ export class AppComponent {
   constructor(private authS: AuthService,
               private usersS: UsersService,
               private router: Router) {
-    console.log("TEST CONNEXION");
+    console.log('Connexion...');
     
     this.authS.user.subscribe((user) => {
       if (user) {
         this.saveUser(user);
-        console.log("OK CONNEXION");
+        console.log('Connecté');
 
         this.navigateUser();
       }
       else {
-        console.log("KO CONNEXION");
+        console.log('Non connecté');
 
       }
     });

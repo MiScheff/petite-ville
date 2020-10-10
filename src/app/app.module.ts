@@ -27,7 +27,7 @@ import { PartiesService } from './services/parties.service';
     CarteComponent,
     ScoreComponent,
     BatimentsComponent,
-    JoueursComponent
+    JoueursComponent,
   ],
   imports: [
     BrowserModule,

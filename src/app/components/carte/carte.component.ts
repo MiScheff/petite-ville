@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CarteService } from 'src/app/services/carte.service';
 
 @Component({
   selector: 'pv-carte',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./carte.component.sass']
 })
 export class CarteComponent implements OnInit {
-
-  constructor() { }
+  carte;
+  constructor(private carteS: CarteService) { }
 
   ngOnInit(): void {
+    this.carte = this.carteS.initCarte();
   }
 
 }
