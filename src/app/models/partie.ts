@@ -1,16 +1,25 @@
+import { Batiment } from './batiment';
 import { Joueur } from './joueur';
 
 export class Partie {
+  carte: string[];
+  batiments: Batiment[];
   joueurs: Joueur[] = [];
+
+  nbMaxBatiments = 7;
+  nbChampsBle = 5;
+
   joueurActif: string;
-  manche: number;
+  dernieresActions: string[] = [];
+  manche = 1;
   dateDebut: Date;
   dateFin: Date;
-  dernieresActions: string[] = [];
 
-  constructor(joueur: Joueur, idJoueur) {
-    this.joueurActif = idJoueur;
-    this.joueurs[idJoueur] = joueur;
+  constructor(idCreateur: string, carte: string[], batiments: Batiment[], joueur: Joueur) {
+    this.carte = carte;
+    this.batiments = batiments;
+    this.joueurActif = idCreateur;
+    this.joueurs[idCreateur] = joueur;
     this.dernieresActions.push(joueur.nom + ' a créé la partie.');
   }
 }

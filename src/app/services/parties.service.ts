@@ -4,15 +4,23 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Joueur } from '../models/joueur';
 import { Partie } from '../models/partie';
+import { BatimentsService } from './batiments.service';
+import { CartesService } from './cartes.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PartiesService {
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase,
+              private cartesS: CartesService,
+              private batimentsS: BatimentsService) { }
 
   async createPartie(idJoueur) {
-    return await this.db.list('/parties').push(new Partie(new Joueur('Mich'), idJoueur));
+    const joueur = new Joueur(localStorage.getItem('nomUser'));
+    const carte = this.cartesS.initCarte();
+    const batiments = this.batimentsS.getRandomBatiments();
+
+    return await this.db.list('/parties').push(new Partie(idJoueur, carte, batiments, joueur));
   }
 
   getPartie(idPartie) {

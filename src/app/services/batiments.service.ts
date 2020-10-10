@@ -7,8 +7,6 @@ import { champsBle, listeBatiments } from '../models/listeBatiments';
   providedIn: 'root'
 })
 export class BatimentsService {
-
-
   constructor() {
   }
 

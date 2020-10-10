@@ -28,7 +28,7 @@ export class AuthService {
   get user() {
     return this.user$.pipe(
       switchMap((user) => {
-        if (user){ return of({id: user.uid, nom: user.displayName}); }
+        if (user){ return of({id: user.uid, nom: user.displayName.split(' ')[0]}); }
         return of(null);
       })
     );

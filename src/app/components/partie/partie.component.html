@@ -1,7 +1,9 @@
 <div style="width: 900px;" class="m-auto">
 	<ng-container *ngIf="partie$ | async as partie">
-		<pv-carte></pv-carte>
-		<pv-batiments></pv-batiments>
+		<pv-carte [carte]="partie.carte"></pv-carte>
+		<pv-batiments [batiments]="partie.batiments"
+									[champsDispo]="partie.nbChampsBle"
+									[nbMaxBatiment]="partie.nbMaxBatiments"></pv-batiments>
 		<pv-joueurs [joueurs]="partie.joueurs"></pv-joueurs>
 
 	</ng-container>

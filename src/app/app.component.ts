@@ -32,8 +32,8 @@ export class AppComponent {
   }
 
   private saveUser(user) {
-    localStorage.setItem('userId', user.id);
-    localStorage.setItem('userNom', user.nom);
+    localStorage.setItem('idUser', user.id);
+    localStorage.setItem('nomUser', user.nom);
     this.usersS.save(user);
   }
 

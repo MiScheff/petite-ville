@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CartesService } from 'src/app/services/cartes.service';
 
 @Component({
@@ -7,11 +7,10 @@ import { CartesService } from 'src/app/services/cartes.service';
   styleUrls: ['./carte.component.sass']
 })
 export class CarteComponent implements OnInit {
-  carte;
+  @Input() carte: string[];
   constructor(private carteS: CartesService) { }
 
   ngOnInit(): void {
-    this.carte = this.carteS.initCarte();
   }
 
 }
