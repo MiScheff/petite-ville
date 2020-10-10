@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class CarteService {
+export class CartesService {
   carte = []; // La carte fait 6 cases de haut (y) et 9 cases de large (x)
 
 

@@ -1,1 +1,12 @@
-<p>batiments works!</p>
+<div class="batiments">
+	<div class="chantier d-inline-block">Chantier</div>
+	<div class="liste-batiments d-inline-block">
+		<div class="case ble">
+			blé
+		</div>
+		<div *ngFor="let bat of batiments"
+					class="case float-right">
+			{{ bat.nom }}
+		</div>
+	</div>
+</div>

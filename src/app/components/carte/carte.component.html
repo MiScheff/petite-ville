@@ -1,9 +1,7 @@
 <div *ngFor="let ligne of carte">
-	<ng-container *ngFor="let case of ligne">
-		<!-- <pv-case [infos]="case"></pv-case> -->
-		<div class="case" [ngClass]="case.content">&nbsp;
-			<!-- <small>{{ case.y }};{{ case.x }}</small>
-			<p>{{ case.content || "vide" }}</p> -->
-		</div>
-	</ng-container>
+  <div *ngFor="let case of ligne" 
+        class="case" 
+        [ngClass]="case.content">
+    &nbsp;
+  </div>
 </div>
