@@ -23,18 +23,15 @@ export class PartiesService {
     return await this.db.list('/parties').push(new Partie(idJoueur, carte, batiments, joueur));
   }
 
-  getPartie(idPartie) {
-    return this.db.object('/parties/' + idPartie).valueChanges().pipe(
-      switchMap((partie: Partie) => {
-        // Transforme l'objet d'objets partie.joueur en tableau d'objets
-        const keys = Object.keys(partie.joueurs);
-        const arrJoueurs = [];
-        keys.forEach((key) => {
-          arrJoueurs.push(partie.joueurs[key]);
-        });
-        partie.joueurs = arrJoueurs;
-        return of(partie);
-      })
-    );
+  getPartie(idPartie: string): Observable<Partie> {
+    return this.db.object('/parties/' + idPartie).valueChanges() as Observable<Partie>;
+  }
+
+  updatePartie(idPartie: string, data: object): void {
+    this.db.object('/parties/' + idPartie).update(data);
+  }
+
+  addJoueur(idPartie: string, idJoueur: string, joueur: Joueur): void {
+    this.db.list('/parties/' + idPartie + '/joueurs').set(idJoueur, joueur);
   }
 }

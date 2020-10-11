@@ -3,11 +3,12 @@ import { Joueur } from './joueur';
 
 export class Partie {
   carte: string[];
-  batiments: Batiment[];
+  batiments: {
+    listeBatiments: Batiment[];
+    nbMaxBatiments: number;
+    nbChampsBle: number;
+  };
   joueurs: Joueur[] = [];
-
-  nbMaxBatiments = 7;
-  nbChampsBle = 5;
 
   joueurActif: string;
   dernieresActions: string[] = [];
@@ -17,7 +18,11 @@ export class Partie {
 
   constructor(idCreateur: string, carte: string[], batiments: Batiment[], joueur: Joueur) {
     this.carte = carte;
-    this.batiments = batiments;
+    this.batiments = {
+      listeBatiments: batiments,
+      nbMaxBatiments: 7,
+      nbChampsBle: 5
+    };
     this.joueurActif = idCreateur;
     this.joueurs[idCreateur] = joueur;
     this.dernieresActions.push(joueur.nom + ' a créé la partie.');

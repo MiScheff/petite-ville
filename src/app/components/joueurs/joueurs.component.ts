@@ -7,13 +7,25 @@ import { Joueur } from 'src/app/models/joueur';
   styleUrls: ['./joueurs.component.sass']
 })
 export class JoueursComponent implements OnInit {
+  // tslint:disable-next-line: no-input-rename
   @Input() joueurs: Joueur[];
-  list = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
-    console.log(this.joueurs);
+
+  }
+
+  toArray(objet) {
+    // Transforme l'objet d'objets partie.joueur en tableau d'objets
+    const tableau = [];
+    const keys = Object.keys(objet);
+    keys.forEach((key) => {
+      tableau.push(objet[key]);
+    });
+
+    return tableau;
   }
 
 }

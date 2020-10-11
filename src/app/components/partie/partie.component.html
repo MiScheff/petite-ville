@@ -1,9 +1,10 @@
 <div style="width: 900px;" class="m-auto">
-	<ng-container *ngIf="partie$ | async as partie">
+	<ng-container *ngIf="partie">
+		<div *ngIf="!participe()">
+			Tu veux pas jouer ? <button (click)="rejoindre()">Rejoindre la partie</button>
+		</div>
 		<pv-carte [carte]="partie.carte"></pv-carte>
-		<pv-batiments [batiments]="partie.batiments"
-									[champsDispo]="partie.nbChampsBle"
-									[nbMaxBatiment]="partie.nbMaxBatiments"></pv-batiments>
+		<pv-batiments [batiments]="partie.batiments"></pv-batiments>
 		<pv-joueurs [joueurs]="partie.joueurs"></pv-joueurs>
 
 	</ng-container>

@@ -8,14 +8,20 @@ import { BatimentsService } from 'src/app/services/batiments.service';
   styleUrls: ['./batiments.component.sass']
 })
 export class BatimentsComponent implements OnInit {
-  @Input() champsDispo: number;
-  @Input() nbMaxBatiment: number;
-  @Input() batiments: Batiment[];
+  @Input() batiments;
+
+  listeBatiments: Batiment[];
+  nbChampBle: number;
+  nbMaxBatiment: number;
   champsBle: Batiment[];
 
   constructor(private batimentsS: BatimentsService) { }
 
   ngOnInit(): void {
+    this.listeBatiments = this.batiments.listeBatiments;
+    this.nbMaxBatiment = this.batiments.nbMaxBatiment;
+    this.nbChampBle = this.batiments.nbChampBle;
+
     this.champsBle = this.batimentsS.getChampsBle();
   }
 
