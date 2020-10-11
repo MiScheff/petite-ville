@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Joueur } from 'src/app/models/joueur';
+import { Subscription } from 'rxjs';
 import { Partie } from 'src/app/models/partie';
+import { Utilisateur } from 'src/app/models/utilisateur';
+import { AuthService } from 'src/app/services/auth.service';
 import { PartiesService } from 'src/app/services/parties.service';
 
 @Component({
@@ -10,38 +11,42 @@ import { PartiesService } from 'src/app/services/parties.service';
   templateUrl: './partie.component.html',
   styleUrls: ['./partie.component.sass']
 })
-export class PartieComponent implements OnInit {
+export class PartieComponent implements OnInit, OnDestroy {
   idPartie: string;
-  idUser: string;
-
+  user: Utilisateur;
   partie: Partie;
 
+  partie$: Subscription;
+  user$: Subscription;
+
   constructor(private route: ActivatedRoute,
-              private partiesS: PartiesService) {
+              private partiesS: PartiesService,
+              private authS: AuthService) {
     this.idPartie = this.route.snapshot.paramMap.get('id');
-    this.idUser = localStorage.getItem('idUser');
+    this.user$ = this.authS.user.subscribe((user: Utilisateur) => this.user = user);
   }
 
   ngOnInit(): void {
-    this.partiesS.getPartie(this.idPartie).subscribe((partie) => {
-      // console.log(partie);
+    this.partie$ = this.partiesS.getPartie(this.idPartie).subscribe((partie) => {
       this.partie = partie;
     });
   }
 
   participe(): boolean {
-    const listeJoueurs = Object.keys(this.partie.joueurs);
-    return listeJoueurs.indexOf(this.idUser) !== -1 ? true : false;
-  }
+    if (!this.user) { return false; }
 
-  rejoindre(): void {
-    const nom = localStorage.getItem('nomUser');
-    this.partiesS.addJoueur(this.idPartie, this.idUser, new Joueur(nom));
+    const listeJoueurs = Object.keys(this.partie.joueurs);
+    return listeJoueurs.indexOf(this.user.id) !== -1 ? true : false;
   }
 
   nbJoueurs(): number {
     const listeJoueurs = Object.keys(this.partie.joueurs);
     return listeJoueurs.length;
+  }
+
+  ngOnDestroy() {
+    this.partie$.unsubscribe();
+    this.user$.unsubscribe();
   }
 
 }

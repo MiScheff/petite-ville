@@ -1,0 +1,16 @@
+<div *ngIf="user.id === partie.joueurActif; then mon_tour else pas_mon_tour"></div>
+<ng-template #mon_tour>
+	<div *ngIf="nbJoueurs < 2; then attente else lancement"></div>
+	<ng-template #attente>
+		<p>En attente d'autres joueurs... (min 2 / max 4)</p>
+	</ng-template>
+	<ng-template #lancement>
+		<p *ngIf="nbJoueurs < 4">
+			Vous pouvez attendre d'autres joueurs ou lancer la partie ({{ nbJoueurs }}/4)
+		</p>
+		<button (click)="commencer()">Commencer</button>
+	</ng-template>
+</ng-template>
+<ng-template #pas_mon_tour>
+	<p>C'est pas encore à vous...</p>
+</ng-template>

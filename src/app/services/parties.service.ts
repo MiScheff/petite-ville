@@ -24,14 +24,34 @@ export class PartiesService {
   }
 
   getPartie(idPartie: string): Observable<Partie> {
-    return this.db.object('/parties/' + idPartie).valueChanges() as Observable<Partie>;
+    return this.db.object('/parties/' + idPartie).valueChanges().pipe(
+      switchMap((partie: Partie) => {
+        // Transforme l'objet de string partie.evenements en tableau de string
+        const keys = Object.keys(partie.evenements);
+        const evenements = [];
+        keys.forEach((key) => {
+          evenements.push(partie.evenements[key]);
+        });
+        partie.evenements = evenements;
+        return of(partie);
+      })
+    );
   }
 
-  updatePartie(idPartie: string, data: object): void {
-    this.db.object('/parties/' + idPartie).update(data);
+  addEvenements(idPartie, messageEvenement) {
+    this.db.list('/parties/' + idPartie + '/evenements').push(messageEvenement);
   }
 
-  addJoueur(idPartie: string, idJoueur: string, joueur: Joueur): void {
+  addJoueur(idPartie: string, idJoueur: string, joueur: Joueur, messageEvenement: string): void {
     this.db.list('/parties/' + idPartie + '/joueurs').set(idJoueur, joueur);
+    this.addEvenements(idPartie, messageEvenement);
   }
+
+  commencerPartie(idPartie, messageEvenement) {
+    this.db.object('/parties/' + idPartie).update({ dateDebut: Date.now() });
+    this.addEvenements(idPartie, messageEvenement);
+  }
+
+
+
 }

@@ -1,10 +1,28 @@
 <div style="width: 900px;" class="m-auto">
 	<ng-container *ngIf="partie">
-		<div *ngIf="!participe()">
-			Tu veux pas jouer ? <button (click)="rejoindre()">Rejoindre la partie</button>
+
+		<div *ngIf="!participe(); else actions">
+			<pv-rejoindre-partie
+				[nbJoueurs]="nbJoueurs()"
+				[user]="user"
+				[idPartie]="idPartie"
+				[partie]="partie">
+			</pv-rejoindre-partie>
 		</div>
+		<ng-template #actions>
+			<pv-actions-partie
+				[nbJoueurs]="nbJoueurs()"
+				[user]="user"
+				[idPartie]="idPartie"
+				[partie]="partie">
+			</pv-actions-partie>
+		</ng-template>
+
 		<pv-carte [carte]="partie.carte"></pv-carte>
 		<pv-batiments [batiments]="partie.batiments"></pv-batiments>
+		<div class="evenements">
+			<p *ngFor="let evenement of partie.evenements">{{ evenement }}</p>
+		</div>
 		<pv-joueurs [joueurs]="partie.joueurs"></pv-joueurs>
 
 	</ng-container>

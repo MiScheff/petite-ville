@@ -18,6 +18,8 @@ import { AuthService } from './services/auth.service';
 import { BatimentsService } from './services/batiments.service';
 import { CartesService } from './services/cartes.service';
 import { PartiesService } from './services/parties.service';
+import { RejoindrePartieComponent } from './components/rejoindre-partie/rejoindre-partie.component';
+import { ActionsPartieComponent } from './components/actions-partie/actions-partie.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { PartiesService } from './services/parties.service';
     CarteComponent,
     BatimentsComponent,
     JoueursComponent,
+    RejoindrePartieComponent,
+    ActionsPartieComponent,
   ],
   imports: [
     BrowserModule,

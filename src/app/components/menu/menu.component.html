@@ -4,17 +4,17 @@
 			<li class="list-group-item list-group-item-action pointer">Comment ça marche ?</li>
 			<div *ngIf="!idJoueur; then noLogged else logged"></div>
 			<ng-template #noLogged>
-				<li class="list-group-item list-group-item-action pointer" (click)="signIn()">Se connecter</li>
+				<li class="list-group-item list-group-item-action pointer" (click)="connexion()">Se connecter</li>
 			</ng-template>
 			<ng-template #logged>
-				<li class="list-group-item list-group-item-action pointer" (click)="signOut()">Se déconnecter</li>
+				<li class="list-group-item list-group-item-action pointer" (click)="deconnexion()">Se déconnecter</li>
 			</ng-template>
 		</ul>
 		<p *ngIf="!idJoueur">Pour créer une partie, veuillez vous connecter.</p>
 		<ul class="list-group">
 			<li class="list-group-item list-group-item-action pointer"
 					[class.disabled]="!idJoueur"
-					(click)="newGame()">
+					(click)="nouvellePartie()">
 				Créer une partie
 			</li>
 		</ul>

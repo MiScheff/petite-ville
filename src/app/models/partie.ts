@@ -11,7 +11,7 @@ export class Partie {
   joueurs: Joueur[] = [];
 
   joueurActif: string;
-  dernieresActions: string[] = [];
+  evenements: string[] = [];
   manche = 1;
   dateDebut: Date;
   dateFin: Date;
@@ -25,6 +25,6 @@ export class Partie {
     };
     this.joueurActif = idCreateur;
     this.joueurs[idCreateur] = joueur;
-    this.dernieresActions.push(joueur.nom + ' a créé la partie.');
+    this.evenements.push(joueur.nom + ' a créé la partie.');
   }
 }
