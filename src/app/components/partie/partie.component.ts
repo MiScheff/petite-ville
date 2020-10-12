@@ -44,6 +44,12 @@ export class PartieComponent implements OnInit, OnDestroy {
     return listeJoueurs.length;
   }
 
+  etatPartie(): string {
+    if (this.partie.dateFin) { return 'Finie'; }
+    else if (this.partie.dateDebut) { return 'En cours'; }
+    else { return 'Non commencée'; }
+  }
+
   ngOnDestroy() {
     this.partie$.unsubscribe();
     this.user$.unsubscribe();

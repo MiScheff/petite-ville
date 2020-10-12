@@ -38,17 +38,36 @@ export class PartiesService {
     );
   }
 
-  addEvenements(idPartie, messageEvenement) {
+  addEvenements(idPartie: string, messageEvenement: string) {
     this.db.list('/parties/' + idPartie + '/evenements').push(messageEvenement);
   }
 
   addJoueur(idPartie: string, idJoueur: string, joueur: Joueur, messageEvenement: string): void {
-    this.db.list('/parties/' + idPartie + '/joueurs').set(idJoueur, joueur);
+    this.updateJoueur(idPartie, idJoueur, joueur);
     this.addEvenements(idPartie, messageEvenement);
   }
 
-  commencerPartie(idPartie, messageEvenement) {
-    this.db.object('/parties/' + idPartie).update({ dateDebut: Date.now() });
+  updateJoueur(idPartie: string, idJoueur: string, donnees: object) {
+    this.db.object('/parties/' + idPartie + '/joueurs/' + idJoueur).update(donnees);
+  }
+
+  commencerPartie(idPartie: string, idJoueurs: string[], parametres: {nbMaxOuvriers, nbMaxBatiments}, messageEvenement: string) {
+    this.db.object('/parties/' + idPartie).update({
+      dateDebut: Date.now(),
+      manche: 1
+    });
+    this.db.object('/parties/' + idPartie + '/batiments').update({
+      nbMaxBatiments: parametres.nbMaxBatiments
+    });
+    // Pas moyen d'actualiser tous les joueurs d'un coup avec Firebase, donc on fait une requête par
+    // joueur à actualiser...
+    idJoueurs.forEach(idJoueur => {
+      this.updateJoueur(idPartie, idJoueur, {
+        pieces: 3,
+        ouvriers: parametres.nbMaxOuvriers
+      });
+    });
+
     this.addEvenements(idPartie, messageEvenement);
   }
 

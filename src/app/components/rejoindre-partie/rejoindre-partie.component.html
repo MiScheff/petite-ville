@@ -1,11 +1,11 @@
-<ng-container [ngSwitch]="etatPartie()">
+<ng-container [ngSwitch]="etatPartie">
 	<p *ngSwitchCase="'Finie'">
 		Cette partie est terminée.
 	</p>
 	<p *ngSwitchCase="'En cours'">
 		Cette partie est en cours.
 	</p>
-	<ng-container *ngSwitchDefault>
+	<div *ngSwitchCase="'Non commencée'">
 		<div *ngIf="nbJoueurs < 4; then libre else complet"></div>
 
 		<ng-template #libre>
@@ -25,5 +25,8 @@
 		<ng-template #complet>
 			<p>La partie est complète. Vous pouvez regarder son déroulement ou en créer une nouvelle.</p>
 		</ng-template>
-	</ng-container>
+	</div>
+	<p *ngSwitchDefault>
+		Erreur : partie à l'état {{ etatPartie }}
+	</p>
 </ng-container>

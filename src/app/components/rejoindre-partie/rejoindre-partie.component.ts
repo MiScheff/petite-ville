@@ -15,6 +15,7 @@ export class RejoindrePartieComponent implements OnInit {
   @Input() user: Utilisateur;
   @Input() idPartie: string;
   @Input() partie: Partie;
+  @Input() etatPartie: string;
 
   constructor(private partiesS: PartiesService,
               private authS: AuthService) { }
@@ -31,11 +32,5 @@ export class RejoindrePartieComponent implements OnInit {
 
     const msg = this.user.nom + ' a rejoint la partie.';
     this.partiesS.addJoueur(this.idPartie, this.user.id, new Joueur(this.user.nom), msg);
-  }
-
-  etatPartie(): string {
-    if (this.partie.dateFin) { return 'Finie'; }
-    else if (this.partie.dateDebut) { return 'En cours'; }
-    else { return 'Initial'; }
   }
 }

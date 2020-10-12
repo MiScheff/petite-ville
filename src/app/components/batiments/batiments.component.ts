@@ -12,14 +12,12 @@ export class BatimentsComponent implements OnInit {
 
   listeBatiments: Batiment[];
   nbChampBle: number;
-  nbMaxBatiment: number;
   champsBle: Batiment[];
 
   constructor(private batimentsS: BatimentsService) { }
 
   ngOnInit(): void {
     this.listeBatiments = this.batiments.listeBatiments;
-    this.nbMaxBatiment = this.batiments.nbMaxBatiment;
     this.nbChampBle = this.batiments.nbChampBle;
 
     this.champsBle = this.batimentsS.getChampsBle();

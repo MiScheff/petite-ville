@@ -1,16 +1,42 @@
-<div *ngIf="user.id === partie.joueurActif; then mon_tour else pas_mon_tour"></div>
-<ng-template #mon_tour>
-	<div *ngIf="nbJoueurs < 2; then attente else lancement"></div>
-	<ng-template #attente>
-		<p>En attente d'autres joueurs... (min 2 / max 4)</p>
-	</ng-template>
-	<ng-template #lancement>
-		<p *ngIf="nbJoueurs < 4">
-			Vous pouvez attendre d'autres joueurs ou lancer la partie ({{ nbJoueurs }}/4)
-		</p>
-		<button (click)="commencer()">Commencer</button>
-	</ng-template>
-</ng-template>
-<ng-template #pas_mon_tour>
-	<p>C'est pas encore à vous...</p>
-</ng-template>
+<ng-container [ngSwitch]="etatPartie">
+	<p *ngSwitchCase="'Finie'">
+		Cette partie est terminée.
+	</p>
+	<p *ngSwitchCase="'Non commencée'">
+		En attente du lancement de la partie par {{ partie.joueurs[partie.joueurActif].nom }}
+	</p>
+	<div *ngSwitchCase="'En cours'">
+		<div *ngIf="user.id === partie.joueurActif; then mon_tour else pas_mon_tour"></div>
+
+		<ng-template #mon_tour>
+			<div *ngIf="!partie.dateDebut; then non_commencee else en_cours"></div>
+
+			<ng-template #non_commencee>
+				<!-- Si on n'est pas au moins deux -->
+				<div *ngIf="nbJoueurs < 2; then attente else lancement"></div>
+
+				<ng-template #attente>
+					<p>En attente d'autres joueurs... (min 2 / max 4)</p>
+				</ng-template>
+				<ng-template #lancement>
+					<p *ngIf="nbJoueurs < 4">
+						Vous pouvez attendre d'autres joueurs ou lancer la partie ({{ nbJoueurs }}/4)
+					</p>
+					<button (click)="commencer()">Commencer</button>
+				</ng-template>
+			</ng-template>
+
+			<ng-template #en_cours>
+				Place un ouvrier sur le plateau ou construisez un bâtiment.
+			</ng-template>
+		</ng-template>
+
+		<ng-template #pas_mon_tour>
+			<p>C'est au tour de {{ partie.joueurs[partie.joueurActif].nom }}</p>
+		</ng-template>
+	</div>
+
+	<p *ngSwitchDefault>
+		Erreur : partie à l'état {{ etatPartie }}
+	</p>
+</ng-container>

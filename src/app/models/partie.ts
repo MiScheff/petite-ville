@@ -20,7 +20,7 @@ export class Partie {
     this.carte = carte;
     this.batiments = {
       listeBatiments: batiments,
-      nbMaxBatiments: 7,
+      nbMaxBatiments: 0,
       nbChampsBle: 5
     };
     this.joueurActif = idCreateur;
