@@ -19,6 +19,11 @@ export class PartieComponent implements OnInit, OnDestroy {
   partie$: Subscription;
   user$: Subscription;
 
+  infosTour = {
+    monTour: false,
+    aJoue: false
+  };
+
   constructor(private route: ActivatedRoute,
               private partiesS: PartiesService,
               private authS: AuthService) {
@@ -29,6 +34,7 @@ export class PartieComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.partie$ = this.partiesS.getPartie(this.idPartie).subscribe((partie) => {
       this.partie = partie;
+      this.infosTour.monTour = this.user.id === this.partie.joueurActif.id ? true : false;
     });
   }
 
@@ -54,5 +60,6 @@ export class PartieComponent implements OnInit, OnDestroy {
     this.partie$.unsubscribe();
     this.user$.unsubscribe();
   }
+
 
 }

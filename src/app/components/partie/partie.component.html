@@ -16,15 +16,26 @@
 				[user]="user"
 				[idPartie]="idPartie"
 				[partie]="partie"
-				[etatPartie]="etatPartie()">
+				[etatPartie]="etatPartie()"
+				[infosTour]="infosTour">
 			</pv-actions-partie>
 		</ng-template>
 
-		<pv-carte [carte]="partie.carte"></pv-carte>
-		<pv-batiments [batiments]="partie.batiments"></pv-batiments>
+		<pv-carte 
+			[idPartie]="idPartie"
+			[partie]="partie"
+			[infosTour]="infosTour">
+		</pv-carte>
+		<pv-batiments 
+			[idPartie]="idPartie"
+			[partie]="partie"
+			[infosTour]="infosTour">
+		</pv-batiments>
+
 		<div class="evenements">
 			<p *ngFor="let evenement of partie.evenements">{{ evenement }}</p>
 		</div>
+		
 		<pv-joueurs [joueurs]="partie.joueurs"></pv-joueurs>
 
 	</ng-container>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Case } from '../models/case';
 import { Joueur } from '../models/joueur';
 import { Partie } from '../models/partie';
 import { BatimentsService } from './batiments.service';
@@ -47,6 +48,12 @@ export class PartiesService {
     this.addEvenements(idPartie, messageEvenement);
   }
 
+  // A deplacer dans joueur service
+  updateJoueurActif(idPartie, donnees) {
+    this.db.object('/parties/' + idPartie + '/joueurActif').update(donnees);
+  }
+
+  // A déplacer dans joueur service
   updateJoueur(idPartie: string, idJoueur: string, donnees: object) {
     this.db.object('/parties/' + idPartie + '/joueurs/' + idJoueur).update(donnees);
   }
@@ -70,6 +77,20 @@ export class PartiesService {
 
     this.addEvenements(idPartie, messageEvenement);
   }
+
+  // Voir par la suite si on peut update qu'une seule case
+  updateCarte(idPartie: string, carte: Case[][]) {
+    this.db.object('/parties/' + idPartie + '/carte').update(carte);
+  }
+
+  // A déplacer dans carte.service
+  placementOuvrier(idPartie: string, carte: Case[][], idJoueur: string, joueur: Joueur) {
+    this.updateCarte(idPartie, carte);
+    this.updateJoueur(idPartie, idJoueur, joueur);
+    this.updateJoueurActif(idPartie, { aJoue: true });
+  }
+
+
 
 
 

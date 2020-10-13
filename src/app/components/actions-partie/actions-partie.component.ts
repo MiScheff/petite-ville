@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { JoueurActif } from 'src/app/models/joueurActif';
 import { Partie } from 'src/app/models/partie';
 import { Utilisateur } from 'src/app/models/utilisateur';
 import { PartiesService } from 'src/app/services/parties.service';
@@ -14,6 +15,7 @@ export class ActionsPartieComponent implements OnInit {
   @Input() idPartie: string;
   @Input() partie: Partie;
   @Input() etatPartie: string;
+  @Input() infosTour: { monTour, aJoue }; // TODO: A modifier voire supprimer
 
   constructor(private partiesS: PartiesService) { }
 
@@ -39,5 +41,28 @@ export class ActionsPartieComponent implements OnInit {
       parametres.nbMaxOuvriers = 4;
     }
     return parametres;
+  }
+
+  finTour() {
+    const nextJoueur = this.getNextJoueurActif();
+    this.partiesS.updateJoueurActif(this.idPartie, nextJoueur);
+  }
+
+  getNextJoueurActif(): JoueurActif {
+    const tabJoueurs = Object.keys(this.partie.joueurs);
+    const currentIndex = tabJoueurs.indexOf(this.partie.joueurActif.id);
+
+    let nextIndex;
+    if (currentIndex === tabJoueurs.length - 1) { nextIndex = 0; }
+    else { nextIndex = currentIndex + 1; }
+
+    const nextId = tabJoueurs[nextIndex];
+
+    return {
+      id: nextId,
+      nom: this.partie.joueurs[nextId].nom,
+      aJoue: false,
+      construit: false
+    };
   }
 }

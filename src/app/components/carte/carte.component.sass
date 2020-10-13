@@ -1,3 +1,5 @@
+.ligne
+	line-height: 0
 
 .case
 	display: inline-block
@@ -5,6 +7,8 @@
 	height: 100px
 	background-color: lightgreen
 	border: 1px solid black
+	&.highlight
+		background-color: darken(lightgreen, 10%)
 
 .pierre
 	background-color: lightgrey
@@ -12,5 +16,5 @@
 .bois
 	background-color: burlywood
 
-.eau
+.poisson
 	background-color: lightblue

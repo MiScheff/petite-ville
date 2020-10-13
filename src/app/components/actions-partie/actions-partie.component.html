@@ -2,37 +2,44 @@
 	<p *ngSwitchCase="'Finie'">
 		Cette partie est terminée.
 	</p>
-	<p *ngSwitchCase="'Non commencée'">
-		En attente du lancement de la partie par {{ partie.joueurs[partie.joueurActif].nom }}
-	</p>
-	<div *ngSwitchCase="'En cours'">
-		<div *ngIf="user.id === partie.joueurActif; then mon_tour else pas_mon_tour"></div>
-
-		<ng-template #mon_tour>
-			<div *ngIf="!partie.dateDebut; then non_commencee else en_cours"></div>
-
-			<ng-template #non_commencee>
-				<!-- Si on n'est pas au moins deux -->
-				<div *ngIf="nbJoueurs < 2; then attente else lancement"></div>
-
-				<ng-template #attente>
-					<p>En attente d'autres joueurs... (min 2 / max 4)</p>
-				</ng-template>
-				<ng-template #lancement>
+	<div *ngSwitchCase="'Non commencée'">
+			<!-- Si on n'est pas au moins deux -->
+			<div *ngIf="nbJoueurs < 2; then attente else lancement"></div>
+			<ng-template #attente>
+				<p>En attente d'autres joueurs... (min 2 / max 4)</p>
+			</ng-template>
+			<ng-template #lancement>
+				<!-- Si je suis l'hôte -->
+				<div *ngIf="infosTour.monTour; then hote else invite"></div>
+				<ng-template #hote>
 					<p *ngIf="nbJoueurs < 4">
 						Vous pouvez attendre d'autres joueurs ou lancer la partie ({{ nbJoueurs }}/4)
 					</p>
 					<button (click)="commencer()">Commencer</button>
 				</ng-template>
+				<ng-template #invite>
+					<p>En attente du lancement de la partie par {{ partie.joueurActif.nom }}</p>
+				</ng-template>
 			</ng-template>
-
-			<ng-template #en_cours>
-				Place un ouvrier sur le plateau ou construisez un bâtiment.
+	</div>
+	<div *ngSwitchCase="'En cours'">
+		<div *ngIf="infosTour.monTour; then mon_tour else pas_mon_tour"></div>
+		<ng-template #mon_tour>
+			<!-- Si j'ai déjà joué -->
+			<div *ngIf="!partie.joueurActif.aJoue; then jouer else passer"></div>
+			<ng-template #jouer>
+				<p>Place un ouvrier sur le plateau ou construisez un bâtiment.</p>
+			</ng-template>
+			<ng-template #passer>
+				<p>
+					Vous avez utilisé tous les bâtiments que vous souhaitiez utiliser ?
+				</p>
+				<button (click)="finTour()">Fin du tour</button>
 			</ng-template>
 		</ng-template>
 
 		<ng-template #pas_mon_tour>
-			<p>C'est au tour de {{ partie.joueurs[partie.joueurActif].nom }}</p>
+			<p>C'est au tour de {{ partie.joueurActif.nom }}</p>
 		</ng-template>
 	</div>
 

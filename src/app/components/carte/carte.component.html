@@ -1,7 +1,8 @@
-<div *ngFor="let ligne of carte">
-  <div *ngFor="let case of ligne" 
-        class="case" 
-        [ngClass]="case.content">
-    &nbsp;
-  </div>
+<div class="ligne" *ngFor="let ligne of carte">
+  <button *ngFor="let case of ligne" 
+        class="case {{ case.content }}" 
+        [ngClass]="{ 'highlight': showTuilesLibres(case) }"
+        (click)="actionCase(case)"
+        [disabled]="disabledTuile(case)">
+  </button>
 </div>

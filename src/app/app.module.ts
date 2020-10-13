@@ -20,6 +20,8 @@ import { CartesService } from './services/cartes.service';
 import { PartiesService } from './services/parties.service';
 import { RejoindrePartieComponent } from './components/rejoindre-partie/rejoindre-partie.component';
 import { ActionsPartieComponent } from './components/actions-partie/actions-partie.component';
+import { UsersService } from './services/users.service';
+import { JoueursService } from './services/joueurs.service';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { ActionsPartieComponent } from './components/actions-partie/actions-part
     PartiesService,
     CartesService,
     BatimentsService,
+    JoueursService,
+    UsersService,
     AuthService
   ],
   bootstrap: [AppComponent]
