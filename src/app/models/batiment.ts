@@ -20,6 +20,6 @@ export interface Batiment {
   position: {
     x: number;
     y: number;
-  }
+  };
   activable: boolean;
 }

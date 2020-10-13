@@ -82,13 +82,16 @@ export class CarteComponent implements OnInit {
     casesAjd.forEach((tuile) => {
       const tx = tuile.split(',')[1];
       const ty = tuile.split(',')[0];
-      const typeTuile = this.getCase(tx, ty).content;
+      console.log(this.getCase(tx, ty));
+      
+      const typeTuile = this.getCase(tx, ty).content?.type;
 
       if (typeTuile === 'pierre' || typeTuile === 'bois' || typeTuile === 'poisson') {
         ressources[typeTuile]++;
       }
     });
-
+    console.log('récup ressources :', ressources);
+    
     return ressources;
   }
 

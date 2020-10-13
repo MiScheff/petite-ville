@@ -70,7 +70,6 @@ export class PartiesService {
     // joueur à actualiser...
     idJoueurs.forEach(idJoueur => {
       this.updateJoueur(idPartie, idJoueur, {
-        pieces: 3,
         ouvriers: parametres.nbMaxOuvriers
       });
     });

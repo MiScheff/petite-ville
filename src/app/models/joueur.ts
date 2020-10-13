@@ -3,8 +3,8 @@ export class Joueur {
   score = 0;
   ouvriers = 0;
   batiments = 0;
-  pieces = 0;
   ressources = {
+    pieces: 3,
     pierre: 0,
     bois: 0,
     poisson: 0,

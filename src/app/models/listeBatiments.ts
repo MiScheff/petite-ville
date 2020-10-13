@@ -11,7 +11,7 @@ const ble: Batiment = {
   }],
   entree: null,
   sortie: [{
-    type: 'blé',
+    type: 'ble',
     quantite: 1,
   }],
 
@@ -56,7 +56,7 @@ export const listeBatiments: Batiment[] = [
         quantite: 2,
       },
       {
-        type: 'blé',
+        type: 'ble',
         quantite: 2
       }
     ],
@@ -82,7 +82,7 @@ export const listeBatiments: Batiment[] = [
       }
     ],
     entree: [{
-      type: 'blé',
+      type: 'ble',
       quantite: 1
     }],
     sortie: [{
@@ -121,8 +121,8 @@ export const listeBatiments: Batiment[] = [
 
 
   
-  { // 1
-    nom: '1',
+  { // Atelier1
+    nom: 'Atelier1',
     image: null,
 
     cout: [{
@@ -143,8 +143,8 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // 2
-    nom: '2',
+  { // Bar2
+    nom: 'Bar2',
     image: null,
 
     cout: [
@@ -153,7 +153,7 @@ export const listeBatiments: Batiment[] = [
         quantite: 2,
       },
       {
-        type: 'blé',
+        type: 'ble',
         quantite: 2
       }
     ],
@@ -168,8 +168,8 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // 3
-    nom: '3',
+  { // Boulangerie3
+    nom: 'Boulangerie3',
     image: null,
 
     cout: [
@@ -179,7 +179,7 @@ export const listeBatiments: Batiment[] = [
       }
     ],
     entree: [{
-      type: 'blé',
+      type: 'ble',
       quantite: 1
     }],
     sortie: [{
@@ -192,8 +192,8 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // 4
-    nom: '4',
+  { // Cathédrale4
+    nom: 'Cathédrale4',
     image: null,
 
     cout: [
@@ -210,8 +210,8 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: false
   },
-  { // 5
-    nom: '5',
+  { // Atelier5
+    nom: 'Atelier5',
     image: null,
 
     cout: [{
@@ -232,8 +232,8 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // 6
-    nom: '6',
+  { // Bar6
+    nom: 'Bar6',
     image: null,
 
     cout: [
@@ -242,7 +242,7 @@ export const listeBatiments: Batiment[] = [
         quantite: 2,
       },
       {
-        type: 'blé',
+        type: 'ble',
         quantite: 2
       }
     ],
@@ -257,8 +257,8 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // 7
-    nom: '7',
+  { // Boulangerie7
+    nom: 'Boulangerie7',
     image: null,
 
     cout: [
@@ -268,7 +268,7 @@ export const listeBatiments: Batiment[] = [
       }
     ],
     entree: [{
-      type: 'blé',
+      type: 'ble',
       quantite: 1
     }],
     sortie: [{
@@ -281,8 +281,8 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // 8
-    nom: '8',
+  { // Cathédrale8
+    nom: 'Cathédrale8',
     image: null,
 
     cout: [
@@ -299,8 +299,8 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: false
   },
-  { // 9
-    nom: '9',
+  { // Atelier9
+    nom: 'Atelier9',
     image: null,
 
     cout: [{
@@ -321,8 +321,8 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // 10
-    nom: '10',
+  { // Bar10
+    nom: 'Bar10',
     image: null,
 
     cout: [
@@ -331,7 +331,7 @@ export const listeBatiments: Batiment[] = [
         quantite: 2,
       },
       {
-        type: 'blé',
+        type: 'ble',
         quantite: 2
       }
     ],
@@ -346,8 +346,8 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // 11
-    nom: '11',
+  { // Boulangerie11
+    nom: 'Boulangerie11',
     image: null,
 
     cout: [
@@ -357,7 +357,7 @@ export const listeBatiments: Batiment[] = [
       }
     ],
     entree: [{
-      type: 'blé',
+      type: 'ble',
       quantite: 1
     }],
     sortie: [{
@@ -370,8 +370,8 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // 12
-    nom: '12',
+  { // Cathédrale12
+    nom: 'Cathédrale12',
     image: null,
 
     cout: [
