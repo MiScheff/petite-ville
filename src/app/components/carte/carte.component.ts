@@ -16,28 +16,25 @@ import { Ressources } from 'src/app/models/ressources';
 export class CarteComponent implements OnInit {
   @Input() idPartie: string;
   @Input() partie: Partie;
+  @Input() carte: Case[][];
   @Input() infosTour: { monTour, aJoue };
+  @Input() joueurActif;
 
-  carte: Case[][];
-  joueurActif;
-  joueur: Joueur;
+  detailsJoueur;
 
   constructor(private carteS: CartesService,
               private partiesS: PartiesService,
               private joueursS: JoueursService) { }
 
   ngOnInit(): void {
-    // TODO: rendre ça + réactif, en les récupérents en input peut-être
-    this.carte = this.partie.carte;
-    this.joueurActif = this.partie.joueurActif;
-    this.joueur = this.partie.joueurs[this.joueurActif.id];
   }
 
   actionCase(tuile: Case) {
     if (!this.infosTour.monTour) { return; }
+
+    this.detailsJoueur = this.partie.joueurs[this.joueurActif.id];
+
     if (!this.joueurActif.aJoue && !this.joueurActif.construit) {
-      console.log('lol');
-      console.log(this.joueurActif.aJoue);
       this.placeOuvrier(tuile);
     } else if (!this.joueurActif.aJoue && this.joueurActif.construit) {
       this.placeBatiment();
@@ -47,11 +44,11 @@ export class CarteComponent implements OnInit {
   placeOuvrier(tuile: Case) {
     if (tuile.content) { return; }
 
-    this.joueur.ouvriers--;
+    this.detailsJoueur.ouvriers--;
     this.getCase(tuile.x, tuile.y).content = { type: 'ouvrier', proprietaire: this.joueurActif.id };
     this.addRessources(this.getRessourcesAdjacentes(tuile.x, tuile.y));
 
-    this.partiesS.placementOuvrier(this.idPartie, this.carte, this.joueurActif.id, this.joueur);
+    this.partiesS.placementOuvrier(this.idPartie, this.carte, this.joueurActif.id, this.detailsJoueur);
     this.joueurActif.aJoue = true;
   }
 
@@ -96,9 +93,9 @@ export class CarteComponent implements OnInit {
   }
 
   addRessources(ressources: Partial<Ressources>) {
-    this.joueur.ressources.pierre += ressources.pierre;
-    this.joueur.ressources.bois += ressources.bois;
-    this.joueur.ressources.poisson += ressources.poisson;
+    this.detailsJoueur.ressources.pierre += ressources.pierre;
+    this.detailsJoueur.ressources.bois += ressources.bois;
+    this.detailsJoueur.ressources.poisson += ressources.poisson;
   }
 
   showTuilesLibres(tuile): boolean {
