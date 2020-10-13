@@ -21,11 +21,11 @@ export class CartesService {
       for (let x = 0; x < 9; x++) {
         const currentCase = { x, y, content: null };
         if (casesPierre.indexOf(y + ',' + x) !== -1) {
-          currentCase.content = 'pierre';
+          currentCase.content = { type: 'pierre'};
         } else if (casesBois.indexOf(y + ',' + x) !== -1) {
-          currentCase.content = 'bois';
+          currentCase.content = { type: 'bois'};
         } else if (casesPoisson.indexOf(y + ',' + x) !== -1) {
-          currentCase.content = 'poisson';
+          currentCase.content = { type: 'poisson'};
         }
 
         this.carte[y][x] = currentCase;

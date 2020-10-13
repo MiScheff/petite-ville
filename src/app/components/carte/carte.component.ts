@@ -20,7 +20,7 @@ export class CarteComponent implements OnInit {
   @Input() infosTour: { monTour, aJoue };
   @Input() joueurActif;
 
-  detailsJoueur;
+  detailsJoueur: Joueur;
 
   constructor(private carteS: CartesService,
               private partiesS: PartiesService,

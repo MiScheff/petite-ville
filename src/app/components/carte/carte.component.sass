@@ -3,6 +3,7 @@
 
 .case
 	display: inline-block
+	position: relative
 	width: 100px
 	height: 100px
 	background-color: lightgreen
@@ -18,3 +19,11 @@
 
 .poisson
 	background-color: lightblue
+
+.ouvrier::after
+	content: "\1F604"
+	font-size: 50px
+	position: absolute
+	top: 48%
+	left: 15%
+	color: initial
