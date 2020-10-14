@@ -5,6 +5,7 @@ import { Joueur } from 'src/app/models/joueur';
 import { BatimentsService } from 'src/app/services/batiments.service';
 import { JoueurActif } from 'src/app/models/joueurActif';
 import { PartiesService } from 'src/app/services/parties.service';
+import { JoueursService } from 'src/app/services/joueurs.service';
 
 @Component({
   selector: 'pv-batiments',
@@ -16,12 +17,12 @@ export class BatimentsComponent implements OnInit {
   @Input() batiments;
   @Input() joueurActif: JoueurActif;
   @Input() joueurs: Joueur[];
-  @Input() infosTour;
+  @Input() monTour;
 
   champsBle: Batiment[];
 
   constructor(private batimentsS: BatimentsService,
-              private partiesS: PartiesService) { }
+              private joueursS: JoueursService) { }
 
   ngOnInit(): void {
     this.champsBle = this.batimentsS.getChampsBle();
@@ -33,11 +34,11 @@ export class BatimentsComponent implements OnInit {
   }
 
   actionBatiment(batiment: Batiment): void {
-    if (!this.infosTour.monTour) { return; }
+    if (!this.monTour) { return; }
 
     if (this.ressourcesSuffisantes(batiment.cout)) {
       this.joueurActif.batimentChoisi = batiment;
-      this.partiesS.updateJoueurActif(this.idPartie, this.joueurActif);
+      this.joueursS.updateJoueurActif(this.joueurActif);
       console.log(`Batiment ${batiment.nom} choisi. Cliquer où le placer.`);
     }
   }

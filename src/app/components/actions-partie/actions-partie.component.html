@@ -10,7 +10,7 @@
 			</ng-template>
 			<ng-template #lancement>
 				<!-- Si je suis l'hôte -->
-				<div *ngIf="infosTour.monTour; then hote else invite"></div>
+				<div *ngIf="monTour; then hote else invite"></div>
 				<ng-template #hote>
 					<p *ngIf="nbJoueurs < 4">
 						Vous pouvez attendre d'autres joueurs ou lancer la partie ({{ nbJoueurs }}/4)
@@ -18,15 +18,15 @@
 					<button (click)="commencer()">Commencer</button>
 				</ng-template>
 				<ng-template #invite>
-					<p>En attente du lancement de la partie par {{ partie.joueurActif.nom }}</p>
+					<p>En attente du lancement de la partie par {{ joueurActif.nom }}</p>
 				</ng-template>
 			</ng-template>
 	</div>
 	<div *ngSwitchCase="'En cours'">
-		<div *ngIf="infosTour.monTour; then mon_tour else pas_mon_tour"></div>
+		<div *ngIf="monTour; then mon_tour else pas_mon_tour"></div>
 		<ng-template #mon_tour>
 			<!-- Si j'ai déjà joué -->
-			<div *ngIf="!partie.joueurActif.aJoue; then jouer else passer"></div>
+			<div *ngIf="!joueurActif?.aJoue; then jouer else passer"></div>
 			<ng-template #jouer>
 				<p>Place un ouvrier sur le plateau ou construisez un bâtiment.</p>
 			</ng-template>
@@ -39,7 +39,7 @@
 		</ng-template>
 
 		<ng-template #pas_mon_tour>
-			<p>C'est au tour de {{ partie.joueurActif.nom }}</p>
+			<p>C'est au tour de {{ joueurActif?.nom }}</p>
 		</ng-template>
 	</div>
 

@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { InfosPartie } from 'src/app/models/infosPartie';
+import { Joueur } from 'src/app/models/joueur';
 import { Partie } from 'src/app/models/partie';
 import { Utilisateur } from 'src/app/models/utilisateur';
 import { AuthService } from 'src/app/services/auth.service';
 import { InitService } from 'src/app/services/init.service';
+import { JoueursService } from 'src/app/services/joueurs.service';
 import { PartiesService } from 'src/app/services/parties.service';
 
 @Component({
@@ -20,13 +23,14 @@ export class PartieComponent implements OnInit, OnDestroy {
   partie$: Subscription;
   user$: Subscription;
 
-  infosTour = {
-    monTour: false,
-    aJoue: false
-  };
+  infosPartie: InfosPartie;
+  joueurs: Joueur[];
+
+  monTour = false;
 
   constructor(private route: ActivatedRoute,
               private partiesS: PartiesService,
+              private joueursS: JoueursService,
               private authS: AuthService,
               private initS: InitService) {
     this.idPartie = this.route.snapshot.paramMap.get('id');
@@ -38,27 +42,29 @@ export class PartieComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.partiesS.getInfosPartie().subscribe(infosPartie => this.infosPartie = infosPartie);
+    this.joueursS.getJoueurs().subscribe(joueurs => this.joueurs = joueurs);
+    this.joueursS.getJoueurActif().subscribe(joueurActif => {
+      console.log('Part Comp', joueurActif);
+      this.monTour = this.user.id === joueurActif.id ? true : false;
+    });
+
+    // REFACTO-supp
     this.partie$ = this.partiesS.getPartie(this.idPartie).subscribe((partie) => {
       this.partie = partie;
-      this.infosTour.monTour = this.user.id === this.partie.joueurActif.id ? true : false;
     });
   }
 
   participe(): boolean {
     if (!this.user) { return false; }
 
-    const listeJoueurs = Object.keys(this.partie.joueurs);
+    const listeJoueurs = Object.keys(this.joueurs);
     return listeJoueurs.indexOf(this.user.id) !== -1 ? true : false;
   }
 
-  nbJoueurs(): number {
-    const listeJoueurs = Object.keys(this.partie.joueurs);
-    return listeJoueurs.length;
-  }
-
   etatPartie(): string {
-    if (this.partie.infosPartie.dateFin) { return 'Finie'; }
-    else if (this.partie.infosPartie.dateDebut) { return 'En cours'; }
+    if (this.infosPartie.dateFin) { return 'Finie'; }
+    else if (this.infosPartie.dateDebut) { return 'En cours'; }
     else { return 'Non commencée'; }
   }
 

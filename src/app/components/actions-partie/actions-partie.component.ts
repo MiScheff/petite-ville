@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Joueur } from 'src/app/models/joueur';
 import { JoueurActif } from 'src/app/models/joueurActif';
 import { Partie } from 'src/app/models/partie';
 import { Utilisateur } from 'src/app/models/utilisateur';
+import { JoueursService } from 'src/app/services/joueurs.service';
 import { PartiesService } from 'src/app/services/parties.service';
 
 @Component({
@@ -10,25 +12,31 @@ import { PartiesService } from 'src/app/services/parties.service';
   styleUrls: ['./actions-partie.component.sass']
 })
 export class ActionsPartieComponent implements OnInit {
-  @Input() nbJoueurs: number;
+  nbJoueurs: number;
   @Input() user: Utilisateur;
-  @Input() idPartie: string;
-  @Input() partie: Partie;
   @Input() etatPartie: string;
-  @Input() infosTour: { monTour, aJoue }; // TODO: A modifier voire supprimer
+  @Input() monTour: boolean;
 
-  constructor(private partiesS: PartiesService) { }
+  joueurs: Joueur[];
+  joueurActif: JoueurActif;
+
+  constructor(private partiesS: PartiesService, private joueursS: JoueursService) { }
 
   ngOnInit(): void {
+    this.joueursS.getJoueurs().subscribe(joueurs => {
+      this.joueurs = joueurs;
+      this.calcNbJoueurs();
+    });
+    this.joueursS.getJoueurActif().subscribe(joueurActif => this.joueurActif = joueurActif);
   }
 
   commencer(): void {
     const parametres = this.getParametres();
     const msg = this.user.nom + ' a lancé la partie.';
-    this.partiesS.commencerPartie(this.idPartie, Object.keys(this.partie.joueurs), parametres, msg);
+    this.partiesS.commencerPartie(Object.keys(this.joueurs), parametres, msg);
   }
 
-  getParametres() {
+  getParametres() { // Définit le nombre d'ouvriers et de bâtiments max pour chaque joueur selon le nombre de joueur
     if (this.nbJoueurs > 4) {
       console.error('Erreur : nbJoueur = ', this.nbJoueurs);
       return;
@@ -45,12 +53,13 @@ export class ActionsPartieComponent implements OnInit {
 
   finTour() {
     const nextJoueur = this.getNextJoueurActif();
-    this.partiesS.updateJoueurActif(this.idPartie, nextJoueur);
+    this.joueursS.updateJoueurActif(nextJoueur);
   }
 
+  // TODO: A deplacer dans JoueursService, en tant qu'Observable.
   getNextJoueurActif(): JoueurActif {
-    const tabJoueurs = Object.keys(this.partie.joueurs);
-    const currentIndex = tabJoueurs.indexOf(this.partie.joueurActif.id);
+    const tabJoueurs = Object.keys(this.joueurs);
+    const currentIndex = tabJoueurs.indexOf(this.joueurActif.id);
 
     let nextIndex;
     if (currentIndex === tabJoueurs.length - 1) { nextIndex = 0; }
@@ -60,9 +69,16 @@ export class ActionsPartieComponent implements OnInit {
 
     return {
       id: nextId,
-      nom: this.partie.joueurs[nextId].nom,
+      nom: this.joueurs[nextId].nom,
       aJoue: false,
       batimentChoisi: null
     };
+  }
+
+  // TODO: A deplacer dans JoueursService, en tant qu'Observable.
+  calcNbJoueurs(): void {
+    const listeJoueurs = Object.keys(this.joueurs);
+    this.nbJoueurs = listeJoueurs.length;
+    console.log(this.nbJoueurs);
   }
 }

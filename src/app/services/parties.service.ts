@@ -12,6 +12,7 @@ import { BatimentsService } from './batiments.service';
 import { CartesService } from './cartes.service';
 import { EvenementsService } from './evenements.service';
 import { InitService } from './init.service';
+import { JoueursService } from './joueurs.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,9 +30,6 @@ export class PartiesService {
   private evenementsSrc = new BehaviorSubject(null);
   evenements$ = this.evenementsSrc.asObservable();
 
-  private joueursSrc = new BehaviorSubject(null);
-  joueurs$ = this.joueursSrc.asObservable();
-
   private infosPartieSrc = new BehaviorSubject(null);
   infosPartie$ = this.infosPartieSrc.asObservable();
 
@@ -39,11 +37,10 @@ export class PartiesService {
               private cartesS: CartesService,
               private batimentsS: BatimentsService,
               private evenementsS: EvenementsService,
+              private joueursS: JoueursService,
               private initS: InitService) {
 
     this.initS.idPartie$.subscribe(idPartie => {
-      console.log('idPArtir', idPartie);
-      
       this.idPartie = idPartie;
       this.getInfosPartie();
     });
@@ -62,34 +59,16 @@ export class PartiesService {
 // REFACTO-supp
   initPartie(idPartie: string): void {
     this.db.object('/parties/' + idPartie).valueChanges().subscribe((partie: Partie) => {
-      console.log('LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO', partie, this.idPartie);
-      
       this.partie = partie;
       this.carteSrc.next(partie.carte);
       this.batimentsSrc.next(partie.batiments);
       this.evenementsSrc.next(partie.evenements);
-      this.joueursSrc.next(partie.joueurs);
       this.infosPartieSrc.next(partie.infosPartie);
     });
   }
 
-  getInfosPartie() {
-    this.db.object('/parties/' + this.idPartie + '/infosPartie').valueChanges().subscribe((infosPartie: InfosPartie) => {
-      console.log('fonctionne ? ', infosPartie);
-      
-      this.infosPartieSrc.next(infosPartie);
-    });
-  }
-
-  toArray(objet) {
-    // Transforme l'objet d'objets partie.joueur en tableau d'objets
-    const tableau = [];
-    const keys = Object.keys(objet);
-    keys.forEach((key) => {
-      tableau.push(objet[key]);
-    });
-
-    return tableau;
+  getInfosPartie(): Observable<InfosPartie> {
+    return this.db.object('/parties/' + this.idPartie + '/infosPartie').valueChanges() as Observable<InfosPartie>;
   }
 
   // REFACTO-supp
@@ -108,30 +87,18 @@ export class PartiesService {
     );
   }
 
-  // TODO: A déplacer dans joueur service
-  updateJoueurActif(idPartie, donnees: Partial<JoueurActif>) {
-    this.db.object('/parties/' + idPartie + '/joueurActif').update(donnees);
-  }
-
-  // TODO: A déplacer dans joueur service
-  updateJoueur(idPartie: string, idJoueur: string, donnees: Partial<Joueur>) {
-    this.db.object('/parties/' + idPartie + '/joueurs/' + idJoueur).update(donnees);
-  }
-
-  commencerPartie(idPartie: string, idJoueurs: string[], parametres: {nbMaxOuvriers, nbMaxBatiments}, messageEvenement: string) {
-    this.db.object('/parties/' + idPartie + '/infosPartie').update({
+  commencerPartie(idJoueurs: string[], parametres: {nbMaxOuvriers, nbMaxBatiments}, messageEvenement: string) {
+    this.db.object('/parties/' + this.idPartie + '/infosPartie').update({
       dateDebut: Date.now(),
       manche: 1
     });
-    this.db.object('/parties/' + idPartie + '/batiments').update({
+    this.db.object('/parties/' + this.idPartie + '/batiments').update({
       nbMaxBatiments: parametres.nbMaxBatiments
     });
     // Pas moyen d'actualiser tous les joueurs d'un coup avec Firebase, donc on fait une requête par
     // joueur à actualiser...
     idJoueurs.forEach(idJoueur => {
-      this.updateJoueur(idPartie, idJoueur, {
-        ouvriers: parametres.nbMaxOuvriers
-      });
+      this.joueursS.updateJoueur(idJoueur, { ouvriers: parametres.nbMaxOuvriers });
     });
 
     this.evenementsS.addEvenements(messageEvenement);
@@ -145,15 +112,15 @@ export class PartiesService {
   // TODO: A déplacer dans carte.service
   placementOuvrier(idPartie: string, carte: Case[][], idJoueur: string, joueur: Joueur) {
     this.updateCarte(idPartie, carte);
-    this.updateJoueur(idPartie, idJoueur, joueur);
-    this.updateJoueurActif(idPartie, { aJoue: true });
+    this.joueursS.updateJoueur(idJoueur, joueur);
+    this.joueursS.updateJoueurActif({ aJoue: true });
   }
 
   // TODO: A déplacer dans batiment.service
   placementBatiment(idPartie: string, carte: Case[][], idJoueur: string, joueur: Joueur) {
     this.updateCarte(idPartie, carte);
-    this.updateJoueur(idPartie, idJoueur, joueur);
-    this.updateJoueurActif(idPartie, { aJoue: true });
+    this.joueursS.updateJoueur(idJoueur, joueur);
+    this.joueursS.updateJoueurActif({ aJoue: true });
     // this.updat
   }
 

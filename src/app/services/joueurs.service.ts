@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Joueur } from '../models/joueur';
 import { JoueurActif } from '../models/joueurActif';
 import { EvenementsService } from './evenements.service';
@@ -12,15 +12,13 @@ import { InitService } from './init.service';
 export class JoueursService {
   idPartie: string;
 
-  private joueursSrc = new BehaviorSubject([]);
-  joueurs$ = this.joueursSrc.asObservable();
-
   constructor(private db: AngularFireDatabase,
               private init: InitService,
               private evenementsS: EvenementsService) {
     this.init.idPartie$.subscribe(idPartie => {
       this.idPartie = idPartie;
       this.getJoueurs();
+      this.getJoueurActif();
     });
   }
 
@@ -30,10 +28,11 @@ export class JoueursService {
   }
 
   getJoueurs() {
-    this.db.object('/parties/' + this.idPartie + '/joueurs').valueChanges().subscribe((joueurs: Joueur[]) => {
-      console.log('joueurServiceGetJoueur', joueurs);
-      this.joueursSrc.next(joueurs);
-    });
+    return this.db.object('/parties/' + this.idPartie + '/joueurs').valueChanges() as Observable<Joueur[]>;
+  }
+
+  getJoueurActif() {
+    return this.db.object('/parties/' + this.idPartie + '/joueurActif').valueChanges() as Observable<JoueurActif>;
   }
 
   updateJoueurActif(donnees: Partial<JoueurActif>) {

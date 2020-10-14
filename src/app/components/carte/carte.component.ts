@@ -19,7 +19,7 @@ export class CarteComponent implements OnInit {
   @Input() idPartie: string;
   @Input() partie: Partie;
   @Input() carte: Case[][];
-  @Input() infosTour: { monTour, aJoue };
+  @Input() monTour: boolean;
   @Input() joueurActif: JoueurActif;
 
   detailsJoueur: Joueur;
@@ -33,7 +33,7 @@ export class CarteComponent implements OnInit {
   }
 
   actionCase(tuile: Case) {
-    if (!this.infosTour.monTour) { return; }
+    if (!this.monTour) { return; }
 
     this.detailsJoueur = this.partie.joueurs[this.joueurActif.id];
 
@@ -64,6 +64,7 @@ export class CarteComponent implements OnInit {
     this.getCase(tuile.x, tuile.y).content = { type: 'batiment', proprietaire: this.joueurActif.id, batiment};
 
     this.partiesS.placementBatiment(this.idPartie, this.carte, this.joueurActif.id, this.detailsJoueur);
+    this.joueurActif.batimentChoisi = null;
     this.joueurActif.aJoue = true;
 
   }
@@ -122,7 +123,7 @@ export class CarteComponent implements OnInit {
   }
 
   showTuilesLibres(tuile): boolean {
-    return this.infosTour.monTour && !this.joueurActif.aJoue
+    return this.monTour && !this.joueurActif.aJoue
           && !tuile.content
           && this.detailsJoueur.ouvriers > 0 && this.partie.infosPartie.dateDebut && !this.partie.infosPartie.dateFin;
   }

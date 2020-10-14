@@ -22,7 +22,7 @@ export class RejoindrePartieComponent implements OnInit {
               private joueursS: JoueursService) { }
 
   ngOnInit(): void {
-    this.joueursS.joueurs$.subscribe(joueurs => {
+    this.joueursS.getJoueurs().subscribe(joueurs => {
       this.joueurs = joueurs;
       this.calcNbJoueurs();
     });

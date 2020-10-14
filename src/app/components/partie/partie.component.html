@@ -9,12 +9,9 @@
 		</div>
 		<ng-template #actions>
 			<pv-actions-partie
-				[nbJoueurs]="nbJoueurs()"
 				[user]="user"
-				[idPartie]="idPartie"
-				[partie]="partie"
 				[etatPartie]="etatPartie()"
-				[infosTour]="infosTour">
+				[monTour]="monTour">
 			</pv-actions-partie>
 		</ng-template>
 
@@ -23,14 +20,14 @@
 			[partie]="partie"
 			[carte]="partie.carte"
 			[joueurActif]="partie.joueurActif"
-			[infosTour]="infosTour">
+			[monTour]="monTour">
 		</pv-carte>
 		<pv-batiments 
 			[idPartie]="idPartie"
 			[batiments]="partie.batiments"
 			[joueurActif]="partie.joueurActif"
 			[joueurs]="partie.joueurs"
-			[infosTour]="infosTour">
+			[monTour]="monTour">
 		</pv-batiments>
 
 		<div class="evenements">
