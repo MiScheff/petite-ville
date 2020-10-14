@@ -27,5 +27,4 @@ export class JoueursComponent implements OnInit {
 
     return tableau;
   }
-
 }

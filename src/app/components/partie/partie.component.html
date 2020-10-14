@@ -3,10 +3,7 @@
 
 		<div *ngIf="!participe(); else actions">
 			<pv-rejoindre-partie
-				[nbJoueurs]="nbJoueurs()"
 				[user]="user"
-				[idPartie]="idPartie"
-				[partie]="partie"
 				[etatPartie]="etatPartie()">
 			</pv-rejoindre-partie>
 		</div>

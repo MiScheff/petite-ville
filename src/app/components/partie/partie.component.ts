@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Partie } from 'src/app/models/partie';
 import { Utilisateur } from 'src/app/models/utilisateur';
 import { AuthService } from 'src/app/services/auth.service';
+import { InitService } from 'src/app/services/init.service';
 import { PartiesService } from 'src/app/services/parties.service';
 
 @Component({
@@ -26,9 +27,14 @@ export class PartieComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private partiesS: PartiesService,
-              private authS: AuthService) {
+              private authS: AuthService,
+              private initS: InitService) {
     this.idPartie = this.route.snapshot.paramMap.get('id');
     this.user$ = this.authS.user.subscribe((user: Utilisateur) => this.user = user);
+
+    // REFACTO
+    this.partiesS.initPartie(this.idPartie);
+    this.initS.init(this.idPartie);
   }
 
   ngOnInit(): void {
@@ -51,8 +57,8 @@ export class PartieComponent implements OnInit, OnDestroy {
   }
 
   etatPartie(): string {
-    if (this.partie.dateFin) { return 'Finie'; }
-    else if (this.partie.dateDebut) { return 'En cours'; }
+    if (this.partie.infosPartie.dateFin) { return 'Finie'; }
+    else if (this.partie.infosPartie.dateDebut) { return 'En cours'; }
     else { return 'Non commencée'; }
   }
 

@@ -124,10 +124,10 @@ export class CarteComponent implements OnInit {
   showTuilesLibres(tuile): boolean {
     return this.infosTour.monTour && !this.joueurActif.aJoue
           && !tuile.content
-          && this.detailsJoueur.ouvriers > 0 && this.partie.dateDebut && !this.partie.dateFin;
+          && this.detailsJoueur.ouvriers > 0 && this.partie.infosPartie.dateDebut && !this.partie.infosPartie.dateFin;
   }
 
   disabledTuile(tuile) {
-    return tuile.content || !this.partie.dateDebut || this.partie.dateFin;
+    return tuile.content || !this.partie.infosPartie.dateDebut || this.partie.infosPartie.dateFin;
   }
 }

@@ -3,6 +3,7 @@ import { Joueur } from 'src/app/models/joueur';
 import { Partie } from 'src/app/models/partie';
 import { Utilisateur } from 'src/app/models/utilisateur';
 import { AuthService } from 'src/app/services/auth.service';
+import { JoueursService } from 'src/app/services/joueurs.service';
 import { PartiesService } from 'src/app/services/parties.service';
 
 @Component({
@@ -11,16 +12,20 @@ import { PartiesService } from 'src/app/services/parties.service';
   styleUrls: ['./rejoindre-partie.component.sass']
 })
 export class RejoindrePartieComponent implements OnInit {
-  @Input() nbJoueurs: number;
+  nbJoueurs: number;
   @Input() user: Utilisateur;
-  @Input() idPartie: string;
-  @Input() partie: Partie;
   @Input() etatPartie: string;
 
-  constructor(private partiesS: PartiesService,
-              private authS: AuthService) { }
+  joueurs: Joueur[];
+
+  constructor(private authS: AuthService,
+              private joueursS: JoueursService) { }
 
   ngOnInit(): void {
+    this.joueursS.joueurs$.subscribe(joueurs => {
+      this.joueurs = joueurs;
+      this.calcNbJoueurs();
+    });
   }
 
   connexion(): void {
@@ -31,6 +36,12 @@ export class RejoindrePartieComponent implements OnInit {
     if (!this.user) { return; }
 
     const msg = this.user.nom + ' a rejoint la partie.';
-    this.partiesS.addJoueur(this.idPartie, this.user.id, new Joueur(this.user.nom), msg);
+    this.joueursS.addJoueur(this.user.id, new Joueur(this.user.nom), msg);
+  }
+
+  calcNbJoueurs(): void {
+    const listeJoueurs = Object.keys(this.joueurs);
+    this.nbJoueurs = listeJoueurs.length;
+    console.log(this.nbJoueurs);
   }
 }

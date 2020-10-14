@@ -1,22 +1,55 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Batiment } from '../models/batiment';
 import { Case } from '../models/case';
+import { InfosPartie } from '../models/infosPartie';
 import { Joueur } from '../models/joueur';
 import { JoueurActif } from '../models/joueurActif';
 import { Partie } from '../models/partie';
 import { BatimentsService } from './batiments.service';
 import { CartesService } from './cartes.service';
+import { EvenementsService } from './evenements.service';
+import { InitService } from './init.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PartiesService {
+  idPartie: string;
+  partie: Partie;
+
+  private carteSrc = new BehaviorSubject(null);
+  carte$ = this.carteSrc.asObservable();
+
+  private batimentsSrc = new BehaviorSubject(null);
+  batiments$ = this.batimentsSrc.asObservable();
+
+  private evenementsSrc = new BehaviorSubject(null);
+  evenements$ = this.evenementsSrc.asObservable();
+
+  private joueursSrc = new BehaviorSubject(null);
+  joueurs$ = this.joueursSrc.asObservable();
+
+  private infosPartieSrc = new BehaviorSubject(null);
+  infosPartie$ = this.infosPartieSrc.asObservable();
+
   constructor(private db: AngularFireDatabase,
               private cartesS: CartesService,
-              private batimentsS: BatimentsService) { }
+              private batimentsS: BatimentsService,
+              private evenementsS: EvenementsService,
+              private initS: InitService) {
+
+    this.initS.idPartie$.subscribe(idPartie => {
+      console.log('idPArtir', idPartie);
+      
+      this.idPartie = idPartie;
+      this.getInfosPartie();
+    });
+  }
+
+
 
   async createPartie(idJoueur) {
     const joueur = new Joueur(localStorage.getItem('nomUser'));
@@ -26,6 +59,40 @@ export class PartiesService {
     return await this.db.list('/parties').push(new Partie(idJoueur, carte, batiments, joueur));
   }
 
+// REFACTO-supp
+  initPartie(idPartie: string): void {
+    this.db.object('/parties/' + idPartie).valueChanges().subscribe((partie: Partie) => {
+      console.log('LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO', partie, this.idPartie);
+      
+      this.partie = partie;
+      this.carteSrc.next(partie.carte);
+      this.batimentsSrc.next(partie.batiments);
+      this.evenementsSrc.next(partie.evenements);
+      this.joueursSrc.next(partie.joueurs);
+      this.infosPartieSrc.next(partie.infosPartie);
+    });
+  }
+
+  getInfosPartie() {
+    this.db.object('/parties/' + this.idPartie + '/infosPartie').valueChanges().subscribe((infosPartie: InfosPartie) => {
+      console.log('fonctionne ? ', infosPartie);
+      
+      this.infosPartieSrc.next(infosPartie);
+    });
+  }
+
+  toArray(objet) {
+    // Transforme l'objet d'objets partie.joueur en tableau d'objets
+    const tableau = [];
+    const keys = Object.keys(objet);
+    keys.forEach((key) => {
+      tableau.push(objet[key]);
+    });
+
+    return tableau;
+  }
+
+  // REFACTO-supp
   getPartie(idPartie: string): Observable<Partie> {
     return this.db.object('/parties/' + idPartie).valueChanges().pipe(
       switchMap((partie: Partie) => {
@@ -41,15 +108,6 @@ export class PartiesService {
     );
   }
 
-  addEvenements(idPartie: string, messageEvenement: string) {
-    this.db.list('/parties/' + idPartie + '/evenements').push(messageEvenement);
-  }
-
-  addJoueur(idPartie: string, idJoueur: string, joueur: Joueur, messageEvenement: string): void {
-    this.updateJoueur(idPartie, idJoueur, joueur);
-    this.addEvenements(idPartie, messageEvenement);
-  }
-
   // TODO: A déplacer dans joueur service
   updateJoueurActif(idPartie, donnees: Partial<JoueurActif>) {
     this.db.object('/parties/' + idPartie + '/joueurActif').update(donnees);
@@ -61,7 +119,7 @@ export class PartiesService {
   }
 
   commencerPartie(idPartie: string, idJoueurs: string[], parametres: {nbMaxOuvriers, nbMaxBatiments}, messageEvenement: string) {
-    this.db.object('/parties/' + idPartie).update({
+    this.db.object('/parties/' + idPartie + '/infosPartie').update({
       dateDebut: Date.now(),
       manche: 1
     });
@@ -76,7 +134,7 @@ export class PartiesService {
       });
     });
 
-    this.addEvenements(idPartie, messageEvenement);
+    this.evenementsS.addEvenements(messageEvenement);
   }
 
   // TODO: Voir par la suite si on peut update qu'une seule case
