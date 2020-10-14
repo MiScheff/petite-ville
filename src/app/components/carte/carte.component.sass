@@ -13,17 +13,49 @@
 
 .pierre
 	background-color: lightgrey
+	&::after
+		content: "⛰"
+		font-size: 50px
+		position: absolute
+		top: 44%
+		left: 15%
+		color: initial
 
 .bois
 	background-color: burlywood
+	&::after
+		content: "🌳"
+		font-size: 50px
+		position: absolute
+		top: 48%
+		left: 19%
+		color: initial
 
 .poisson
 	background-color: lightblue
+	&::after
+		content: "🐟"
+		font-size: 50px
+		position: absolute
+		top: 47%
+		left: 14%
+		color: initial
 
 .ouvrier::after
-	content: "\1F604"
+	content: "👷"
 	font-size: 50px
 	position: absolute
 	top: 48%
+	left: 21%
+	color: initial
+
+	
+.batiment::after
+	content: "🏛"
+	font-size: 50px
+	position: absolute
+	top: 46%
 	left: 15%
 	color: initial
+
+	

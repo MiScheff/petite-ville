@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Batiment } from '../models/batiment';
 import { Case } from '../models/case';
 import { Joueur } from '../models/joueur';
+import { JoueurActif } from '../models/joueurActif';
 import { Partie } from '../models/partie';
 import { BatimentsService } from './batiments.service';
 import { CartesService } from './cartes.service';
@@ -48,13 +50,13 @@ export class PartiesService {
     this.addEvenements(idPartie, messageEvenement);
   }
 
-  // A deplacer dans joueur service
-  updateJoueurActif(idPartie, donnees) {
+  // TODO: A déplacer dans joueur service
+  updateJoueurActif(idPartie, donnees: Partial<JoueurActif>) {
     this.db.object('/parties/' + idPartie + '/joueurActif').update(donnees);
   }
 
-  // A déplacer dans joueur service
-  updateJoueur(idPartie: string, idJoueur: string, donnees: object) {
+  // TODO: A déplacer dans joueur service
+  updateJoueur(idPartie: string, idJoueur: string, donnees: Partial<Joueur>) {
     this.db.object('/parties/' + idPartie + '/joueurs/' + idJoueur).update(donnees);
   }
 
@@ -77,18 +79,34 @@ export class PartiesService {
     this.addEvenements(idPartie, messageEvenement);
   }
 
-  // Voir par la suite si on peut update qu'une seule case
+  // TODO: Voir par la suite si on peut update qu'une seule case
   updateCarte(idPartie: string, carte: Case[][]) {
     this.db.object('/parties/' + idPartie + '/carte').update(carte);
   }
 
-  // A déplacer dans carte.service
+  // TODO: A déplacer dans carte.service
   placementOuvrier(idPartie: string, carte: Case[][], idJoueur: string, joueur: Joueur) {
     this.updateCarte(idPartie, carte);
     this.updateJoueur(idPartie, idJoueur, joueur);
     this.updateJoueurActif(idPartie, { aJoue: true });
   }
 
+  // TODO: A déplacer dans batiment.service
+  placementBatiment(idPartie: string, carte: Case[][], idJoueur: string, joueur: Joueur) {
+    this.updateCarte(idPartie, carte);
+    this.updateJoueur(idPartie, idJoueur, joueur);
+    this.updateJoueurActif(idPartie, { aJoue: true });
+    // this.updat
+  }
+
+  updateBatiments(idPartie: string, listeBatiments: Batiment[], nbChampsBle?: number) {
+    const batiments = { listeBatiments };
+    // tslint:disable-next-line: no-string-literal
+    if (nbChampsBle) { batiments['nbChampsBle'] = nbChampsBle; }
+
+    this.db.object('/parties/' + idPartie + '/batiments').update(batiments);
+
+  }
 
 
 

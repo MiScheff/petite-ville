@@ -62,7 +62,7 @@ export class ActionsPartieComponent implements OnInit {
       id: nextId,
       nom: this.partie.joueurs[nextId].nom,
       aJoue: false,
-      construit: false
+      batimentChoisi: null
     };
   }
 }

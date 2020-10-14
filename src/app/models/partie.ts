@@ -1,6 +1,7 @@
 import { Batiment } from './batiment';
 import { Case } from './case';
 import { Joueur } from './joueur';
+import { JoueurActif } from './joueurActif';
 
 export class Partie {
   carte: Case[][];
@@ -11,12 +12,7 @@ export class Partie {
   };
   joueurs: Joueur[] = [];
 
-  joueurActif: {
-    id: string;
-    nom: string;
-    aJoue: boolean;
-    construit: boolean;
-  };
+  joueurActif: JoueurActif;
   evenements: string[] = [];
   manche = 1;
   dateDebut: Date;
@@ -33,7 +29,7 @@ export class Partie {
       id: idCreateur,
       nom: joueur.nom,
       aJoue: false,
-      construit: false
+      batimentChoisi: null
     };
     this.joueurs[idCreateur] = joueur;
     this.evenements.push(joueur.nom + ' a créé la partie.');

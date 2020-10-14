@@ -1,6 +1,8 @@
+import { Batiment } from './batiment';
+
 export interface JoueurActif {
   id: string;
   nom: string;
   aJoue: boolean;
-  construit: boolean;
+  batimentChoisi: Batiment;
 }

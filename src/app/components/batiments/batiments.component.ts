@@ -3,6 +3,8 @@ import { Batiment } from 'src/app/models/batiment';
 import { Partie } from 'src/app/models/partie';
 import { Joueur } from 'src/app/models/joueur';
 import { BatimentsService } from 'src/app/services/batiments.service';
+import { JoueurActif } from 'src/app/models/joueurActif';
+import { PartiesService } from 'src/app/services/parties.service';
 
 @Component({
   selector: 'pv-batiments',
@@ -12,13 +14,14 @@ import { BatimentsService } from 'src/app/services/batiments.service';
 export class BatimentsComponent implements OnInit {
   @Input() idPartie: string;
   @Input() batiments;
-  @Input() joueurActif;
+  @Input() joueurActif: JoueurActif;
   @Input() joueurs: Joueur[];
   @Input() infosTour;
 
   champsBle: Batiment[];
 
-  constructor(private batimentsS: BatimentsService) { }
+  constructor(private batimentsS: BatimentsService,
+              private partiesS: PartiesService) { }
 
   ngOnInit(): void {
     this.champsBle = this.batimentsS.getChampsBle();
@@ -32,7 +35,11 @@ export class BatimentsComponent implements OnInit {
   actionBatiment(batiment: Batiment): void {
     if (!this.infosTour.monTour) { return; }
 
-    console.log(this.ressourcesSuffisantes(batiment.cout));
+    if (this.ressourcesSuffisantes(batiment.cout)) {
+      this.joueurActif.batimentChoisi = batiment;
+      this.partiesS.updateJoueurActif(this.idPartie, this.joueurActif);
+      console.log(`Batiment ${batiment.nom} choisi. Cliquer où le placer.`);
+    }
   }
 
   ressourcesSuffisantes(cout: { type, quantite }[] ) {

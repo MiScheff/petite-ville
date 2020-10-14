@@ -16,7 +16,7 @@ export interface Batiment {
   }[];
 
   score: number;
-  proprietaire: string;
+  disponible: boolean;
   position: {
     x: number;
     y: number;

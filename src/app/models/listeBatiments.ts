@@ -16,7 +16,7 @@ const ble: Batiment = {
   }],
 
   score: 3,
-  proprietaire: null,
+  disponible: true,
   position: null,
   activable: true
 };
@@ -42,7 +42,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 5,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -67,7 +67,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 7,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -91,7 +91,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 4,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -109,7 +109,7 @@ export const listeBatiments: Batiment[] = [
     sortie: null,
 
     score: 11,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: false
   },
@@ -139,7 +139,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 5,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -164,7 +164,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 7,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -188,7 +188,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 4,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -206,7 +206,7 @@ export const listeBatiments: Batiment[] = [
     sortie: null,
 
     score: 11,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: false
   },
@@ -228,7 +228,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 5,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -253,7 +253,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 7,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -277,7 +277,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 4,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -295,7 +295,7 @@ export const listeBatiments: Batiment[] = [
     sortie: null,
 
     score: 11,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: false
   },
@@ -317,7 +317,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 5,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -342,7 +342,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 7,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -366,7 +366,7 @@ export const listeBatiments: Batiment[] = [
     }],
 
     score: 4,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: true
   },
@@ -384,7 +384,7 @@ export const listeBatiments: Batiment[] = [
     sortie: null,
 
     score: 11,
-    proprietaire: null,
+    disponible: true,
     position: null,
     activable: false
   },

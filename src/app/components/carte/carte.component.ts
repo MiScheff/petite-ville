@@ -7,6 +7,8 @@ import { Partie } from 'src/app/models/partie';
 import { JoueursService } from 'src/app/services/joueurs.service';
 import { Joueur } from 'src/app/models/joueur';
 import { Ressources } from 'src/app/models/ressources';
+import { JoueurActif } from 'src/app/models/joueurActif';
+import { Batiment } from 'src/app/models/batiment';
 
 @Component({
   selector: 'pv-carte',
@@ -18,7 +20,7 @@ export class CarteComponent implements OnInit {
   @Input() partie: Partie;
   @Input() carte: Case[][];
   @Input() infosTour: { monTour, aJoue };
-  @Input() joueurActif;
+  @Input() joueurActif: JoueurActif;
 
   detailsJoueur: Joueur;
 
@@ -27,6 +29,7 @@ export class CarteComponent implements OnInit {
               private joueursS: JoueursService) { }
 
   ngOnInit(): void {
+    this.detailsJoueur = this.partie.joueurs[this.joueurActif.id];
   }
 
   actionCase(tuile: Case) {
@@ -34,15 +37,15 @@ export class CarteComponent implements OnInit {
 
     this.detailsJoueur = this.partie.joueurs[this.joueurActif.id];
 
-    if (!this.joueurActif.aJoue && !this.joueurActif.construit) {
+    if (!this.joueurActif.aJoue && !this.joueurActif.batimentChoisi) {
       this.placeOuvrier(tuile);
-    } else if (!this.joueurActif.aJoue && this.joueurActif.construit) {
-      this.placeBatiment();
+    } else if (!this.joueurActif.aJoue && this.joueurActif.batimentChoisi) {
+      this.placeBatiment(tuile, this.joueurActif.batimentChoisi);
     }
   }
 
   placeOuvrier(tuile: Case) {
-    if (tuile.content) { return; }
+    if (tuile.content || this.detailsJoueur.ouvriers < 1) { return; }
 
     this.detailsJoueur.ouvriers--;
     this.getCase(tuile.x, tuile.y).content = { type: 'ouvrier', proprietaire: this.joueurActif.id };
@@ -52,7 +55,18 @@ export class CarteComponent implements OnInit {
     this.joueurActif.aJoue = true;
   }
 
-  placeBatiment() {}
+  placeBatiment(tuile: Case, batiment: Batiment) {
+    if (tuile.content || this.detailsJoueur.batiments >= this.partie.batiments.nbMaxBatiments) { return; }
+
+    this.buyBatiment(batiment.cout);
+    this.detailsJoueur.batiments++;
+    batiment.disponible = false;
+    this.getCase(tuile.x, tuile.y).content = { type: 'batiment', proprietaire: this.joueurActif.id, batiment};
+
+    this.partiesS.placementBatiment(this.idPartie, this.carte, this.joueurActif.id, this.detailsJoueur);
+    this.joueurActif.aJoue = true;
+
+  }
 
   getCase(x, y) {
     return this.carte[y][x];
@@ -83,7 +97,7 @@ export class CarteComponent implements OnInit {
       const tx = tuile.split(',')[1];
       const ty = tuile.split(',')[0];
       console.log(this.getCase(tx, ty));
-      
+
       const typeTuile = this.getCase(tx, ty).content?.type;
 
       if (typeTuile === 'pierre' || typeTuile === 'bois' || typeTuile === 'poisson') {
@@ -91,7 +105,7 @@ export class CarteComponent implements OnInit {
       }
     });
     console.log('récup ressources :', ressources);
-    
+
     return ressources;
   }
 
@@ -101,9 +115,16 @@ export class CarteComponent implements OnInit {
     this.detailsJoueur.ressources.poisson += ressources.poisson;
   }
 
+  buyBatiment(cout: { type, quantite }[]) {
+    for (const ressource of cout) {
+      this.detailsJoueur.ressources[ressource.type] = this.detailsJoueur.ressources[ressource.type] - ressource.quantite;
+    }
+  }
+
   showTuilesLibres(tuile): boolean {
-    return this.infosTour.monTour && !this.joueurActif.aJoue && !tuile.content
-          && this.partie.dateDebut && !this.partie.dateFin;
+    return this.infosTour.monTour && !this.joueurActif.aJoue
+          && !tuile.content
+          && this.detailsJoueur.ouvriers > 0 && this.partie.dateDebut && !this.partie.dateFin;
   }
 
   disabledTuile(tuile) {
