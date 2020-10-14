@@ -104,21 +104,9 @@ export class PartiesService {
     this.evenementsS.addEvenements(messageEvenement);
   }
 
-  // TODO: Voir par la suite si on peut update qu'une seule case
-  updateCarte(idPartie: string, carte: Case[][]) {
-    this.db.object('/parties/' + idPartie + '/carte').update(carte);
-  }
-
-  // TODO: A déplacer dans carte.service
-  placementOuvrier(idPartie: string, carte: Case[][], idJoueur: string, joueur: Joueur) {
-    this.updateCarte(idPartie, carte);
-    this.joueursS.updateJoueur(idJoueur, joueur);
-    this.joueursS.updateJoueurActif({ aJoue: true });
-  }
-
   // TODO: A déplacer dans batiment.service
   placementBatiment(idPartie: string, carte: Case[][], idJoueur: string, joueur: Joueur) {
-    this.updateCarte(idPartie, carte);
+    this.cartesS.updateCarte(carte);
     this.joueursS.updateJoueur(idJoueur, joueur);
     this.joueursS.updateJoueurActif({ aJoue: true });
     // this.updat

@@ -1,13 +1,29 @@
 import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { Observable } from 'rxjs';
+import { Case } from '../models/case';
+import { Joueur } from '../models/joueur';
+import { EvenementsService } from './evenements.service';
+import { InitService } from './init.service';
+import { JoueursService } from './joueurs.service';
+import { PartiesService } from './parties.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartesService {
+  idPartie: string;
+
   private carte = []; // La carte fait 6 cases de haut (y) et 9 cases de large (x)
 
-
-  constructor() { }
+  constructor(private db: AngularFireDatabase,
+              private init: InitService,
+              private joueursS: JoueursService,
+              private evenementsS: EvenementsService) {
+    this.init.idPartie$.subscribe(idPartie => {
+      this.idPartie = idPartie;
+    });
+  }
 
   initCarte() {
     // TODO: stocker ces tableaux en BDD
@@ -33,5 +49,21 @@ export class CartesService {
     }
 
     return this.carte;
+  }
+
+  getCarte(): Observable<Case[][]> {
+    return this.db.object('/parties/' + this.idPartie + '/carte').valueChanges() as Observable<Case[][]>;
+  }
+
+  // TODO: A déplacer dans carte.service
+  placementOuvrier(carte: Case[][], idJoueur: string, joueur: Joueur) {
+    this.updateCarte(carte);
+    this.joueursS.updateJoueur(idJoueur, joueur);
+    this.joueursS.updateJoueurActif({ aJoue: true });
+  }
+  
+  // TODO: Voir par la suite si on peut update qu'une seule case
+  updateCarte(carte: Case[][]) {
+    this.db.object('/parties/' + this.idPartie + '/carte').update(carte);
   }
 }

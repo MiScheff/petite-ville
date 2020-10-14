@@ -9,6 +9,7 @@ import { Joueur } from 'src/app/models/joueur';
 import { Ressources } from 'src/app/models/ressources';
 import { JoueurActif } from 'src/app/models/joueurActif';
 import { Batiment } from 'src/app/models/batiment';
+import { InfosPartie } from 'src/app/models/infosPartie';
 
 @Component({
   selector: 'pv-carte',
@@ -18,24 +19,34 @@ import { Batiment } from 'src/app/models/batiment';
 export class CarteComponent implements OnInit {
   @Input() idPartie: string;
   @Input() partie: Partie;
-  @Input() carte: Case[][];
   @Input() monTour: boolean;
-  @Input() joueurActif: JoueurActif;
 
+  infosPartie: InfosPartie;
+  carte: Case[][];
+  joueurs: Joueur[];
+  joueurActif: JoueurActif;
   detailsJoueur: Joueur;
 
-  constructor(private carteS: CartesService,
+  constructor(private cartesS: CartesService,
               private partiesS: PartiesService,
-              private joueursS: JoueursService) { }
+              private joueursS: JoueursService) {
+                
+              }
 
   ngOnInit(): void {
-    this.detailsJoueur = this.partie.joueurs[this.joueurActif.id];
+    this.partiesS.getInfosPartie().subscribe(infosPartie => this.infosPartie = infosPartie);
+    this.cartesS.getCarte().subscribe(carte => this.carte = carte);
+    this.joueursS.getJoueurs().subscribe(joueurs => this.joueurs = joueurs);
+    this.joueursS.getJoueurActif().subscribe(joueurActif => {
+      this.joueurActif = joueurActif;
+      this.detailsJoueur = this.joueurs[this.joueurActif.id];
+    });
   }
 
   actionCase(tuile: Case) {
     if (!this.monTour) { return; }
 
-    this.detailsJoueur = this.partie.joueurs[this.joueurActif.id];
+    this.detailsJoueur = this.joueurs[this.joueurActif.id]; // ?
 
     if (!this.joueurActif.aJoue && !this.joueurActif.batimentChoisi) {
       this.placeOuvrier(tuile);
@@ -51,7 +62,7 @@ export class CarteComponent implements OnInit {
     this.getCase(tuile.x, tuile.y).content = { type: 'ouvrier', proprietaire: this.joueurActif.id };
     this.addRessources(this.getRessourcesAdjacentes(tuile.x, tuile.y));
 
-    this.partiesS.placementOuvrier(this.idPartie, this.carte, this.joueurActif.id, this.detailsJoueur);
+    this.cartesS.placementOuvrier(this.carte, this.joueurActif.id, this.detailsJoueur);
     this.joueurActif.aJoue = true;
   }
 
@@ -123,12 +134,12 @@ export class CarteComponent implements OnInit {
   }
 
   showTuilesLibres(tuile): boolean {
-    return this.monTour && !this.joueurActif.aJoue
+    return this.monTour && !this.joueurActif?.aJoue
           && !tuile.content
-          && this.detailsJoueur.ouvriers > 0 && this.partie.infosPartie.dateDebut && !this.partie.infosPartie.dateFin;
+          && this.detailsJoueur?.ouvriers > 0 && this.infosPartie.dateDebut && !this.infosPartie.dateFin;
   }
 
   disabledTuile(tuile) {
-    return tuile.content || !this.partie.infosPartie.dateDebut || this.partie.infosPartie.dateFin;
+    return tuile.content || !this.infosPartie.dateDebut || this.infosPartie.dateFin;
   }
 }
