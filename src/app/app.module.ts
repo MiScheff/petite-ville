@@ -23,6 +23,8 @@ import { ActionsPartieComponent } from './components/actions-partie/actions-part
 import { UsersService } from './services/users.service';
 import { JoueursService } from './services/joueurs.service';
 import { EvenementsComponent } from './components/evenements/evenements.component';
+import { InitService } from './services/init.service';
+import { EvenementsService } from './services/evenements.service';
 
 @NgModule({
   declarations: [
@@ -45,9 +47,11 @@ import { EvenementsComponent } from './components/evenements/evenements.componen
     RouterModule.forRoot(routes)
   ],
   providers: [
+    InitService,
     PartiesService,
     CartesService,
     BatimentsService,
+    EvenementsService,
     JoueursService,
     UsersService,
     AuthService

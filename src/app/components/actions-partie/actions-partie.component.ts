@@ -31,7 +31,7 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.joueurs$ = this.joueursS.getJoueurs().subscribe(joueurs => {
       this.joueurs = joueurs;
-      this.calcNbJoueurs();
+      this.nbJoueurs = Object.keys(joueurs).length;
     });
     this.joueurActif$ = this.joueursS.getJoueurActif().subscribe(joueurActif => this.joueurActif = joueurActif);
   }
@@ -58,39 +58,13 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
     return parametres;
   }
 
-  finTour() {
-    const nextJoueur = this.getNextJoueurActif();
+  finTour(): void {
+    const nextJoueur = this.joueursS.getNextJoueurActif(this.joueurs, this.joueurActif.id);
     this.evenementsS.addEvenements(this.joueurActif.nom + ' a fini son tour.');
     this.joueursS.updateJoueurActif(nextJoueur);
   }
 
-  // TODO: A deplacer dans JoueursService, en tant qu'Observable.
-  getNextJoueurActif(): JoueurActif {
-    const tabJoueurs = Object.keys(this.joueurs);
-    const currentIndex = tabJoueurs.indexOf(this.joueurActif.id);
-
-    let nextIndex;
-    if (currentIndex === tabJoueurs.length - 1) { nextIndex = 0; }
-    else { nextIndex = currentIndex + 1; }
-
-    const nextId = tabJoueurs[nextIndex];
-
-    return {
-      id: nextId,
-      nom: this.joueurs[nextId].nom,
-      aJoue: false,
-      batimentChoisi: null
-    };
-  }
-
-  // TODO: A deplacer dans JoueursService, en tant qu'Observable.
-  calcNbJoueurs(): void {
-    const listeJoueurs = Object.keys(this.joueurs);
-    this.nbJoueurs = listeJoueurs.length;
-    console.log(this.nbJoueurs);
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.joueurs$.unsubscribe();
     this.joueurActif$.unsubscribe();
   }

@@ -22,7 +22,7 @@ export class RejoindrePartieComponent implements OnInit {
   ngOnInit(): void {
     this.joueursS.getJoueurs().subscribe(joueurs => {
       this.joueurs = joueurs;
-      this.calcNbJoueurs();
+      this.nbJoueurs = Object.keys(joueurs).length;
     });
   }
 
@@ -35,12 +35,6 @@ export class RejoindrePartieComponent implements OnInit {
 
     const msg = this.user.nom + ' a rejoint la partie.';
     this.joueursS.addJoueur(this.user.id, new Joueur(this.user.nom), msg);
-  }
-
-  calcNbJoueurs(): void {
-    const listeJoueurs = Object.keys(this.joueurs);
-    this.nbJoueurs = listeJoueurs.length;
-    console.log(this.nbJoueurs);
   }
 
 }

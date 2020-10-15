@@ -52,4 +52,24 @@ export class JoueursService {
     this.updateJoueur(idJoueur, joueur);
   }
 
+  // TODO: A deplacer dans JoueursService, en tant qu'Observable.
+  getNextJoueurActif(joueurs: Joueur[], idJoueurActif: string): JoueurActif {
+
+    const tabJoueurs = Object.keys(joueurs);
+    const currentIndex = tabJoueurs.indexOf(idJoueurActif);
+
+    let nextIndex;
+    if (currentIndex === tabJoueurs.length - 1) { nextIndex = 0; }
+    else { nextIndex = currentIndex + 1; }
+
+    const nextId = tabJoueurs[nextIndex];
+
+    return {
+      id: nextId,
+      nom: joueurs[nextId].nom,
+      aJoue: false,
+      batimentChoisi: null
+    };
+  }
+
 }
