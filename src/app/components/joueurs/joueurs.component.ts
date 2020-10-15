@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Joueur } from 'src/app/models/joueur';
+import { JoueursService } from 'src/app/services/joueurs.service';
 
 @Component({
   selector: 'pv-joueurs',
@@ -7,14 +8,15 @@ import { Joueur } from 'src/app/models/joueur';
   styleUrls: ['./joueurs.component.sass']
 })
 export class JoueursComponent implements OnInit {
-  // tslint:disable-next-line: no-input-rename
-  @Input() joueurs: Joueur[];
+  joueurs: Joueur[];
 
-  constructor() {
+  constructor(private joueursS: JoueursService) {
   }
 
   ngOnInit(): void {
-
+    this.joueursS.getJoueurs().subscribe(joueurs => {
+      this.joueurs = joueurs;
+    });
   }
 
   toArray(objet) {

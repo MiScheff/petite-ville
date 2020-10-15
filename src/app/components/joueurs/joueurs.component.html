@@ -1,14 +1,15 @@
-<div *ngFor="let joueur of toArray(joueurs)">
-	<h2>{{ joueur.nom }} : {{ joueur.score }} point(s)</h2>
-	<p>
-		pieces : {{ joueur.pieces }}
-		ouvriers : {{ joueur.ouvriers }}
-		batiments : {{ joueur.batiments }}
-		ressources =
+<ng-container *ngIf="joueurs">
+	<div *ngFor="let joueur of toArray(joueurs)">
+		<h2>{{ joueur.nom }} : {{ joueur.score }} point(s)</h2>
+		<p>
+			pieces : {{ joueur.pieces }}
+			ouvriers : {{ joueur.ouvriers }}
+			batiments : {{ joueur.batiments }}
+			ressources =
 			pierre: {{ joueur.ressources.pierre }}
 			bois: {{ joueur.ressources.bois }}
 			poisson: {{ joueur.ressources.poisson }}
 			ble: {{ joueur.ressources.ble }}
-		
-	</p>
-</div>
+		</p>
+	</div>
+</ng-container>
