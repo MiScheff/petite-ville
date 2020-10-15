@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { Batiment } from '../models/batiment';
-import { Case } from '../models/case';
+import { Observable } from 'rxjs';
 import { InfosPartie } from '../models/infosPartie';
 import { Joueur } from '../models/joueur';
-import { JoueurActif } from '../models/joueurActif';
 import { Partie } from '../models/partie';
 import { BatimentsService } from './batiments.service';
 import { CartesService } from './cartes.service';
@@ -42,34 +38,11 @@ export class PartiesService {
     return await this.db.list('/parties').push(new Partie(idJoueur, carte, batiments, joueur));
   }
 
-// REFACTO-supp
-  initPartie(idPartie: string): void {
-    this.db.object('/parties/' + idPartie).valueChanges().subscribe((partie: Partie) => {
-      this.partie = partie;
-    });
-  }
-
   getInfosPartie(): Observable<InfosPartie> {
     return this.db.object('/parties/' + this.idPartie + '/infosPartie').valueChanges() as Observable<InfosPartie>;
   }
 
-  // REFACTO-supp
-  getPartie(idPartie: string): Observable<Partie> {
-    return this.db.object('/parties/' + idPartie).valueChanges().pipe(
-      switchMap((partie: Partie) => {
-        // Transforme l'objet de string partie.evenements en tableau de string
-        const keys = Object.keys(partie.evenements);
-        const evenements = [];
-        keys.forEach((key) => {
-          evenements.push(partie.evenements[key]);
-        });
-        partie.evenements = evenements;
-        return of(partie);
-      })
-    );
-  }
-
-  commencerPartie(idJoueurs: string[], parametres: {nbMaxOuvriers, nbMaxBatiments}, messageEvenement: string) {
+  commencerPartie(idJoueurs: string[], parametres: {nbMaxOuvriers, nbMaxBatiments}, messageEvenement: string): void {
     this.db.object('/parties/' + this.idPartie + '/infosPartie').update({
       dateDebut: Date.now(),
       manche: 1

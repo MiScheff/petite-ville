@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { InfosPartie } from 'src/app/models/infosPartie';
 import { Joueur } from 'src/app/models/joueur';
-import { Partie } from 'src/app/models/partie';
 import { Utilisateur } from 'src/app/models/utilisateur';
 import { AuthService } from 'src/app/services/auth.service';
 import { InitService } from 'src/app/services/init.service';
@@ -17,16 +16,17 @@ import { PartiesService } from 'src/app/services/parties.service';
 })
 export class PartieComponent implements OnInit, OnDestroy {
   idPartie: string;
+
   user: Utilisateur;
-  partie: Partie;
-
-  partie$: Subscription;
-  user$: Subscription;
-
   infosPartie: InfosPartie;
   joueurs: Joueur[];
 
   monTour = false;
+
+  infosPartie$: Subscription;
+  joueurs$: Subscription;
+  joueurActif$: Subscription;
+  user$: Subscription;
 
   constructor(private route: ActivatedRoute,
               private partiesS: PartiesService,
@@ -35,23 +35,14 @@ export class PartieComponent implements OnInit, OnDestroy {
               private initS: InitService) {
     this.idPartie = this.route.snapshot.paramMap.get('id');
     this.user$ = this.authS.user.subscribe((user: Utilisateur) => this.user = user);
-
-    // REFACTO
-    this.partiesS.initPartie(this.idPartie);
     this.initS.init(this.idPartie);
   }
 
   ngOnInit(): void {
-    this.partiesS.getInfosPartie().subscribe(infosPartie => this.infosPartie = infosPartie);
-    this.joueursS.getJoueurs().subscribe(joueurs => this.joueurs = joueurs);
-    this.joueursS.getJoueurActif().subscribe(joueurActif => {
-      console.log('Part Comp', joueurActif);
+    this.infosPartie$ = this.partiesS.getInfosPartie().subscribe(infosPartie => this.infosPartie = infosPartie);
+    this.joueurs$ = this.joueursS.getJoueurs().subscribe(joueurs => this.joueurs = joueurs);
+    this.joueurActif$ = this.joueursS.getJoueurActif().subscribe(joueurActif => {
       this.monTour = this.user.id === joueurActif.id ? true : false;
-    });
-
-    // REFACTO-supp
-    this.partie$ = this.partiesS.getPartie(this.idPartie).subscribe((partie) => {
-      this.partie = partie;
     });
   }
 
@@ -68,10 +59,11 @@ export class PartieComponent implements OnInit, OnDestroy {
     else { return 'Non commencée'; }
   }
 
-  ngOnDestroy() {
-    this.partie$.unsubscribe();
+  ngOnDestroy(): void {
+    this.infosPartie$.unsubscribe();
+    this.joueurs$.unsubscribe();
+    this.joueurActif$.unsubscribe();
     this.user$.unsubscribe();
   }
-
 
 }

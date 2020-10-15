@@ -1,5 +1,5 @@
 <div style="width: 900px;" class="m-auto">
-	<ng-container *ngIf="partie">
+	<ng-container *ngIf="infosPartie && joueurs">
 
 		<div *ngIf="!participe(); else actions">
 			<pv-rejoindre-partie
