@@ -50,7 +50,6 @@ export class BatimentsService {
     batiment.disponible = false;
 
     if (index !== -1) {
-      console.log('index batiment : ', listeBats.indexOf(batiment));
       this.updateBatiment(index, batiment);
     }
   }

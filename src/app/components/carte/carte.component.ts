@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Batiment } from 'src/app/models/batiment';
 import { Case } from 'src/app/models/case';
 import { InfosBatiments } from 'src/app/models/infosBatiments';
@@ -28,12 +29,7 @@ export class CarteComponent implements OnInit, OnDestroy {
   joueurActif: JoueurActif;
   detailsJoueur: Joueur;
 
-  infosPartie$: Subscription;
-  carte$: Subscription;
-  batiments$: Subscription;
-  joueurs$: Subscription;
-  joueurActif$: Subscription;
-
+  values$: Subscription;
 
   constructor(private cartesS: CartesService,
               private partiesS: PartiesService,
@@ -41,14 +37,21 @@ export class CarteComponent implements OnInit, OnDestroy {
               private batimentsS: BatimentsService) { }
 
   ngOnInit(): void {
-    this.partiesS.getInfosPartie().subscribe(infosPartie => this.infosPartie = infosPartie);
-    this.cartesS.getCarte().subscribe(carte => this.carte = carte);
-    this.batimentsS.getBatiments().subscribe(batiments => this.batiments = batiments);
-    this.joueursS.getJoueurs().subscribe(joueurs => this.joueurs = joueurs);
-    this.joueursS.getJoueurActif().subscribe(joueurActif => {
-      this.joueurActif = joueurActif;
-      this.detailsJoueur = this.joueurs[this.joueurActif.id];
-    });
+    this.values$ = combineLatest([
+      this.partiesS.getInfosPartie(),
+      this.cartesS.getCarte(),
+      this.batimentsS.getBatiments(),
+      this.joueursS.getJoueurs(),
+      this.joueursS.getJoueurActif()]
+    ).subscribe(([infosPartie, carte, batiments, joueurs, joueurActif]) => {
+        this.infosPartie = infosPartie;
+        this.carte = carte;
+        this.batiments = batiments;
+        this.joueurs = joueurs;
+        this.joueurActif = joueurActif;
+        this.detailsJoueur = joueurs[joueurActif.id];
+      }
+    );
   }
 
   actionCase(tuile: Case): void {
@@ -134,9 +137,9 @@ export class CarteComponent implements OnInit, OnDestroy {
   }
 
   showTuilesLibres(tuile: Case): boolean {
-    return this.monTour && !this.joueurActif?.aJoue
+    return this.monTour && !this.joueurActif.aJoue
           && !tuile.content
-          && this.detailsJoueur?.ouvriers > 0 && this.infosPartie.dateDebut && !this.infosPartie.dateFin;
+          && this.detailsJoueur.ouvriers > 0 && this.infosPartie.dateDebut && !this.infosPartie.dateFin;
   }
 
   disabledTuile(tuile: Case): boolean {
@@ -144,10 +147,6 @@ export class CarteComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.infosPartie$.unsubscribe();
-    this.carte$.unsubscribe();
-    this.batiments$.unsubscribe();
-    this.joueurs$.unsubscribe();
-    this.joueurActif$.unsubscribe();
+    this.values$.unsubscribe();
   }
 }
