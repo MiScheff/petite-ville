@@ -10,6 +10,8 @@ import { Ressources } from 'src/app/models/ressources';
 import { JoueurActif } from 'src/app/models/joueurActif';
 import { Batiment } from 'src/app/models/batiment';
 import { InfosPartie } from 'src/app/models/infosPartie';
+import { BatimentsService } from 'src/app/services/batiments.service';
+import { InfosBatiments } from 'src/app/models/infosBatiments';
 
 @Component({
   selector: 'pv-carte',
@@ -17,29 +19,31 @@ import { InfosPartie } from 'src/app/models/infosPartie';
   styleUrls: ['./carte.component.sass']
 })
 export class CarteComponent implements OnInit {
-  @Input() idPartie: string;
-  @Input() partie: Partie;
   @Input() monTour: boolean;
 
   infosPartie: InfosPartie;
   carte: Case[][];
+  batiments: InfosBatiments;
   joueurs: Joueur[];
   joueurActif: JoueurActif;
   detailsJoueur: Joueur;
 
   constructor(private cartesS: CartesService,
               private partiesS: PartiesService,
-              private joueursS: JoueursService) {
-                
+              private joueursS: JoueursService,
+              private batimentsS: BatimentsService) {
+
               }
 
   ngOnInit(): void {
     this.partiesS.getInfosPartie().subscribe(infosPartie => this.infosPartie = infosPartie);
     this.cartesS.getCarte().subscribe(carte => this.carte = carte);
+    this.batimentsS.getBatiments().subscribe(batiments => this.batiments = batiments);
     this.joueursS.getJoueurs().subscribe(joueurs => this.joueurs = joueurs);
     this.joueursS.getJoueurActif().subscribe(joueurActif => {
       this.joueurActif = joueurActif;
       this.detailsJoueur = this.joueurs[this.joueurActif.id];
+
     });
   }
 
@@ -66,18 +70,18 @@ export class CarteComponent implements OnInit {
     this.joueurActif.aJoue = true;
   }
 
-  placeBatiment(tuile: Case, batiment: Batiment) {
-    if (tuile.content || this.detailsJoueur.batiments >= this.partie.batiments.nbMaxBatiments) { return; }
-
-    this.buyBatiment(batiment.cout);
-    this.detailsJoueur.batiments++;
-    batiment.disponible = false;
+  async placeBatiment(tuile: Case, batiment: Batiment) {
+    if (tuile.content || this.detailsJoueur.batiments >= this.batiments.nbMaxBatiments) { return; }
+    
+    // Place le batiment sur la carte
     this.getCase(tuile.x, tuile.y).content = { type: 'batiment', proprietaire: this.joueurActif.id, batiment};
-
-    this.partiesS.placementBatiment(this.idPartie, this.carte, this.joueurActif.id, this.detailsJoueur);
+    
+    this.batimentsS.setBatimentIndisponible(this.batiments.listeBatiments, batiment);
+    this.joueursS.buyBatiment(this.joueurActif.id, this.detailsJoueur, batiment.cout);
+    this.cartesS.placementBatiment(this.carte, this.joueurActif, this.detailsJoueur);
+    
     this.joueurActif.batimentChoisi = null;
     this.joueurActif.aJoue = true;
-
   }
 
   getCase(x, y) {
@@ -125,12 +129,6 @@ export class CarteComponent implements OnInit {
     this.detailsJoueur.ressources.pierre += ressources.pierre;
     this.detailsJoueur.ressources.bois += ressources.bois;
     this.detailsJoueur.ressources.poisson += ressources.poisson;
-  }
-
-  buyBatiment(cout: { type, quantite }[]) {
-    for (const ressource of cout) {
-      this.detailsJoueur.ressources[ressource.type] = this.detailsJoueur.ressources[ressource.type] - ressource.quantite;
-    }
   }
 
   showTuilesLibres(tuile): boolean {

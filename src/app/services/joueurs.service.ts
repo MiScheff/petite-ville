@@ -43,5 +43,13 @@ export class JoueursService {
     this.db.object('/parties/' + this.idPartie + '/joueurs/' + idJoueur).update(donnees);
   }
 
+  buyBatiment(idJoueur: string, joueur: Joueur, cout: { type, quantite }[]) {
+    joueur.batiments++;
+    for (const ressource of cout) {
+      joueur.ressources[ressource.type] = joueur.ressources[ressource.type] - ressource.quantite;
+    }
+
+    this.updateJoueur(idJoueur, joueur);
+  }
 
 }

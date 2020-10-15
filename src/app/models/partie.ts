@@ -1,18 +1,14 @@
 import { Batiment } from './batiment';
 import { Case } from './case';
+import { InfosBatiments } from './infosBatiments';
 import { InfosPartie } from './infosPartie';
 import { Joueur } from './joueur';
 import { JoueurActif } from './joueurActif';
 
 export class Partie {
   carte: Case[][];
-  batiments: {
-    listeBatiments: Batiment[];
-    nbMaxBatiments: number;
-    nbChampsBle: number;
-  };
+  batiments: InfosBatiments;
   joueurs: Joueur[] = [];
-
   joueurActif: JoueurActif;
   evenements: string[] = [];
   infosPartie: InfosPartie;

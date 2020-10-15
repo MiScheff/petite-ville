@@ -6,6 +6,7 @@ import { BatimentsService } from 'src/app/services/batiments.service';
 import { JoueurActif } from 'src/app/models/joueurActif';
 import { PartiesService } from 'src/app/services/parties.service';
 import { JoueursService } from 'src/app/services/joueurs.service';
+import { InfosBatiments } from 'src/app/models/infosBatiments';
 
 @Component({
   selector: 'pv-batiments',
@@ -13,12 +14,13 @@ import { JoueursService } from 'src/app/services/joueurs.service';
   styleUrls: ['./batiments.component.sass']
 })
 export class BatimentsComponent implements OnInit {
-  @Input() idPartie: string;
-  @Input() batiments;
-  @Input() joueurActif: JoueurActif;
-  @Input() joueurs: Joueur[];
   @Input() monTour;
 
+  batiments: InfosBatiments;
+  joueurs: Joueur[];
+  joueurActif: JoueurActif;
+  detailsJoueur: Joueur;
+  
   champsBle: Batiment[];
 
   constructor(private batimentsS: BatimentsService,
@@ -26,6 +28,12 @@ export class BatimentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.champsBle = this.batimentsS.getChampsBle();
+    this.batimentsS.getBatiments().subscribe(batiments => this.batiments = batiments);
+    this.joueursS.getJoueurs().subscribe(joueurs => this.joueurs = joueurs);
+    this.joueursS.getJoueurActif().subscribe(joueurActif => {
+      this.joueurActif = joueurActif;
+      this.detailsJoueur = this.joueurs[joueurActif.id];
+    });
   }
 
   actionBle(index: number): void {
@@ -34,7 +42,7 @@ export class BatimentsComponent implements OnInit {
   }
 
   actionBatiment(batiment: Batiment): void {
-    if (!this.monTour) { return; }
+    if (!this.monTour || this.detailsJoueur.batiments >= this.batiments.nbMaxBatiments || !batiment.disponible) { return; }
 
     if (this.ressourcesSuffisantes(batiment.cout)) {
       this.joueurActif.batimentChoisi = batiment;

@@ -3,6 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { Case } from '../models/case';
 import { Joueur } from '../models/joueur';
+import { JoueurActif } from '../models/joueurActif';
 import { EvenementsService } from './evenements.service';
 import { InitService } from './init.service';
 import { JoueursService } from './joueurs.service';
@@ -61,7 +62,13 @@ export class CartesService {
     this.joueursS.updateJoueur(idJoueur, joueur);
     this.joueursS.updateJoueurActif({ aJoue: true });
   }
-  
+
+  placementBatiment(carte: Case[][], joueurActif: JoueurActif, joueur: Joueur) {
+    this.updateCarte(carte);
+    this.joueursS.updateJoueur(joueurActif.id, joueur);
+    this.joueursS.updateJoueurActif({ aJoue: true });
+  }
+
   // TODO: Voir par la suite si on peut update qu'une seule case
   updateCarte(carte: Case[][]) {
     this.db.object('/parties/' + this.idPartie + '/carte').update(carte);

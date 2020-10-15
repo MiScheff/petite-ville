@@ -104,24 +104,4 @@ export class PartiesService {
     this.evenementsS.addEvenements(messageEvenement);
   }
 
-  // TODO: A déplacer dans batiment.service
-  placementBatiment(idPartie: string, carte: Case[][], idJoueur: string, joueur: Joueur) {
-    this.cartesS.updateCarte(carte);
-    this.joueursS.updateJoueur(idJoueur, joueur);
-    this.joueursS.updateJoueurActif({ aJoue: true });
-    // this.updat
-  }
-
-  updateBatiments(idPartie: string, listeBatiments: Batiment[], nbChampsBle?: number) {
-    const batiments = { listeBatiments };
-    // tslint:disable-next-line: no-string-literal
-    if (nbChampsBle) { batiments['nbChampsBle'] = nbChampsBle; }
-
-    this.db.object('/parties/' + idPartie + '/batiments').update(batiments);
-
-  }
-
-
-
-
 }

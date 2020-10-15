@@ -4,8 +4,9 @@
 		<div class="case ble" (click)="actionBle(batiments.nbChampsBle - 1)">
 			blé
 		</div>
-		<div *ngFor="let bat of batiments.listeBatiments"
+		<div *ngFor="let bat of batiments?.listeBatiments"
 					class="case float-right"
+					[ngClass]="{ 'vendu': !bat.disponible }"
 					(click)="actionBatiment(bat)">
 			<p>{{ bat.nom }}</p>
 			<p>Cout
