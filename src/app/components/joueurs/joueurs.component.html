@@ -2,7 +2,7 @@
 	<div *ngFor="let joueur of toArray(joueurs)">
 		<h2>{{ joueur.nom }} : {{ joueur.score }} point(s)</h2>
 		<p>
-			pieces : {{ joueur.pieces }}
+			pieces : {{ joueur.ressources.pieces }}
 			ouvriers : {{ joueur.ouvriers }}
 			batiments : {{ joueur.batiments }}
 			ressources =

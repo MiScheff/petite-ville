@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Joueur } from 'src/app/models/joueur';
 import { JoueursService } from 'src/app/services/joueurs.service';
 
@@ -7,8 +8,9 @@ import { JoueursService } from 'src/app/services/joueurs.service';
   templateUrl: './joueurs.component.html',
   styleUrls: ['./joueurs.component.sass']
 })
-export class JoueursComponent implements OnInit {
+export class JoueursComponent implements OnInit, OnDestroy {
   joueurs: Joueur[];
+  joueurs$: Subscription;
 
   constructor(private joueursS: JoueursService) {
   }
@@ -19,7 +21,7 @@ export class JoueursComponent implements OnInit {
     });
   }
 
-  toArray(objet) {
+  toArray(objet): Joueur[] {
     // Transforme l'objet d'objets partie.joueur en tableau d'objets
     const tableau = [];
     const keys = Object.keys(objet);
@@ -28,5 +30,9 @@ export class JoueursComponent implements OnInit {
     });
 
     return tableau;
+  }
+
+  ngOnDestroy(): void {
+    this.joueurs$.unsubscribe();
   }
 }

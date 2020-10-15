@@ -1,36 +1,39 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Batiment } from 'src/app/models/batiment';
-import { Partie } from 'src/app/models/partie';
-import { Joueur } from 'src/app/models/joueur';
-import { BatimentsService } from 'src/app/services/batiments.service';
-import { JoueurActif } from 'src/app/models/joueurActif';
-import { PartiesService } from 'src/app/services/parties.service';
-import { JoueursService } from 'src/app/services/joueurs.service';
 import { InfosBatiments } from 'src/app/models/infosBatiments';
+import { Joueur } from 'src/app/models/joueur';
+import { JoueurActif } from 'src/app/models/joueurActif';
+import { BatimentsService } from 'src/app/services/batiments.service';
+import { JoueursService } from 'src/app/services/joueurs.service';
 
 @Component({
   selector: 'pv-batiments',
   templateUrl: './batiments.component.html',
   styleUrls: ['./batiments.component.sass']
 })
-export class BatimentsComponent implements OnInit {
+export class BatimentsComponent implements OnInit, OnDestroy {
   @Input() monTour;
 
   batiments: InfosBatiments;
   joueurs: Joueur[];
   joueurActif: JoueurActif;
   detailsJoueur: Joueur;
-  
+
   champsBle: Batiment[];
+
+  batiments$: Subscription;
+  joueurs$: Subscription;
+  joueurActif$: Subscription;
 
   constructor(private batimentsS: BatimentsService,
               private joueursS: JoueursService) { }
 
   ngOnInit(): void {
     this.champsBle = this.batimentsS.getChampsBle();
-    this.batimentsS.getBatiments().subscribe(batiments => this.batiments = batiments);
-    this.joueursS.getJoueurs().subscribe(joueurs => this.joueurs = joueurs);
-    this.joueursS.getJoueurActif().subscribe(joueurActif => {
+    this.batiments$ = this.batimentsS.getBatiments().subscribe(batiments => this.batiments = batiments);
+    this.joueurs$ = this.joueursS.getJoueurs().subscribe(joueurs => this.joueurs = joueurs);
+    this.joueurActif$ = this.joueursS.getJoueurActif().subscribe(joueurActif => {
       this.joueurActif = joueurActif;
       this.detailsJoueur = this.joueurs[joueurActif.id];
     });
@@ -51,17 +54,18 @@ export class BatimentsComponent implements OnInit {
     }
   }
 
-  ressourcesSuffisantes(cout: { type, quantite }[] ) {
+  ressourcesSuffisantes(cout: { type, quantite }[] ): boolean {
     let assez = true;
-
     for (let i = 0; i < cout.length && assez; i++) {
       assez = this.joueurs[this.joueurActif.id].ressources[cout[i].type] >= cout[i].quantite;
     }
-
     return assez;
   }
 
-
-
+  ngOnDestroy(): void {
+    this.batiments$.unsubscribe();
+    this.joueurs$.unsubscribe();
+    this.joueurActif$.unsubscribe();
+  }
 
 }

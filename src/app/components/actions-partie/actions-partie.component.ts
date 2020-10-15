@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Joueur } from 'src/app/models/joueur';
 import { JoueurActif } from 'src/app/models/joueurActif';
-import { Partie } from 'src/app/models/partie';
 import { Utilisateur } from 'src/app/models/utilisateur';
 import { EvenementsService } from 'src/app/services/evenements.service';
 import { JoueursService } from 'src/app/services/joueurs.service';
@@ -12,7 +12,7 @@ import { PartiesService } from 'src/app/services/parties.service';
   templateUrl: './actions-partie.component.html',
   styleUrls: ['./actions-partie.component.sass']
 })
-export class ActionsPartieComponent implements OnInit {
+export class ActionsPartieComponent implements OnInit, OnDestroy {
   nbJoueurs: number;
   @Input() user: Utilisateur;
   @Input() etatPartie: string;
@@ -21,14 +21,19 @@ export class ActionsPartieComponent implements OnInit {
   joueurs: Joueur[];
   joueurActif: JoueurActif;
 
-  constructor(private partiesS: PartiesService, private joueursS: JoueursService, private evenementsS: EvenementsService) { }
+  joueurs$: Subscription;
+  joueurActif$: Subscription;
+
+  constructor(private partiesS: PartiesService,
+              private joueursS: JoueursService,
+              private evenementsS: EvenementsService) { }
 
   ngOnInit(): void {
-    this.joueursS.getJoueurs().subscribe(joueurs => {
+    this.joueurs$ = this.joueursS.getJoueurs().subscribe(joueurs => {
       this.joueurs = joueurs;
       this.calcNbJoueurs();
     });
-    this.joueursS.getJoueurActif().subscribe(joueurActif => this.joueurActif = joueurActif);
+    this.joueurActif$ = this.joueursS.getJoueurActif().subscribe(joueurActif => this.joueurActif = joueurActif);
   }
 
   commencer(): void {
@@ -37,7 +42,8 @@ export class ActionsPartieComponent implements OnInit {
     this.partiesS.commencerPartie(Object.keys(this.joueurs), parametres, msg);
   }
 
-  getParametres() { // Définit le nombre d'ouvriers et de bâtiments max pour chaque joueur selon le nombre de joueur
+  // Définit le nombre d'ouvriers et de bâtiments max pour chaque joueur selon le nombre de joueur
+  getParametres() {
     if (this.nbJoueurs > 4) {
       console.error('Erreur : nbJoueur = ', this.nbJoueurs);
       return;
@@ -83,4 +89,10 @@ export class ActionsPartieComponent implements OnInit {
     this.nbJoueurs = listeJoueurs.length;
     console.log(this.nbJoueurs);
   }
+
+  ngOnDestroy() {
+    this.joueurs$.unsubscribe();
+    this.joueurActif$.unsubscribe();
+  }
+
 }

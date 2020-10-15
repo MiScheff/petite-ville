@@ -3,7 +3,6 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { InitService } from './init.service';
-import { PartiesService } from './parties.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +19,10 @@ export class EvenementsService {
     this.db.list('/parties/' + this.idPartie + '/evenements').push(messageEvenement);
   }
 
-  getEvenements() {
+  getEvenements(): Observable<string[]> {
     return this.db.object('/parties/' + this.idPartie + '/evenements').valueChanges().pipe(
       switchMap(evenements => {
-        const tabEvents = []
+        const tabEvents = [];
         Object.keys(evenements).forEach((key) => {
           tabEvents.push(evenements[key]);
         });
@@ -31,4 +30,5 @@ export class EvenementsService {
       })
     );
   }
+
 }

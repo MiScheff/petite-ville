@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Joueur } from 'src/app/models/joueur';
-import { Partie } from 'src/app/models/partie';
 import { Utilisateur } from 'src/app/models/utilisateur';
 import { AuthService } from 'src/app/services/auth.service';
 import { JoueursService } from 'src/app/services/joueurs.service';
-import { PartiesService } from 'src/app/services/parties.service';
 
 @Component({
   selector: 'pv-rejoindre-partie',
@@ -44,4 +42,5 @@ export class RejoindrePartieComponent implements OnInit {
     this.nbJoueurs = listeJoueurs.length;
     console.log(this.nbJoueurs);
   }
+
 }

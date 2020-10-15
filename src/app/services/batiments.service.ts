@@ -3,13 +3,9 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import _ from 'underscore';
 import { Batiment } from '../models/batiment';
-import { Case } from '../models/case';
 import { InfosBatiments } from '../models/infosBatiments';
-import { Joueur } from '../models/joueur';
-import { JoueurActif } from '../models/joueurActif';
 import { champsBle, listeBatiments } from '../models/listeBatiments';
 import { CartesService } from './cartes.service';
-import { EvenementsService } from './evenements.service';
 import { InitService } from './init.service';
 import { JoueursService } from './joueurs.service';
 
@@ -21,37 +17,35 @@ export class BatimentsService {
   idPartie: string;
 
   constructor(private db: AngularFireDatabase,
-              private init: InitService,
-              private joueursS: JoueursService,
-              private cartesS: CartesService) {
+              private init: InitService) {
     this.init.idPartie$.subscribe(idPartie => {
       this.idPartie = idPartie;
     });
   }
 
-  getRandomBatiments() {
+  getRandomBatiments(): Batiment[] {
     return _.sample(listeBatiments, 12);
   }
 
-  getChampsBle() {
+  getChampsBle(): Batiment[] {
     return champsBle;
   }
 
-  getBatiments() {
+  getBatiments(): Observable<InfosBatiments> {
     return this.db.object('/parties/' + this.idPartie + '/batiments').valueChanges() as Observable<InfosBatiments>;
   }
 
-  updateBatiments(listeBats: Batiment[], nbChampsBle: number) {
+  updateBatiments(listeBats: Batiment[], nbChampsBle: number): void {
     const batiments = { listeBatiments: listeBats, nbChampsBle };
 
     this.db.object('/parties/' + this.idPartie + '/batiments').update(batiments);
   }
 
-  updateBatiment(index: number, batiment: Batiment) {
+  updateBatiment(index: number, batiment: Batiment): void {
     this.db.object('/parties/' + this.idPartie + '/batiments/listeBatiments/' + index).update(batiment);
   }
 
-  setBatimentIndisponible(listeBats: Batiment[], batiment: Batiment) {
+  setBatimentIndisponible(listeBats: Batiment[], batiment: Batiment): void {
     const index = _.findIndex(listeBats, { nom: batiment.nom });
     batiment.disponible = false;
 
@@ -60,4 +54,5 @@ export class BatimentsService {
       this.updateBatiment(index, batiment);
     }
   }
+
 }

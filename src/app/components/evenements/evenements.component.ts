@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { EvenementsService } from 'src/app/services/evenements.service';
 
 @Component({
@@ -6,13 +7,18 @@ import { EvenementsService } from 'src/app/services/evenements.service';
   templateUrl: './evenements.component.html',
   styleUrls: ['./evenements.component.sass']
 })
-export class EvenementsComponent implements OnInit {
+export class EvenementsComponent implements OnInit, OnDestroy {
   evenements: string[];
+  evenements$: Subscription;
 
   constructor(private evenementsS: EvenementsService) { }
 
   ngOnInit(): void {
-    this.evenementsS.getEvenements().subscribe(evenements => this.evenements = evenements);
+    this.evenements$ = this.evenementsS.getEvenements().subscribe(evenements => this.evenements = evenements);
+  }
+
+  ngOnDestroy(): void {
+    this.evenements$.unsubscribe();
   }
 
 }

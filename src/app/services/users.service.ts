@@ -13,7 +13,4 @@ export class UsersService {
     this.db.object('/users/' + user.id).update({ nom: user.nom });
   }
 
-  get(userId) {
-    return this.db.object('/users/' + userId).valueChanges();
-  }
 }

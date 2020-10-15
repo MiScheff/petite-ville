@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Joueur } from '../models/joueur';
 import { JoueurActif } from '../models/joueurActif';
 import { EvenementsService } from './evenements.service';
@@ -27,23 +27,23 @@ export class JoueursService {
     this.evenementsS.addEvenements(messageEvenement);
   }
 
-  getJoueurs() {
+  getJoueurs(): Observable<Joueur[]> {
     return this.db.object('/parties/' + this.idPartie + '/joueurs').valueChanges() as Observable<Joueur[]>;
   }
 
-  getJoueurActif() {
+  getJoueurActif(): Observable<JoueurActif> {
     return this.db.object('/parties/' + this.idPartie + '/joueurActif').valueChanges() as Observable<JoueurActif>;
   }
 
-  updateJoueurActif(donnees: Partial<JoueurActif>) {
+  updateJoueurActif(donnees: Partial<JoueurActif>): void {
     this.db.object('/parties/' + this.idPartie + '/joueurActif').update(donnees);
   }
 
-  updateJoueur(idJoueur: string, donnees: Partial<Joueur>) {
+  updateJoueur(idJoueur: string, donnees: Partial<Joueur>): void {
     this.db.object('/parties/' + this.idPartie + '/joueurs/' + idJoueur).update(donnees);
   }
 
-  buyBatiment(idJoueur: string, joueur: Joueur, cout: { type, quantite }[]) {
+  buyBatiment(idJoueur: string, joueur: Joueur, cout: { type, quantite }[]): void {
     joueur.batiments++;
     for (const ressource of cout) {
       joueur.ressources[ressource.type] = joueur.ressources[ressource.type] - ressource.quantite;

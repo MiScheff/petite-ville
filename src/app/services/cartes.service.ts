@@ -7,7 +7,6 @@ import { JoueurActif } from '../models/joueurActif';
 import { EvenementsService } from './evenements.service';
 import { InitService } from './init.service';
 import { JoueursService } from './joueurs.service';
-import { PartiesService } from './parties.service';
 
 @Injectable({
   providedIn: 'root'
@@ -56,21 +55,21 @@ export class CartesService {
     return this.db.object('/parties/' + this.idPartie + '/carte').valueChanges() as Observable<Case[][]>;
   }
 
-  // TODO: A déplacer dans carte.service
-  placementOuvrier(carte: Case[][], idJoueur: string, joueur: Joueur) {
+  placementOuvrier(carte: Case[][], idJoueur: string, joueur: Joueur): void {
     this.updateCarte(carte);
     this.joueursS.updateJoueur(idJoueur, joueur);
     this.joueursS.updateJoueurActif({ aJoue: true });
   }
 
-  placementBatiment(carte: Case[][], joueurActif: JoueurActif, joueur: Joueur) {
+  placementBatiment(carte: Case[][], joueurActif: JoueurActif, joueur: Joueur): void {
     this.updateCarte(carte);
     this.joueursS.updateJoueur(joueurActif.id, joueur);
     this.joueursS.updateJoueurActif({ aJoue: true });
   }
 
   // TODO: Voir par la suite si on peut update qu'une seule case
-  updateCarte(carte: Case[][]) {
+  updateCarte(carte: Case[][]): void {
     this.db.object('/parties/' + this.idPartie + '/carte').update(carte);
   }
+
 }
