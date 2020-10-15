@@ -22,6 +22,7 @@ import { RejoindrePartieComponent } from './components/rejoindre-partie/rejoindr
 import { ActionsPartieComponent } from './components/actions-partie/actions-partie.component';
 import { UsersService } from './services/users.service';
 import { JoueursService } from './services/joueurs.service';
+import { EvenementsComponent } from './components/evenements/evenements.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { JoueursService } from './services/joueurs.service';
     JoueursComponent,
     RejoindrePartieComponent,
     ActionsPartieComponent,
+    EvenementsComponent,
   ],
   imports: [
     BrowserModule,

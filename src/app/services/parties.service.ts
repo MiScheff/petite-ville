@@ -21,18 +21,6 @@ export class PartiesService {
   idPartie: string;
   partie: Partie;
 
-  private carteSrc = new BehaviorSubject(null);
-  carte$ = this.carteSrc.asObservable();
-
-  private batimentsSrc = new BehaviorSubject(null);
-  batiments$ = this.batimentsSrc.asObservable();
-
-  private evenementsSrc = new BehaviorSubject(null);
-  evenements$ = this.evenementsSrc.asObservable();
-
-  private infosPartieSrc = new BehaviorSubject(null);
-  infosPartie$ = this.infosPartieSrc.asObservable();
-
   constructor(private db: AngularFireDatabase,
               private cartesS: CartesService,
               private batimentsS: BatimentsService,
@@ -46,8 +34,6 @@ export class PartiesService {
     });
   }
 
-
-
   async createPartie(idJoueur) {
     const joueur = new Joueur(localStorage.getItem('nomUser'));
     const carte = this.cartesS.initCarte();
@@ -60,10 +46,6 @@ export class PartiesService {
   initPartie(idPartie: string): void {
     this.db.object('/parties/' + idPartie).valueChanges().subscribe((partie: Partie) => {
       this.partie = partie;
-      this.carteSrc.next(partie.carte);
-      this.batimentsSrc.next(partie.batiments);
-      this.evenementsSrc.next(partie.evenements);
-      this.infosPartieSrc.next(partie.infosPartie);
     });
   }
 

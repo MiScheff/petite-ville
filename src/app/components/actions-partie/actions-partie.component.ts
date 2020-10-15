@@ -3,6 +3,7 @@ import { Joueur } from 'src/app/models/joueur';
 import { JoueurActif } from 'src/app/models/joueurActif';
 import { Partie } from 'src/app/models/partie';
 import { Utilisateur } from 'src/app/models/utilisateur';
+import { EvenementsService } from 'src/app/services/evenements.service';
 import { JoueursService } from 'src/app/services/joueurs.service';
 import { PartiesService } from 'src/app/services/parties.service';
 
@@ -20,7 +21,7 @@ export class ActionsPartieComponent implements OnInit {
   joueurs: Joueur[];
   joueurActif: JoueurActif;
 
-  constructor(private partiesS: PartiesService, private joueursS: JoueursService) { }
+  constructor(private partiesS: PartiesService, private joueursS: JoueursService, private evenementsS: EvenementsService) { }
 
   ngOnInit(): void {
     this.joueursS.getJoueurs().subscribe(joueurs => {
@@ -53,6 +54,7 @@ export class ActionsPartieComponent implements OnInit {
 
   finTour() {
     const nextJoueur = this.getNextJoueurActif();
+    this.evenementsS.addEvenements(this.joueurActif.nom + ' a fini son tour.');
     this.joueursS.updateJoueurActif(nextJoueur);
   }
 

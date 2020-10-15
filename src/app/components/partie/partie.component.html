@@ -15,16 +15,9 @@
 			</pv-actions-partie>
 		</ng-template>
 
-		<pv-carte 
-			[monTour]="monTour">
-		</pv-carte>
-		<pv-batiments 
-			[monTour]="monTour">
-		</pv-batiments>
-
-		<div class="evenements">
-			<p *ngFor="let evenement of partie.evenements">{{ evenement }}</p>
-		</div>
+		<pv-carte [monTour]="monTour"></pv-carte>
+		<pv-batiments [monTour]="monTour"></pv-batiments>
+		<pv-evenements></pv-evenements>
 		
 		<pv-joueurs [joueurs]="partie.joueurs"></pv-joueurs>
 
