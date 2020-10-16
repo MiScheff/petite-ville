@@ -5,15 +5,13 @@ const ble: Batiment = {
   nom: 'Champ de blé',
   image: null,
 
-  cout: [{
-    type: 'bois',
-    quantite: 1,
-  }],
+  cout: {
+    bois: 1,
+  },
   entree: null,
-  sortie: [{
-    type: 'ble',
-    quantite: 1,
-  }],
+  sortie: {
+    ble: 1,
+  },
 
   score: 3,
   disponible: true,
@@ -28,18 +26,15 @@ export const listeBatiments: Batiment[] = [
     nom: 'Atelier',
     image: null,
 
-    cout: [{
-      type: 'pierre',
-      quantite: 2,
-    }],
-    entree: [{
-      type: 'bois',
-      quantite: 2,
-    }],
-    sortie: [{
-      type: 'score',
-      quantite: 3,
-    }],
+    cout: {
+      pierre: 2,
+    },
+    entree: {
+      bois: 2,
+    },
+    sortie: {
+      score: 3,
+    },
 
     score: 5,
     disponible: true,
@@ -50,21 +45,14 @@ export const listeBatiments: Batiment[] = [
     nom: 'Bar',
     image: null,
 
-    cout: [
-      {
-        type: 'pierre',
-        quantite: 2,
-      },
-      {
-        type: 'ble',
-        quantite: 2
-      }
-    ],
+    cout: {
+      pierre: 2,
+      ble: 2
+    },
     entree: null,
-    sortie: [{
-      type: 'score',
-      quantite: 3,
-    }],
+    sortie: {
+      score: 3,
+    },
 
     score: 7,
     disponible: true,
@@ -75,20 +63,15 @@ export const listeBatiments: Batiment[] = [
     nom: 'Boulangerie',
     image: null,
 
-    cout: [
-      {
-        type: 'bois',
-        quantite: 2,
-      }
-    ],
-    entree: [{
-      type: 'ble',
-      quantite: 1
-    }],
-    sortie: [{
-      type: 'piece',
-      quantite: 4
-    }],
+    cout: {
+      bois: 2,
+    },
+    entree: {
+      ble: 1
+    },
+    sortie: {
+      piece: 4
+    },
 
     score: 4,
     disponible: true,
@@ -99,12 +82,9 @@ export const listeBatiments: Batiment[] = [
     nom: 'Cathédrale',
     image: null,
 
-    cout: [
-      {
-        type: 'pierre',
-        quantite: 6,
-      }
-    ],
+    cout: {
+      pierre: 6,
+    },
     entree: null,
     sortie: null,
 
@@ -120,23 +100,20 @@ export const listeBatiments: Batiment[] = [
 
 
 
-  
+
   { // Atelier1
     nom: 'Atelier1',
     image: null,
 
-    cout: [{
-      type: 'pierre',
-      quantite: 2,
-    }],
-    entree: [{
-      type: 'bois',
-      quantite: 2,
-    }],
-    sortie: [{
-      type: 'score',
-      quantite: 3,
-    }],
+    cout: {
+      pierre: 2,
+    },
+    entree: {
+      bois: 2,
+    },
+    sortie: {
+      score: 3,
+    },
 
     score: 5,
     disponible: true,
@@ -147,21 +124,14 @@ export const listeBatiments: Batiment[] = [
     nom: 'Bar2',
     image: null,
 
-    cout: [
-      {
-        type: 'pierre',
-        quantite: 2,
-      },
-      {
-        type: 'ble',
-        quantite: 2
-      }
-    ],
+    cout: {
+      pierre: 2,
+      ble: 2
+    },
     entree: null,
-    sortie: [{
-      type: 'score',
-      quantite: 3,
-    }],
+    sortie: {
+      score: 3,
+    },
 
     score: 7,
     disponible: true,
@@ -172,20 +142,15 @@ export const listeBatiments: Batiment[] = [
     nom: 'Boulangerie3',
     image: null,
 
-    cout: [
-      {
-        type: 'bois',
-        quantite: 2,
-      }
-    ],
-    entree: [{
-      type: 'ble',
-      quantite: 1
-    }],
-    sortie: [{
-      type: 'piece',
-      quantite: 4
-    }],
+    cout: {
+      bois: 2,
+    },
+    entree: {
+      ble: 1
+    },
+    sortie: {
+      piece: 4
+    },
 
     score: 4,
     disponible: true,
@@ -196,12 +161,9 @@ export const listeBatiments: Batiment[] = [
     nom: 'Cathédrale4',
     image: null,
 
-    cout: [
-      {
-        type: 'pierre',
-        quantite: 6,
-      }
-    ],
+    cout: {
+      pierre: 6,
+    },
     entree: null,
     sortie: null,
 
@@ -214,18 +176,15 @@ export const listeBatiments: Batiment[] = [
     nom: 'Atelier5',
     image: null,
 
-    cout: [{
-      type: 'pierre',
-      quantite: 2,
-    }],
-    entree: [{
-      type: 'bois',
-      quantite: 2,
-    }],
-    sortie: [{
-      type: 'score',
-      quantite: 3,
-    }],
+    cout: {
+      pierre: 2,
+    },
+    entree: {
+      bois: 2,
+    },
+    sortie: {
+      score: 3,
+    },
 
     score: 5,
     disponible: true,
@@ -236,21 +195,14 @@ export const listeBatiments: Batiment[] = [
     nom: 'Bar6',
     image: null,
 
-    cout: [
-      {
-        type: 'pierre',
-        quantite: 2,
-      },
-      {
-        type: 'ble',
-        quantite: 2
-      }
-    ],
+    cout: {
+      pierre: 2,
+      ble: 2
+    },
     entree: null,
-    sortie: [{
-      type: 'score',
-      quantite: 3,
-    }],
+    sortie: {
+      score: 3,
+    },
 
     score: 7,
     disponible: true,
@@ -261,20 +213,15 @@ export const listeBatiments: Batiment[] = [
     nom: 'Boulangerie7',
     image: null,
 
-    cout: [
-      {
-        type: 'bois',
-        quantite: 2,
-      }
-    ],
-    entree: [{
-      type: 'ble',
-      quantite: 1
-    }],
-    sortie: [{
-      type: 'piece',
-      quantite: 4
-    }],
+    cout: {
+      bois: 2,
+    },
+    entree: {
+      ble: 1
+    },
+    sortie: {
+      piece: 4
+    },
 
     score: 4,
     disponible: true,
@@ -285,12 +232,9 @@ export const listeBatiments: Batiment[] = [
     nom: 'Cathédrale8',
     image: null,
 
-    cout: [
-      {
-        type: 'pierre',
-        quantite: 6,
-      }
-    ],
+    cout: {
+      pierre: 6,
+    },
     entree: null,
     sortie: null,
 
@@ -303,18 +247,15 @@ export const listeBatiments: Batiment[] = [
     nom: 'Atelier9',
     image: null,
 
-    cout: [{
-      type: 'pierre',
-      quantite: 2,
-    }],
-    entree: [{
-      type: 'bois',
-      quantite: 2,
-    }],
-    sortie: [{
-      type: 'score',
-      quantite: 3,
-    }],
+    cout: {
+      pierre: 2,
+    },
+    entree: {
+      bois: 2,
+    },
+    sortie: {
+      score: 3,
+    },
 
     score: 5,
     disponible: true,
@@ -325,21 +266,14 @@ export const listeBatiments: Batiment[] = [
     nom: 'Bar10',
     image: null,
 
-    cout: [
-      {
-        type: 'pierre',
-        quantite: 2,
-      },
-      {
-        type: 'ble',
-        quantite: 2
-      }
-    ],
+    cout: {
+      pierre: 2,
+      ble: 2
+    },
     entree: null,
-    sortie: [{
-      type: 'score',
-      quantite: 3,
-    }],
+    sortie: {
+      score: 3,
+    },
 
     score: 7,
     disponible: true,
@@ -350,20 +284,15 @@ export const listeBatiments: Batiment[] = [
     nom: 'Boulangerie11',
     image: null,
 
-    cout: [
-      {
-        type: 'bois',
-        quantite: 2,
-      }
-    ],
-    entree: [{
-      type: 'ble',
-      quantite: 1
-    }],
-    sortie: [{
-      type: 'piece',
-      quantite: 4
-    }],
+    cout: {
+      bois: 2,
+    },
+    entree: {
+      ble: 1
+    },
+    sortie: {
+      piece: 4
+    },
 
     score: 4,
     disponible: true,
@@ -374,12 +303,9 @@ export const listeBatiments: Batiment[] = [
     nom: 'Cathédrale12',
     image: null,
 
-    cout: [
-      {
-        type: 'pierre',
-        quantite: 6,
-      }
-    ],
+    cout: {
+      pierre: 6,
+    },
     entree: null,
     sortie: null,
 

@@ -1,7 +1,8 @@
 export interface Ressources {
-  pieces: number;
+  piece: number;
   pierre: number;
   bois: number;
   poisson: number;
   ble: number;
+  score: number;
 }

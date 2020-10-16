@@ -1,15 +1,15 @@
 <ng-container *ngIf="joueurs">
-	<div *ngFor="let joueur of toArray(joueurs)">
-		<h2>{{ joueur.nom }} : {{ joueur.score }} point(s)</h2>
+	<div *ngFor="let joueur of joueurs | keyvalue">
+		<h2>{{ joueur.value.nom }} : {{ joueur.value.ressources.score }} point(s)</h2>
 		<p>
-			pieces : {{ joueur.ressources.pieces }}
-			ouvriers : {{ joueur.ouvriers }}
-			batiments : {{ joueur.batiments }}
+			piece : {{ joueur.value.ressources.piece }}
+			ouvriers : {{ joueur.value.ouvriers }}
+			batiments : {{ joueur.value.batiments }}
 			ressources =
-			pierre: {{ joueur.ressources.pierre }}
-			bois: {{ joueur.ressources.bois }}
-			poisson: {{ joueur.ressources.poisson }}
-			ble: {{ joueur.ressources.ble }}
+			pierre: {{ joueur.value.ressources.pierre }}
+			bois: {{ joueur.value.ressources.bois }}
+			poisson: {{ joueur.value.ressources.poisson }}
+			ble: {{ joueur.value.ressources.ble }}
 		</p>
 	</div>
 </ng-container>

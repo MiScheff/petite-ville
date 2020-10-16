@@ -16,20 +16,9 @@ export class JoueursComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.joueursS.getJoueurs().subscribe(joueurs => {
+    this.joueurs$ = this.joueursS.getJoueurs().subscribe(joueurs => {
       this.joueurs = joueurs;
     });
-  }
-
-  toArray(objet): Joueur[] {
-    // Transforme l'objet d'objets partie.joueur en tableau d'objets
-    const tableau = [];
-    const keys = Object.keys(objet);
-    keys.forEach((key) => {
-      tableau.push(objet[key]);
-    });
-
-    return tableau;
   }
 
   ngOnDestroy(): void {

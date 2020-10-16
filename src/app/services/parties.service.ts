@@ -45,11 +45,11 @@ export class PartiesService {
   commencerPartie(idJoueurs: string[], parametres: {nbMaxOuvriers, nbMaxBatiments}, messageEvenement: string): void {
     this.db.object('/parties/' + this.idPartie + '/infosPartie').update({
       dateDebut: Date.now(),
+      nbMaxOuvriers: parametres.nbMaxOuvriers,
       manche: 1
     });
-    this.db.object('/parties/' + this.idPartie + '/batiments').update({
-      nbMaxBatiments: parametres.nbMaxBatiments
-    });
+    this.batimentsS.updateBatiments({nbMaxBatiments: parametres.nbMaxBatiments});
+
     // Pas moyen d'actualiser tous les joueurs d'un coup avec Firebase, donc on fait une requête par
     // joueur à actualiser...
     idJoueurs.forEach(idJoueur => {

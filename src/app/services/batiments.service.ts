@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import _ from 'underscore';
 import { Batiment } from '../models/batiment';
 import { InfosBatiments } from '../models/infosBatiments';
+import { Joueur } from '../models/joueur';
 import { champsBle, listeBatiments } from '../models/listeBatiments';
 import { CartesService } from './cartes.service';
 import { InitService } from './init.service';
@@ -17,7 +18,8 @@ export class BatimentsService {
   idPartie: string;
 
   constructor(private db: AngularFireDatabase,
-              private init: InitService) {
+              private init: InitService,
+              private joueursS: JoueursService) {
     this.init.idPartie$.subscribe(idPartie => {
       this.idPartie = idPartie;
     });
@@ -35,9 +37,7 @@ export class BatimentsService {
     return this.db.object('/parties/' + this.idPartie + '/batiments').valueChanges() as Observable<InfosBatiments>;
   }
 
-  updateBatiments(listeBats: Batiment[], nbChampsBle: number): void {
-    const batiments = { listeBatiments: listeBats, nbChampsBle };
-
+  updateBatiments(batiments: Partial<InfosBatiments>): void {
     this.db.object('/parties/' + this.idPartie + '/batiments').update(batiments);
   }
 

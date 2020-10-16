@@ -8,51 +8,55 @@
 	height: 100px
 	background-color: lightgreen
 	border: 1px solid black
+
 	&.highlight
 		background-color: darken(lightgreen, 10%)
 
-.pierre
-	background-color: lightgrey
-	&::after
-		content: "⛰"
-		font-size: 50px
-		position: absolute
-		top: 44%
-		left: 15%
-		color: initial
+	&.actionnable
+		background-color: ivory
 
-.bois
-	background-color: burlywood
-	&::after
-		content: "🌳"
+	&.pierre
+		background-color: lightgrey
+		&::after
+			content: "⛰"
+			font-size: 50px
+			position: absolute
+			top: 44%
+			left: 15%
+			color: initial
+
+	&.bois
+		background-color: burlywood
+		&::after
+			content: "🌳"
+			font-size: 50px
+			position: absolute
+			top: 48%
+			left: 19%
+			color: initial
+
+	&.poisson
+		background-color: lightblue
+		&::after
+			content: "🐟"
+			font-size: 50px
+			position: absolute
+			top: 47%
+			left: 14%
+			color: initial
+
+	&.ouvrier::after
+		content: "👷"
 		font-size: 50px
 		position: absolute
 		top: 48%
-		left: 19%
+		left: 21%
 		color: initial
 
-.poisson
-	background-color: lightblue
-	&::after
-		content: "🐟"
+	&.batiment::after
+		content: "🏛"
 		font-size: 50px
 		position: absolute
-		top: 47%
-		left: 14%
+		top: 46%
+		left: 15%
 		color: initial
-
-.ouvrier::after
-	content: "👷"
-	font-size: 50px
-	position: absolute
-	top: 48%
-	left: 21%
-	color: initial
-
-.batiment::after
-	content: "🏛"
-	font-size: 50px
-	position: absolute
-	top: 46%
-	left: 15%
-	color: initial

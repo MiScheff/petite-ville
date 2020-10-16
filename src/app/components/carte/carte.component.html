@@ -3,7 +3,10 @@
   <div class="ligne" *ngFor="let ligne of carte">
     <button *ngFor="let case of ligne"
       class="case {{ case.content?.type }}"
-      [ngClass]="{ 'highlight': showTuilesLibres(case) }"
+      [ngClass]="{ 
+        'highlight': showTuilesLibres(case),
+        'actionnable': isActionnable(case)
+      }"
       (click)="actionCase(case)"
       [disabled]="disabledTuile(case)">
     </button>

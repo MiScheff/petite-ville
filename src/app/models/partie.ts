@@ -30,6 +30,7 @@ export class Partie {
     this.evenements.push(joueur.nom + ' a créé la partie.');
     this.infosPartie = {
       manche: 1,
+      nbMaxOuvriers: 0,
       dateDebut: null,
       dateFin: null
     };

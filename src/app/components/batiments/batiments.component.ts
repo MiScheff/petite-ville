@@ -47,19 +47,11 @@ export class BatimentsComponent implements OnInit, OnDestroy {
   actionBatiment(batiment: Batiment): void {
     if (!this.monTour || this.detailsJoueur.batiments >= this.batiments.nbMaxBatiments || !batiment.disponible) { return; }
 
-    if (this.ressourcesSuffisantes(batiment.cout)) {
+    if (this.joueursS.ressourcesSuffisantes(this.detailsJoueur, batiment.cout)) {
       this.joueurActif.batimentChoisi = batiment;
       this.joueursS.updateJoueurActif(this.joueurActif);
       console.log(`Batiment ${batiment.nom} choisi. Cliquer où le placer.`);
     }
-  }
-
-  ressourcesSuffisantes(cout: { type, quantite }[] ): boolean {
-    let assez = true;
-    for (let i = 0; i < cout.length && assez; i++) {
-      assez = this.joueurs[this.joueurActif.id].ressources[cout[i].type] >= cout[i].quantite;
-    }
-    return assez;
   }
 
   ngOnDestroy(): void {

@@ -1,19 +1,12 @@
+import { Ressources } from './ressources';
+
 export interface Batiment {
   nom: string;
   image: string;
 
-  cout: {
-    type: string;
-    quantite: number;
-  }[];
-  entree: {
-    type: string;
-    quantite: number;
-  }[];
-  sortie: {
-    type: string;
-    quantite: number;
-  }[];
+  cout: Partial<Ressources>;
+  entree: Partial<Ressources>;
+  sortie: Partial<Ressources>;
 
   score: number;
   disponible: boolean;

@@ -11,14 +11,46 @@
 	width: 700px
 
 .case
+	position: relative
 	display: inline-block
 	width: 100px
 	height: 100px
-	background-color: grey
+	background-color: lightgrey
 	border: 1px solid black
 
 	&.ble
 		background-color: gold
+		&.epuise
+			background-color: paleGoldenRod
 
 	&.vendu
-		background-color: lightgrey
+		background-color: grey
+
+small
+	position: relative
+	&.pierre::before
+		position: relative
+		content: "⛰"
+		display: inline-block
+	&.bois::before
+		position: relative
+		content: "🌳"
+		display: inline-block
+	&.ble::before
+		position: relative
+		content: "🌽"
+		display: inline-block
+	&.piece::before
+		position: relative
+		content: "💰"
+		display: inline-block
+	&.score::before
+		position: relative
+		content: "⭐"
+		display: inline-block
+
+.conversion
+	position: absolute
+	bottom: 0
+	width: 100%
+	text-align: center

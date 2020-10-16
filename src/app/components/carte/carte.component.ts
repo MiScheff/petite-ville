@@ -29,7 +29,10 @@ export class CarteComponent implements OnInit, OnDestroy {
   joueurActif: JoueurActif;
   detailsJoueur: Joueur;
 
+  batimentsActionnables: string[] = [];
+
   values$: Subscription;
+
 
   constructor(private cartesS: CartesService,
               private partiesS: PartiesService,
@@ -58,28 +61,44 @@ export class CarteComponent implements OnInit, OnDestroy {
     if (!this.monTour) { return; }
 
     if (!this.joueurActif.aJoue && !this.joueurActif.batimentChoisi) {
-      this.placeOuvrier(tuile);
-    } else if (!this.joueurActif.aJoue && this.joueurActif.batimentChoisi) {
-      this.placeBatiment(tuile, this.joueurActif.batimentChoisi);
+      this.placerOuvrier(tuile);
+    }
+    else if (!this.joueurActif.aJoue && this.joueurActif.batimentChoisi) {
+      this.placerBatiment(tuile, this.joueurActif.batimentChoisi);
+    }
+    else if (this.joueurActif.aJoue && this.isActionnable(tuile)) {
+      this.joueursS.actionneBatiment(this.joueurActif.id, tuile.content.batiment, tuile.content.proprietaire, this.joueurs).then(res => {
+        if (res) {
+          this.batimentsActionnables = _.without(this.batimentsActionnables, `${tuile.y},${tuile.x}`);
+        } else {
+          console.log('Vous n\'avez pas assez de ressources.');
+          
+        }
+      });
     }
   }
 
-  placeOuvrier(tuile: Case): void {
+  placerOuvrier(tuile: Case): void {
     if (tuile.content || this.detailsJoueur.ouvriers < 1) { return; }
 
     this.detailsJoueur.ouvriers--;
     // Place l'ouvrier sur la carte
     this.getCase(tuile.x, tuile.y).content = { type: 'ouvrier', proprietaire: this.joueurActif.id };
     // Ajoute les ressources récupérées aux alentours à detailsJours.ressources
-    this.addRessources(this.getRessourcesAdjacentes(tuile.x, tuile.y));
+    this.detailsJoueur.ressources = this.joueursS.updateRessources(
+      this.detailsJoueur.ressources, '+', this.getRessourcesAdjacentes(tuile.x, tuile.y)
+    );
     // Sauvegarde les données en BDD
     this.cartesS.placementOuvrier(this.carte, this.joueurActif.id, this.detailsJoueur);
     this.joueurActif.aJoue = true;
+
+    this.activeBatimentsAdjacents(tuile);
   }
 
-  placeBatiment(tuile: Case, batiment: Batiment): void {
+  placerBatiment(tuile: Case, batiment: Batiment): void {
     if (tuile.content || this.detailsJoueur.batiments >= this.batiments.nbMaxBatiments) { return; }
 
+    this.detailsJoueur.ouvriers--;
     // Place le batiment sur la carte
     this.getCase(tuile.x, tuile.y).content = { type: 'batiment', proprietaire: this.joueurActif.id, batiment};
 
@@ -87,8 +106,21 @@ export class CarteComponent implements OnInit, OnDestroy {
     this.joueursS.buyBatiment(this.joueurActif.id, this.detailsJoueur, batiment.cout);
     this.cartesS.placementBatiment(this.carte, this.joueurActif, this.detailsJoueur);
 
-    this.joueurActif.batimentChoisi = null;
     this.joueurActif.aJoue = true;
+  }
+
+  activeBatimentsAdjacents(tuile: Case) {
+    const casesAdj = this.getCasesAdjacentes(tuile.x, tuile.y);
+    for (const c of casesAdj) {
+      const tx = +c.split(',')[1];
+      const ty = +c.split(',')[0];
+      const t = this.getCase(tx, ty);
+
+      if (t.content?.type === 'batiment' && t.content?.batiment.activable) {
+        console.log(`${tx},${ty} : ${this.carte[ty][tx].content.batiment.nom}`);
+        this.batimentsActionnables.push(`${ty},${tx}`);
+      }
+    }
   }
 
   getCase(x: number, y: number): Case {
@@ -130,11 +162,6 @@ export class CarteComponent implements OnInit, OnDestroy {
     return ressources;
   }
 
-  addRessources(ressources: Partial<Ressources>): void {
-    this.detailsJoueur.ressources.pierre += ressources.pierre;
-    this.detailsJoueur.ressources.bois += ressources.bois;
-    this.detailsJoueur.ressources.poisson += ressources.poisson;
-  }
 
   showTuilesLibres(tuile: Case): boolean {
     return this.monTour && !this.joueurActif.aJoue
@@ -142,8 +169,12 @@ export class CarteComponent implements OnInit, OnDestroy {
           && this.detailsJoueur.ouvriers > 0 && this.infosPartie.dateDebut && !this.infosPartie.dateFin;
   }
 
+  isActionnable(tuile: Case) {
+    return _.contains(this.batimentsActionnables, `${tuile.y},${tuile.x}`);
+  }
+
   disabledTuile(tuile: Case): boolean {
-    return tuile.content || !this.infosPartie.dateDebut || this.infosPartie.dateFin;
+    return (tuile.content || !this.infosPartie.dateDebut || this.infosPartie.dateFin) && !this.isActionnable(tuile);
   }
 
   ngOnDestroy(): void {

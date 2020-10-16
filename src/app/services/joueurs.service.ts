@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
+import { Batiment } from '../models/batiment';
 import { Joueur } from '../models/joueur';
 import { JoueurActif } from '../models/joueurActif';
+import { Ressources } from '../models/ressources';
 import { EvenementsService } from './evenements.service';
 import { InitService } from './init.service';
 
@@ -43,16 +45,13 @@ export class JoueursService {
     this.db.object('/parties/' + this.idPartie + '/joueurs/' + idJoueur).update(donnees);
   }
 
-  buyBatiment(idJoueur: string, joueur: Joueur, cout: { type, quantite }[]): void {
+  buyBatiment(idJoueur: string, joueur: Joueur, cout: Partial<Ressources>): void {
     joueur.batiments++;
-    for (const ressource of cout) {
-      joueur.ressources[ressource.type] = joueur.ressources[ressource.type] - ressource.quantite;
-    }
+    joueur.ressources = this.updateRessources(joueur.ressources, '-', cout);
 
     this.updateJoueur(idJoueur, joueur);
   }
 
-  // TODO: A deplacer dans JoueursService, en tant qu'Observable.
   getNextJoueurActif(joueurs: Joueur[], idJoueurActif: string): JoueurActif {
 
     const tabJoueurs = Object.keys(joueurs);
@@ -72,4 +71,45 @@ export class JoueursService {
     };
   }
 
+  ressourcesSuffisantes(joueur: Joueur, ressources: Partial<Ressources>): boolean {
+    const tabRess = Object.keys(ressources);
+    let assez = true;
+
+    for (let i = 0; i < tabRess.length && assez; i++) {
+      assez = joueur.ressources[tabRess[i]] >= ressources[tabRess[i]] ? true : false;
+    }
+    return assez;
+  }
+
+  updateRessources(ressourcesJoueur: Ressources,  operation: string, ressources: Partial<Ressources>): Ressources {
+    const tabRess = Object.keys(ressources);
+    for (const type of tabRess) {
+      if (operation === '+') { ressourcesJoueur[type] += ressources[type]; }
+      else { ressourcesJoueur[type] -= ressources[type]; }
+    }
+    return ressourcesJoueur;
+  }
+
+
+  actionneBatiment(idJoueur: string, batiment: Batiment, idProprietaire: string, joueurs: Joueur[]): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const cout = batiment.entree || {};
+      const gain = batiment.sortie;
+
+      if (idJoueur !== idProprietaire) {
+        cout.piece = 1;
+        joueurs[idProprietaire].ressources.piece++;
+      }
+
+      if (!this.ressourcesSuffisantes(joueurs[idJoueur], cout)) { resolve(false); return; }
+
+      joueurs[idJoueur].ressources = this.updateRessources(joueurs[idJoueur].ressources, '-', cout);
+      joueurs[idJoueur].ressources = this.updateRessources(joueurs[idJoueur].ressources, '+', gain);
+
+      this.updateJoueur(idJoueur, joueurs[idJoueur]);
+      this.updateJoueur(idProprietaire, joueurs[idProprietaire]);
+
+      resolve(true);
+    });
+  }
 }

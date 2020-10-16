@@ -1,17 +1,28 @@
-<div class="batiments">
+<div class="batiments" *ngIf="batiments">
 	<div class="chantier d-inline-block">Chantier</div>
 	<div class="liste-batiments d-inline-block">
-		<div class="case ble" (click)="actionBle(batiments.nbChampsBle - 1)">
+		<div class="case ble"
+				 [ngClass]="{ 'epuise': batiments.nbChampsBle < 1 }"
+				 (click)="actionBle(batiments.nbChampsBle - 1)">
 			blé
 		</div>
 		<div *ngFor="let bat of batiments?.listeBatiments"
 					class="case float-right"
 					[ngClass]="{ 'vendu': !bat.disponible }"
 					(click)="actionBatiment(bat)">
-			<p>{{ bat.nom }}</p>
-			<p>Cout
-				<small *ngFor="let c of bat.cout">{{ c.quantite }} {{ c.type }} </small>
-			</p>
+			<div>
+				<small *ngFor="let c of bat.cout | keyvalue" class="{{ c.key }} float-left">{{ c.value }}</small>
+				<small class="score float-right">{{ bat.score }}</small>
+				<p class="text-center">{{ bat.nom }}</p>
+				<div class="conversion">
+					<ng-container *ngIf="bat.entree">
+						<small *ngFor="let e of bat.entree | keyvalue " class="{{ e.key }}">{{ e.value }} </small> ➤ 
+					</ng-container>
+					<ng-container *ngIf="bat.sortie">
+						<small *ngFor="let s of bat.sortie | keyvalue " class="{{ s.key }}">{{ s.value }} </small>
+					</ng-container>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
