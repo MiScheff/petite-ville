@@ -9,6 +9,18 @@
       }"
       (click)="actionCase(case)"
       [disabled]="disabledTuile(case)">
+      
+      <ng-container *ngIf="case.content?.batiment as bat">
+        <p class="bat-nom">{{ bat.nom }}</p>
+        <p class="effet">
+          <ng-container *ngIf="bat.entree">
+            <small *ngFor="let e of bat.entree | keyvalue " class="{{ e.key }}">{{ e.value }} </small> ➤ 
+          </ng-container>
+          <ng-container *ngIf="bat.sortie">
+            <small *ngFor="let s of bat.sortie | keyvalue " class="{{ s.key }}">{{ s.value }} </small>
+          </ng-container>
+        </p>
+      </ng-container>
     </button>
   </div>
 <!-- </ng-container> -->
