@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { Batiment } from 'src/app/models/batiment';
 import { InfosBatiments } from 'src/app/models/infosBatiments';
 import { Joueur } from 'src/app/models/joueur';
@@ -22,21 +22,25 @@ export class BatimentsComponent implements OnInit, OnDestroy {
 
   champsBle: Batiment[];
 
-  batiments$: Subscription;
-  joueurs$: Subscription;
-  joueurActif$: Subscription;
+  souscriptions$: Subscription;
 
   constructor(private batimentsS: BatimentsService,
               private joueursS: JoueursService) { }
 
   ngOnInit(): void {
     this.champsBle = this.batimentsS.getChampsBle();
-    this.batiments$ = this.batimentsS.getBatiments().subscribe(batiments => this.batiments = batiments);
-    this.joueurs$ = this.joueursS.getJoueurs().subscribe(joueurs => this.joueurs = joueurs);
-    this.joueurActif$ = this.joueursS.getJoueurActif().subscribe(joueurActif => {
-      this.joueurActif = joueurActif;
-      this.detailsJoueur = this.joueurs[joueurActif.id];
-    });
+
+    this.souscriptions$ = combineLatest([
+      this.batimentsS.getBatiments(),
+      this.joueursS.getJoueurs(),
+      this.joueursS.getJoueurActif()]
+    ).subscribe(([batiments, joueurs, joueurActif]) => {
+        this.batiments = batiments;
+        this.joueurs = joueurs;
+        this.joueurActif = joueurActif;
+        this.detailsJoueur = joueurs[joueurActif.id];
+      }
+    );
   }
 
   actionBle(index: number): void {
@@ -60,9 +64,7 @@ export class BatimentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.batiments$.unsubscribe();
-    this.joueurs$.unsubscribe();
-    this.joueurActif$.unsubscribe();
+    this.souscriptions$.unsubscribe();
   }
 
 }
