@@ -41,6 +41,7 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
+
   { // Bar
     nom: 'Bar',
     image: null,
@@ -59,6 +60,7 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
+
   { // Boulangerie
     nom: 'Boulangerie',
     image: null,
@@ -78,38 +80,16 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // Cathédrale
-    nom: 'Cathédrale',
+
+  { // Brasserie
+    nom: 'Brasserie',
     image: null,
 
     cout: {
-      pierre: 6,
-    },
-    entree: null,
-    sortie: null,
-
-    score: 11,
-    disponible: true,
-    position: null,
-    activable: false
-  },
-
-
-
-
-
-
-
-
-  { // Atelier1
-    nom: 'Atelier1',
-    image: null,
-
-    cout: {
-      pierre: 2,
+      bois: 2,
     },
     entree: {
-      bois: 2,
+      ble: 1,
     },
     sortie: {
       score: 3,
@@ -120,36 +100,39 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // Bar2
-    nom: 'Bar2',
+
+  { // Carrière
+    nom: 'Carrière',
     image: null,
 
     cout: {
-      pierre: 2,
-      ble: 2
+      bois: 3
     },
-    entree: null,
+    entree: {
+      piece: 2
+    },
     sortie: {
-      score: 3,
+      pierre: 2,
     },
 
-    score: 7,
+    score: 5,
     disponible: true,
     position: null,
     activable: true
   },
-  { // Boulangerie3
-    nom: 'Boulangerie3',
+
+  { // Charpentier
+    nom: 'Charpentier',
     image: null,
 
     cout: {
       bois: 2,
     },
     entree: {
-      ble: 1
+      piece: 1
     },
     sortie: {
-      piece: 4
+      bois: 3
     },
 
     score: 4,
@@ -157,30 +140,100 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // Cathédrale4
-    nom: 'Cathédrale4',
+
+  { // Epicerie
+    nom: 'Epicerie',
     image: null,
 
     cout: {
-      pierre: 6,
+      bois: 2,
     },
-    entree: null,
-    sortie: null,
+    entree: {
+      piece: 1
+    },
+    sortie: {
+      ble: 1,
+      poisson: 1
+    },
 
-    score: 11,
+    score: 4,
     disponible: true,
     position: null,
-    activable: false
+    activable: true
   },
-  { // Atelier5
-    nom: 'Atelier5',
+
+  { // Entrepôt
+    nom: 'Entrepôt',
+    image: null,
+
+    cout: {
+      pierre: 4,
+    },
+    entree: {
+      pierre: 2,
+    },
+    sortie: {
+      score: 5,
+    },
+
+    score: 8,
+    disponible: true,
+    position: null,
+    activable: true
+  },
+
+  { // Eglise
+    nom: 'Eglise',
+    image: null,
+
+    cout: {
+      pierre: 4,
+    },
+    entree: {
+      piece: 3,
+    },
+    sortie: {
+      score: 5,
+    },
+
+    score: 8,
+    disponible: true,
+    position: null,
+    activable: true
+  },
+
+  { // Foire
+    nom: 'Foire',
+    image: null,
+
+    cout: {
+      bois: 4,
+    },
+    entree: {
+      pierre: 1,
+      bois: 1,
+      poisson: 1,
+      ble: 1
+    },
+    sortie: {
+      score: 7,
+    },
+
+    score: 6,
+    disponible: true,
+    position: null,
+    activable: true
+  },
+
+  { // Fontaine
+    nom: 'Fontaine',
     image: null,
 
     cout: {
       pierre: 2,
     },
     entree: {
-      bois: 2,
+      piece: 1,
     },
     sortie: {
       score: 3,
@@ -191,36 +244,56 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // Bar6
-    nom: 'Bar6',
+
+  { // Grenier
+    nom: 'Grenier',
     image: null,
 
     cout: {
-      pierre: 2,
-      ble: 2
+      bois: 4,
     },
-    entree: null,
+    entree: {
+      ble: 2,
+    },
     sortie: {
-      score: 3,
+      score: 5,
     },
 
-    score: 7,
+    score: 6,
     disponible: true,
     position: null,
     activable: true
   },
-  { // Boulangerie7
-    nom: 'Boulangerie7',
+
+  { // Librairie
+    nom: 'Librairie',
     image: null,
 
     cout: {
-      bois: 2,
+      pierre: 4,
     },
-    entree: {
-      ble: 1
-    },
+    entree: null,
     sortie: {
-      piece: 4
+      piece: 3,
+    },
+
+    score: 8,
+    disponible: true,
+    position: null,
+    activable: true
+  },
+
+  { // Mine d'or
+    nom: 'Mine d\'or',
+    image: null,
+
+    cout: {
+      pierre: 1,
+      bois: 1
+    },
+    entree: null,
+    sortie: {
+      piece: 2
     },
 
     score: 4,
@@ -228,33 +301,38 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // Cathédrale8
-    nom: 'Cathédrale8',
+
+  { // Poissonnier
+    nom: 'Poissonnier',
     image: null,
 
     cout: {
-      pierre: 6,
-    },
-    entree: null,
-    sortie: null,
-
-    score: 11,
-    disponible: true,
-    position: null,
-    activable: false
-  },
-  { // Atelier9
-    nom: 'Atelier9',
-    image: null,
-
-    cout: {
-      pierre: 2,
+      pierre: 1,
+      bois: 1
     },
     entree: {
-      bois: 2,
+      poisson: 1,
     },
     sortie: {
-      score: 3,
+      piece: 3,
+    },
+
+    score: 4,
+    disponible: true,
+    position: null,
+    activable: true
+  },
+
+  { // Ponton
+    nom: 'Ponton',
+    image: null,
+
+    cout: {
+      bois: 3,
+    },
+    entree: null,
+    sortie: {
+      poisson: 2,
     },
 
     score: 5,
@@ -262,36 +340,18 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // Bar10
-    nom: 'Bar10',
+
+  { // Puit
+    nom: 'Puit',
     image: null,
 
     cout: {
-      pierre: 2,
-      ble: 2
+      pierre: 1,
+      bois: 1
     },
     entree: null,
     sortie: {
-      score: 3,
-    },
-
-    score: 7,
-    disponible: true,
-    position: null,
-    activable: true
-  },
-  { // Boulangerie11
-    nom: 'Boulangerie11',
-    image: null,
-
-    cout: {
-      bois: 2,
-    },
-    entree: {
-      ble: 1
-    },
-    sortie: {
-      piece: 4
+      score: 2,
     },
 
     score: 4,
@@ -299,19 +359,127 @@ export const listeBatiments: Batiment[] = [
     position: null,
     activable: true
   },
-  { // Cathédrale12
-    nom: 'Cathédrale12',
+
+  { // Restaurant
+    nom: 'Restaurant',
     image: null,
 
     cout: {
-      pierre: 6,
+      pierre: 2,
+      bois: 2
+    },
+    entree: {
+      poisson: 1,
+      ble: 1
+    },
+    sortie: {
+      score: 4,
+    },
+
+    score: 7,
+    disponible: true,
+    position: null,
+    activable: true
+  },
+
+  { // Statue
+    nom: 'Statue',
+    image: null,
+
+    cout: {
+      pierre: 4,
     },
     entree: null,
     sortie: null,
 
-    score: 11,
+    score: 10,
     disponible: true,
     position: null,
     activable: false
-  },
+  }
+
+  // { // ------------------------ Prêteur sur gage
+  //   nom: 'Prêteur sur gage',
+  //   image: null,
+
+  //   cout: {
+  //     bois: 3
+  //   },
+  //   entree: {
+  //     bois: 2, // 2 Jokers
+  //   },
+  //   sortie: {
+  //     score: 3, // 2 Jokers
+  //   },
+
+  //   score: 5,
+  //   disponible: true,
+  //   position: null,
+  //   activable: true
+  // },
+
+  // { ------------------------ // Cathédrale
+  //   nom: 'Cathédrale',
+  //   image: null,
+
+  //   cout: {
+  //     pierre: 6,
+  //   },
+  //   entree: null,
+  //   sortie: null,
+
+  //   score: 11,
+  //   disponible: true,
+  //   position: null,
+  //   activable: false
+  // },
+
+  // { ------------------------ // Résidence
+  //   nom: 'Résidence',
+  //   image: null,
+
+  //   cout: {
+  //     piece: 6,
+  //   },
+  //   entree: null,
+  //   sortie: null,
+
+  //   score: 2,
+  //   disponible: true,
+  //   position: null,
+  //   activable: false
+  // },
+
+  // { ------------------------ // Château
+  //   nom: 'Château',
+  //   image: null,
+
+  //   cout: {
+  //     pierre: 6,
+  //   },
+  //   entree: null,
+  //   sortie: null,
+
+  //   score: ?,
+  //   disponible: true,
+  //   position: null,
+  //   activable: false
+  // },
+
+  // { ------------------------ // Tour de garde
+  //   nom: 'Tour de garde',
+  //   image: null,
+
+  //   cout: {
+  //     pierre: 3,
+  //     bois: 3
+  //   },
+  //   entree: null,
+  //   sortie: null,
+
+  //   score: 11,
+  //   disponible: true,
+  //   position: null,
+  //   activable: false
+  // },
 ];
