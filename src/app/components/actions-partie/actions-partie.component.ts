@@ -97,7 +97,7 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
 
   commencerManche(): void {
     // Manche ++, fin manche = false, nextJoueur(), vider les ouvriers de la carte
-    this.partiesS.updateInfosPartie({ 
+    this.partiesS.updateInfosPartie({
       manche: this.infosPartie.manche + 1,
       finManche: false
     });

@@ -102,7 +102,9 @@ export class CarteComponent implements OnInit, OnDestroy {
     // Place le batiment sur la carte
     this.getCase(tuile.x, tuile.y).content = { type: 'batiment', proprietaire: this.joueurActif.id, batiment};
 
-    this.batimentsS.setBatimentIndisponible(this.batiments.listeBatiments, batiment);
+    if (batiment.nom === 'Champ de blé') { this.batimentsS.updateBatiments({ nbChampsBle: this.batiments.nbChampsBle - 1 }); }
+    else { this.batimentsS.setBatimentIndisponible(this.batiments.listeBatiments, batiment); }
+    
     this.joueursS.buyBatiment(this.joueurActif.id, this.detailsJoueur, batiment.cout);
     this.cartesS.placementBatiment(this.carte, this.joueurActif, this.detailsJoueur);
 
