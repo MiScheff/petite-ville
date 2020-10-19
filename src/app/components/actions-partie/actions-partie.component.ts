@@ -27,6 +27,8 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
   detailsJoueur: Joueur;
   infosPartie: InfosPartie;
 
+  gagnant: Joueur;
+
   souscriptions$: Subscription;
 
   constructor(private partiesS: PartiesService,
@@ -47,6 +49,10 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
         this.joueurActif = joueurActif;
         this.detailsJoueur = joueurs[joueurActif.id];
         this.infosPartie = infosPartie;
+
+        if (infosPartie.dateFin) {
+          this.gagnant = this.joueursS.calculVainqueur(joueurs);
+        }
       }
     );
   }
@@ -105,9 +111,14 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
     this.joueurSuivant();
   }
 
-  joueurSuivant() {
+  joueurSuivant(): void {
     const nextJoueur = this.joueursS.getNextJoueurActif(this.joueurs, this.joueurActif.id, this.infosPartie.nbMaxOuvriers);
     this.joueursS.updateJoueurActif(nextJoueur);
+  }
+
+  finPartie(): void {
+    alert('Le vainqueur est ' + this.gagnant.nom + ' avec ' + this.gagnant.ressources.score + ' points.');
+    this.partiesS.updateInfosPartie({ dateFin: new Date() });
   }
 
   ngOnDestroy(): void {

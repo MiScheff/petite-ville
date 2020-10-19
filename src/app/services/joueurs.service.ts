@@ -116,4 +116,17 @@ export class JoueursService {
       resolve(true);
     });
   }
+
+  calculVainqueur(joueurs: Joueur[]): Joueur {
+    const tabIdJoueurs = Object.keys(joueurs);
+    let gagnant: Joueur = joueurs[tabIdJoueurs[0]];
+
+    tabIdJoueurs.forEach(idJoueur => {
+      if (joueurs[idJoueur].ressources.score > gagnant.ressources.score){
+        gagnant = joueurs[idJoueur];
+      }
+    });
+
+    return gagnant;
+  }
 }

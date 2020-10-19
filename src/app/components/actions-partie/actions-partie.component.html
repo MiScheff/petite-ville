@@ -1,6 +1,6 @@
 <ng-container [ngSwitch]="etatPartie" *ngIf="detailsJoueur && joueurActif">
 	<p *ngSwitchCase="'Finie'">
-		Cette partie est terminée.
+		Cette partie est terminée. Le vainqueur est {{ gagnant.nom }} avec {{ gagnant.ressources.score }} points.
 	</p>
 	<div *ngSwitchCase="'Non commencée'">
 			<!-- Si on n'est pas au moins deux -->
@@ -56,10 +56,15 @@
 			</div>
 
 			<!-- Debut de manche - Si je n'ai pas encore joué, que j'ai des ouvriers et qu'on est en fin de manche -->
-			<div *ngIf="!joueurActif?.aJoue && detailsJoueur.ouvriers > 0 && infosPartie.finManche">
+			<div *ngIf="!joueurActif?.aJoue && detailsJoueur.ouvriers > 0 && infosPartie.finManche && infosPartie.manche < 4">
 				Prêt pour la manche suivante ? <button (click)="commencerManche()">Commencer la manche {{ infosPartie.manche + 1 }}</button>
 			</div>
 
+			<!-- Fin de partie  -->
+			<div *ngIf="!joueurActif?.aJoue && detailsJoueur.ouvriers > 0 && infosPartie.finManche && infosPartie.manche == 4">
+				<h3>Fin de la partie</h3>
+				<button (click)="finPartie()">Calculer les scores</button>
+			</div>
 		</ng-template>
 
 		<ng-template #pas_mon_tour>
