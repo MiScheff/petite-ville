@@ -1,4 +1,4 @@
-<p *ngIf="monTour && joueurActif?.batimentChoisi">
+<p *ngIf="monTour && joueurActif?.batimentChoisi && !joueurActif?.aJoue">
 	Vous avez sélectionné le bâtiment {{ joueurActif.batimentChoisi.nom }}. Cliquer sur la case où vous souhaitez le placer.
 	<button (click)="annuleChoixBatiment()">Annuler</button>
 </p>

@@ -124,6 +124,7 @@ export class CarteComponent implements OnInit, OnDestroy {
   }
 
   activeBatimentsAdjacents(tuile: Case) {
+    this.batimentsActionnables = [];
     const casesAdj = this.getCasesAdjacentes(tuile.x, tuile.y);
     for (const c of casesAdj) {
       const tx = +c.split(',')[1];
@@ -185,7 +186,7 @@ export class CarteComponent implements OnInit, OnDestroy {
   }
 
   isActionnable(tuile: Case) {
-    return _.contains(this.batimentsActionnables, `${tuile.y},${tuile.x}`);
+    return _.contains(this.batimentsActionnables, `${tuile.y},${tuile.x}`) && this.monTour;
   }
 
   disabledTuile(tuile: Case): boolean {

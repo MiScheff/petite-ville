@@ -101,7 +101,7 @@ export class JoueursService {
       const gain = batiment.sortie;
 
       if (idJoueur !== idProprietaire) {
-        cout.piece = 1;
+        cout.piece += 1;
         joueurs[idProprietaire].ressources.piece++;
       }
 
