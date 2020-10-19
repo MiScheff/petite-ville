@@ -72,7 +72,6 @@ export class CarteComponent implements OnInit, OnDestroy {
           this.batimentsActionnables = _.without(this.batimentsActionnables, `${tuile.y},${tuile.x}`);
         } else {
           console.log('Vous n\'avez pas assez de ressources.');
-          
         }
       });
     }
@@ -83,7 +82,12 @@ export class CarteComponent implements OnInit, OnDestroy {
 
     this.detailsJoueur.ouvriers--;
     // Place l'ouvrier sur la carte
-    this.getCase(tuile.x, tuile.y).content = { type: 'ouvrier', proprietaire: this.joueurActif.id };
+    this.getCase(tuile.x, tuile.y).content = {
+      type: 'ouvrier',
+      proprietaire: this.joueurActif.id,
+      indexJ: 'J' + this.joueursS.getIndexJoueur(this.joueurActif.id, this.joueurs)
+    };
+
     // Ajoute les ressources récupérées aux alentours à detailsJours.ressources
     this.detailsJoueur.ressources = this.joueursS.updateRessources(
       this.detailsJoueur.ressources, '+', this.getRessourcesAdjacentes(tuile.x, tuile.y)
@@ -100,11 +104,16 @@ export class CarteComponent implements OnInit, OnDestroy {
 
     this.detailsJoueur.ouvriers--;
     // Place le batiment sur la carte
-    this.getCase(tuile.x, tuile.y).content = { type: 'batiment', proprietaire: this.joueurActif.id, batiment};
+    this.getCase(tuile.x, tuile.y).content = {
+      type: 'batiment',
+      proprietaire: this.joueurActif.id,
+      batiment,
+      indexJ: 'J' + this.joueursS.getIndexJoueur(this.joueurActif.id, this.joueurs)
+    };
 
     if (batiment.nom === 'Champ de blé') { this.batimentsS.updateBatiments({ nbChampsBle: this.batiments.nbChampsBle - 1 }); }
     else { this.batimentsS.setBatimentIndisponible(this.batiments.listeBatiments, batiment); }
-    
+
     this.joueursS.buyBatiment(this.joueurActif.id, this.detailsJoueur, batiment.cout);
     this.cartesS.placementBatiment(this.carte, this.joueurActif, this.detailsJoueur);
 

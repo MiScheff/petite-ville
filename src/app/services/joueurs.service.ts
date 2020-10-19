@@ -72,6 +72,10 @@ export class JoueursService {
     };
   }
 
+  getIndexJoueur(idJoueur: string, joueurs: Joueur[]) {
+    return Object.keys(joueurs).indexOf(idJoueur);
+  }
+
   ressourcesSuffisantes(joueur: Joueur, ressources: Partial<Ressources>): boolean {
     const tabRess = Object.keys(ressources);
     let assez = true;
@@ -90,7 +94,6 @@ export class JoueursService {
     }
     return ressourcesJoueur;
   }
-
 
   actionneBatiment(idJoueur: string, batiment: Batiment, idProprietaire: string, joueurs: Joueur[]): Promise<boolean> {
     return new Promise((resolve, reject) => {
