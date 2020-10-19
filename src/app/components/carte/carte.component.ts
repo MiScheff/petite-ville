@@ -177,7 +177,8 @@ export class CarteComponent implements OnInit, OnDestroy {
   showTuilesLibres(tuile: Case): boolean {
     return this.monTour && !this.joueurActif.aJoue
           && !tuile.content
-          && this.detailsJoueur.ouvriers > 0 && this.infosPartie.dateDebut && !this.infosPartie.dateFin;
+          && this.detailsJoueur.ouvriers > 0
+          && this.infosPartie.dateDebut && !this.infosPartie.dateFin && !this.infosPartie.finManche;
   }
 
   isActionnable(tuile: Case) {
@@ -185,7 +186,8 @@ export class CarteComponent implements OnInit, OnDestroy {
   }
 
   disabledTuile(tuile: Case): boolean {
-    return (tuile.content || !this.infosPartie.dateDebut || this.infosPartie.dateFin) && !this.isActionnable(tuile);
+    return (tuile.content || !this.infosPartie.dateDebut || this.infosPartie.dateFin || this.infosPartie.finManche)
+          && !this.isActionnable(tuile);
   }
 
   ngOnDestroy(): void {

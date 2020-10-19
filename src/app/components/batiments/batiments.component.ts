@@ -54,6 +54,11 @@ export class BatimentsComponent implements OnInit, OnDestroy {
     }
   }
 
+  annuleChoixBatiment() {
+    this.joueurActif.batimentChoisi = null;
+    this.joueursS.updateJoueurActif(this.joueurActif);
+  }
+
   ngOnDestroy(): void {
     this.batiments$.unsubscribe();
     this.joueurs$.unsubscribe();

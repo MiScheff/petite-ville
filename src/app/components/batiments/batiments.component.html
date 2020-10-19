@@ -1,3 +1,7 @@
+<p *ngIf="monTour && joueurActif?.batimentChoisi">
+	Vous avez sélectionné le bâtiment {{ joueurActif.batimentChoisi.nom }}. Cliquer sur la case où vous souhaitez le placer.
+	<button (click)="annuleChoixBatiment()">Annuler</button>
+</p>
 <div class="batiments" *ngIf="batiments">
 	<div class="chantier d-inline-block">Chantier</div>
 	<div class="liste-batiments d-inline-block">
