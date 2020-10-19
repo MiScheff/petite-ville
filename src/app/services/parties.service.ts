@@ -42,6 +42,10 @@ export class PartiesService {
     return this.db.object('/parties/' + this.idPartie + '/infosPartie').valueChanges() as Observable<InfosPartie>;
   }
 
+  updateInfosPartie(infosPartie: Partial<InfosPartie>): void {
+    this.db.object('/parties/' + this.idPartie + '/infosPartie').update(infosPartie);
+  }
+
   commencerPartie(idJoueurs: string[], parametres: {nbMaxOuvriers, nbMaxBatiments}, messageEvenement: string): void {
     this.db.object('/parties/' + this.idPartie + '/infosPartie').update({
       dateDebut: Date.now(),

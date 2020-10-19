@@ -24,12 +24,14 @@ export class Partie {
       id: idCreateur,
       nom: joueur.nom,
       aJoue: false,
-      batimentChoisi: null
+      batimentChoisi: null,
+      ouvriersANourrir: 0
     };
     this.joueurs[idCreateur] = joueur;
     this.evenements.push(joueur.nom + ' a créé la partie.');
     this.infosPartie = {
       manche: 1,
+      finManche: false,
       nbMaxOuvriers: 0,
       dateDebut: null,
       dateFin: null

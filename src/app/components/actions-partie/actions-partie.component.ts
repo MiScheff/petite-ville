@@ -1,8 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
+import { Case } from 'src/app/models/case';
+import { InfosPartie } from 'src/app/models/infosPartie';
 import { Joueur } from 'src/app/models/joueur';
 import { JoueurActif } from 'src/app/models/joueurActif';
 import { Utilisateur } from 'src/app/models/utilisateur';
+import { CartesService } from 'src/app/services/cartes.service';
 import { EvenementsService } from 'src/app/services/evenements.service';
 import { JoueursService } from 'src/app/services/joueurs.service';
 import { PartiesService } from 'src/app/services/parties.service';
@@ -18,25 +21,37 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
   @Input() etatPartie: string;
   @Input() monTour: boolean;
 
+  carte: Case[][];
   joueurs: Joueur[];
   joueurActif: JoueurActif;
+  detailsJoueur: Joueur;
+  infosPartie: InfosPartie;
 
-  joueurs$: Subscription;
-  joueurActif$: Subscription;
+  souscriptions$: Subscription;
 
   constructor(private partiesS: PartiesService,
               private joueursS: JoueursService,
+              private cartesS: CartesService,
               private evenementsS: EvenementsService) { }
 
   ngOnInit(): void {
-    this.joueurs$ = this.joueursS.getJoueurs().subscribe(joueurs => {
-      this.joueurs = joueurs;
-      this.nbJoueurs = Object.keys(joueurs).length;
-    });
-    this.joueurActif$ = this.joueursS.getJoueurActif().subscribe(joueurActif => this.joueurActif = joueurActif);
+    this.souscriptions$ = combineLatest([
+      this.cartesS.getCarte(),
+      this.joueursS.getJoueurs(),
+      this.joueursS.getJoueurActif(),
+      this.partiesS.getInfosPartie()]
+    ).subscribe(([carte, joueurs, joueurActif, infosPartie]) => {
+        this.carte = carte;
+        this.joueurs = joueurs;
+        this.nbJoueurs = Object.keys(joueurs).length;
+        this.joueurActif = joueurActif;
+        this.detailsJoueur = joueurs[joueurActif.id];
+        this.infosPartie = infosPartie;
+      }
+    );
   }
 
-  commencer(): void {
+  commencerPartie(): void {
     const parametres = this.getParametres();
     const msg = this.user.nom + ' a lancé la partie.';
     this.partiesS.commencerPartie(Object.keys(this.joueurs), parametres, msg);
@@ -59,14 +74,44 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
   }
 
   finTour(): void {
-    const nextJoueur = this.joueursS.getNextJoueurActif(this.joueurs, this.joueurActif.id);
     this.evenementsS.addEvenements(this.joueurActif.nom + ' a fini son tour.');
+    this.joueurSuivant();
+  }
+
+  nourrirOuvrier(type: string): void {
+    if (type === 'poisson' || type === 'ble') {
+      this.detailsJoueur.ressources[type]--;
+    } else {
+      this.detailsJoueur.ressources[type] -= 3;
+    }
+    this.joueurActif.ouvriersANourrir--;
+    this.joueursS.updateJoueur(this.joueurActif.id, this.detailsJoueur);
+    this.joueursS.updateJoueurActif({ ouvriersANourrir: this.joueurActif.ouvriersANourrir});
+  }
+
+  finManche(): void {
+    this.partiesS.updateInfosPartie({ finManche: true });
+    this.joueursS.updateJoueur(this.joueurActif.id, { ouvriers: this.infosPartie.nbMaxOuvriers });
+    this.joueurSuivant();
+  }
+
+  commencerManche(): void {
+    // Manche ++, fin manche = false, nextJoueur(), vider les ouvriers de la carte
+    this.partiesS.updateInfosPartie({ 
+      manche: this.infosPartie.manche + 1,
+      finManche: false
+    });
+    this.cartesS.videOuvriers(this.carte);
+    this.joueurSuivant();
+  }
+
+  joueurSuivant() {
+    const nextJoueur = this.joueursS.getNextJoueurActif(this.joueurs, this.joueurActif.id, this.infosPartie.nbMaxOuvriers);
     this.joueursS.updateJoueurActif(nextJoueur);
   }
 
   ngOnDestroy(): void {
-    this.joueurs$.unsubscribe();
-    this.joueurActif$.unsubscribe();
+    this.souscriptions$.unsubscribe();
   }
 
 }

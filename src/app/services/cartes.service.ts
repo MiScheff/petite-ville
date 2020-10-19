@@ -72,4 +72,16 @@ export class CartesService {
     this.db.object('/parties/' + this.idPartie + '/carte').update(carte);
   }
 
+  videOuvriers(carte: Case[][]) {
+    for (let y = 0; y < 6; y++) {
+      for (let x = 0; x < 9; x++) {
+        if (carte[y][x].content?.type === 'ouvrier') {
+          carte[y][x].content = null;
+        }
+      }
+    }
+
+    this.updateCarte(carte);
+  }
+
 }

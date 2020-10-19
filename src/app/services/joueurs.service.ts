@@ -52,7 +52,7 @@ export class JoueursService {
     this.updateJoueur(idJoueur, joueur);
   }
 
-  getNextJoueurActif(joueurs: Joueur[], idJoueurActif: string): JoueurActif {
+  getNextJoueurActif(joueurs: Joueur[], idJoueurActif: string, ouvriersANourrir: number): JoueurActif {
 
     const tabJoueurs = Object.keys(joueurs);
     const currentIndex = tabJoueurs.indexOf(idJoueurActif);
@@ -67,7 +67,8 @@ export class JoueursService {
       id: nextId,
       nom: joueurs[nextId].nom,
       aJoue: false,
-      batimentChoisi: null
+      batimentChoisi: null,
+      ouvriersANourrir
     };
   }
 

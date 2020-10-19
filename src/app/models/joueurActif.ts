@@ -5,4 +5,5 @@ export interface JoueurActif {
   nom: string;
   aJoue: boolean;
   batimentChoisi: Batiment;
+  ouvriersANourrir: number;
 }

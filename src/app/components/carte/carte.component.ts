@@ -31,7 +31,7 @@ export class CarteComponent implements OnInit, OnDestroy {
 
   batimentsActionnables: string[] = [];
 
-  values$: Subscription;
+  souscriptions$: Subscription;
 
 
   constructor(private cartesS: CartesService,
@@ -40,7 +40,7 @@ export class CarteComponent implements OnInit, OnDestroy {
               private batimentsS: BatimentsService) { }
 
   ngOnInit(): void {
-    this.values$ = combineLatest([
+    this.souscriptions$ = combineLatest([
       this.partiesS.getInfosPartie(),
       this.cartesS.getCarte(),
       this.batimentsS.getBatiments(),
@@ -178,6 +178,6 @@ export class CarteComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.values$.unsubscribe();
+    this.souscriptions$.unsubscribe();
   }
 }
