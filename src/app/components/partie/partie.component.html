@@ -1,5 +1,6 @@
 <div style="width: 900px;" class="m-auto">
 	<ng-container *ngIf="infosPartie && joueurs">
+		<pv-joueurs [monTour]="monTour"></pv-joueurs>
 
 		<div *ngIf="!participe(); else actions">
 			<pv-rejoindre-partie
@@ -18,7 +19,6 @@
 		<pv-carte [monTour]="monTour"></pv-carte>
 		<pv-batiments [monTour]="monTour"></pv-batiments>
 		<pv-evenements></pv-evenements>
-		<pv-joueurs [monTour]="monTour"></pv-joueurs>
 
 	</ng-container>
 </div>
