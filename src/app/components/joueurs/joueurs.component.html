@@ -11,7 +11,7 @@
 			{{ joueur.value.ressources.poisson }} 🐟
 			{{ joueur.value.ressources.ble }} 🌽
 		</p>
-		<p *ngIf="monTour && joueur.key == joueurActif.id && detailsJoueur.ressources.piece >= 3">
+		<p *ngIf="peutAcheterRessources(joueur.key)">
 			<button (click)="acheterRessource('pierre')">Acheter 1 pierre</button>
 			<button (click)="acheterRessource('bois')">Acheter 1 bois</button>
 			<button (click)="acheterRessource('poisson')">Acheter 1 poisson</button>

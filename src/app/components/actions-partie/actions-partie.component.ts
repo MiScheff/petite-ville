@@ -51,7 +51,7 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
         this.infosPartie = infosPartie;
 
         if (infosPartie.dateFin) {
-          this.gagnant = this.joueursS.calculVainqueur(joueurs);
+          this.gagnant = this.joueursS.calculVainqueur();
         }
       }
     );
@@ -112,7 +112,7 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
   }
 
   joueurSuivant(): void {
-    const nextJoueur = this.joueursS.getNextJoueurActif(this.joueurs, this.joueurActif.id, this.infosPartie.nbMaxOuvriers);
+    const nextJoueur = this.joueursS.getNextJoueurActif(this.joueurActif.id, this.infosPartie.nbMaxOuvriers);
     this.joueursS.updateJoueurActif(nextJoueur);
   }
 

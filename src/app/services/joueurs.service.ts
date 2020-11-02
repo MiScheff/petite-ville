@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Batiment } from '../models/batiment';
 import { Joueur } from '../models/joueur';
 import { JoueurActif } from '../models/joueurActif';
@@ -13,14 +13,17 @@ import { InitService } from './init.service';
 })
 export class JoueursService {
   idPartie: string;
+  private joueurs$: BehaviorSubject<Joueur[]> = new BehaviorSubject([]);
+  private joueurActif$: BehaviorSubject<JoueurActif> = new BehaviorSubject({
+    id: '', nom: '', aJoue: false, batimentChoisi: null, ouvriersANourrir: 0
+  });
 
   constructor(private db: AngularFireDatabase,
               private init: InitService,
               private evenementsS: EvenementsService) {
     this.init.idPartie$.subscribe(idPartie => {
       this.idPartie = idPartie;
-      this.getJoueurs();
-      this.getJoueurActif();
+      this.initDonneesJoueurs();
     });
   }
 
@@ -29,12 +32,20 @@ export class JoueursService {
     this.evenementsS.addEvenements(messageEvenement);
   }
 
+  initDonneesJoueurs() {
+    this.db.object('/parties/' + this.idPartie + '/joueurs').valueChanges()
+      .subscribe((joueurs: Joueur[]) => { this.joueurs$.next(joueurs); });
+
+    this.db.object('/parties/' + this.idPartie + '/joueurActif').valueChanges()
+      .subscribe((joueurActif: JoueurActif) => { this.joueurActif$.next(joueurActif); });
+  }
+
   getJoueurs(): Observable<Joueur[]> {
-    return this.db.object('/parties/' + this.idPartie + '/joueurs').valueChanges() as Observable<Joueur[]>;
+    return this.joueurs$.asObservable();
   }
 
   getJoueurActif(): Observable<JoueurActif> {
-    return this.db.object('/parties/' + this.idPartie + '/joueurActif').valueChanges() as Observable<JoueurActif>;
+    return this.joueurActif$.asObservable();
   }
 
   updateJoueurActif(donnees: Partial<JoueurActif>): void {
@@ -52,8 +63,8 @@ export class JoueursService {
     this.updateJoueur(idJoueur, joueur);
   }
 
-  getNextJoueurActif(joueurs: Joueur[], idJoueurActif: string, ouvriersANourrir: number): JoueurActif {
-
+  getNextJoueurActif(idJoueurActif: string, ouvriersANourrir: number): JoueurActif {
+    const joueurs = this.joueurs$.getValue();
     const tabJoueurs = Object.keys(joueurs);
     const currentIndex = tabJoueurs.indexOf(idJoueurActif);
 
@@ -72,16 +83,20 @@ export class JoueursService {
     };
   }
 
-  getIndexJoueur(idJoueur: string, joueurs: Joueur[]) {
+  getIndexJoueur(idJoueur: string) {
+    const joueurs = this.joueurs$.getValue();
     return Object.keys(joueurs).indexOf(idJoueur);
   }
 
   ressourcesSuffisantes(joueur: Joueur, ressources: Partial<Ressources>): boolean {
     const tabRess = Object.keys(ressources);
     let assez = true;
+    console.log(tabRess);
+    console.log(ressources);
 
     for (let i = 0; i < tabRess.length && assez; i++) {
       assez = joueur.ressources[tabRess[i]] >= ressources[tabRess[i]] ? true : false;
+      console.log(tabRess[i], ' : ', joueur.ressources[tabRess[i]], ' > ', ressources[tabRess[i]]);
     }
     return assez;
   }
@@ -95,18 +110,18 @@ export class JoueursService {
     return ressourcesJoueur;
   }
 
-  actionneBatiment(idJoueur: string, batiment: Batiment, idProprietaire: string, joueurs: Joueur[]): Promise<boolean> {
-    return new Promise((resolve, reject) => {
+  actionneBatiment(idJoueur: string, batiment: Batiment, idProprietaire: string): Promise<boolean> {
+    const joueurs = this.joueurs$.getValue();
+    return new Promise((resolve) => {
       const cout = batiment.entree || {};
+      if (!cout.piece) { cout.piece = 0; }
       const gain = batiment.sortie;
 
-      if (idJoueur !== idProprietaire) {
-        cout.piece += 1;
-        joueurs[idProprietaire].ressources.piece++;
-      }
+      if (idJoueur !== idProprietaire) { cout.piece += 1; }
 
       if (!this.ressourcesSuffisantes(joueurs[idJoueur], cout)) { resolve(false); return; }
 
+      if (idJoueur !== idProprietaire) { joueurs[idProprietaire].ressources.piece++; }
       joueurs[idJoueur].ressources = this.updateRessources(joueurs[idJoueur].ressources, '-', cout);
       joueurs[idJoueur].ressources = this.updateRessources(joueurs[idJoueur].ressources, '+', gain);
 
@@ -117,7 +132,8 @@ export class JoueursService {
     });
   }
 
-  calculVainqueur(joueurs: Joueur[]): Joueur {
+  calculVainqueur(): Joueur {
+    const joueurs = this.joueurs$.getValue();
     const tabIdJoueurs = Object.keys(joueurs);
     let gagnant: Joueur = joueurs[tabIdJoueurs[0]];
 

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { InfosPartie } from 'src/app/models/infosPartie';
 import { Joueur } from 'src/app/models/joueur';
 import { Utilisateur } from 'src/app/models/utilisateur';
@@ -23,10 +23,7 @@ export class PartieComponent implements OnInit, OnDestroy {
 
   monTour = false;
 
-  infosPartie$: Subscription;
-  joueurs$: Subscription;
-  joueurActif$: Subscription;
-  user$: Subscription;
+  subscriptions$: Subscription;
 
   constructor(private route: ActivatedRoute,
               private partiesS: PartiesService,
@@ -34,14 +31,19 @@ export class PartieComponent implements OnInit, OnDestroy {
               private authS: AuthService,
               private initS: InitService) {
     this.idPartie = this.route.snapshot.paramMap.get('id');
-    this.user$ = this.authS.user.subscribe((user: Utilisateur) => this.user = user);
     this.initS.init(this.idPartie);
   }
 
   ngOnInit(): void {
-    this.infosPartie$ = this.partiesS.getInfosPartie().subscribe(infosPartie => this.infosPartie = infosPartie);
-    this.joueurs$ = this.joueursS.getJoueurs().subscribe(joueurs => this.joueurs = joueurs);
-    this.joueurActif$ = this.joueursS.getJoueurActif().subscribe(joueurActif => {
+    this.subscriptions$ = combineLatest([
+      this.authS.user,
+      this.partiesS.getInfosPartie(),
+      this.joueursS.getJoueurs(),
+      this.joueursS.getJoueurActif()
+    ]).subscribe(([user, infosPartie, joueurs, joueurActif]) => {
+      this.user = user;
+      this.infosPartie = infosPartie;
+      this.joueurs = joueurs;
       this.monTour = this.user.id === joueurActif.id ? true : false;
     });
   }
@@ -60,10 +62,7 @@ export class PartieComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.infosPartie$.unsubscribe();
-    this.joueurs$.unsubscribe();
-    this.joueurActif$.unsubscribe();
-    this.user$.unsubscribe();
+    this.subscriptions$.unsubscribe();
   }
 
 }

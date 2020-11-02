@@ -67,7 +67,8 @@ export class CarteComponent implements OnInit, OnDestroy {
       this.placerBatiment(tuile, this.joueurActif.batimentChoisi);
     }
     else if (this.joueurActif.aJoue && this.isActionnable(tuile)) {
-      this.joueursS.actionneBatiment(this.joueurActif.id, tuile.content.batiment, tuile.content.proprietaire, this.joueurs).then(res => {
+      this.joueursS.actionneBatiment(this.joueurActif.id, tuile.content.batiment, tuile.content.proprietaire)
+      .then(res => {
         if (res) {
           this.batimentsActionnables = _.without(this.batimentsActionnables, `${tuile.y},${tuile.x}`);
         } else {
@@ -85,7 +86,7 @@ export class CarteComponent implements OnInit, OnDestroy {
     this.getCase(tuile.x, tuile.y).content = {
       type: 'ouvrier',
       proprietaire: this.joueurActif.id,
-      indexJ: 'J' + this.joueursS.getIndexJoueur(this.joueurActif.id, this.joueurs)
+      indexJ: 'J' + this.joueursS.getIndexJoueur(this.joueurActif.id)
     };
 
     // Ajoute les ressources récupérées aux alentours à detailsJours.ressources
@@ -108,7 +109,7 @@ export class CarteComponent implements OnInit, OnDestroy {
       type: 'batiment',
       proprietaire: this.joueurActif.id,
       batiment,
-      indexJ: 'J' + this.joueursS.getIndexJoueur(this.joueurActif.id, this.joueurs)
+      indexJ: 'J' + this.joueursS.getIndexJoueur(this.joueurActif.id)
     };
 
     this.detailsJoueur.ressources.score += batiment.score;
