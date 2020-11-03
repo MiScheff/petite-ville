@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Batiment } from 'src/app/models/batiment';
 import { Case } from 'src/app/models/case';
 import { InfosBatiments } from 'src/app/models/infosBatiments';

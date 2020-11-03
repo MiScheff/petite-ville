@@ -4,11 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import _ from 'underscore';
 import { Batiment } from '../models/batiment';
 import { InfosBatiments } from '../models/infosBatiments';
-import { Joueur } from '../models/joueur';
 import { champsBle, listeBatiments } from '../models/listeBatiments';
-import { CartesService } from './cartes.service';
 import { InitService } from './init.service';
-import { JoueursService } from './joueurs.service';
 
 
 @Injectable({
@@ -19,8 +16,7 @@ export class BatimentsService {
   batiments$: BehaviorSubject<InfosBatiments> = new BehaviorSubject(null);
 
   constructor(private db: AngularFireDatabase,
-              private init: InitService,
-              private joueursS: JoueursService) {
+              private init: InitService) {
     this.init.idPartie$.subscribe(idPartie => {
       this.idPartie = idPartie;
       this.initBatiments();
