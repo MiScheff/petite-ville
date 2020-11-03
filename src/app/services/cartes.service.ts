@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Case } from '../models/case';
 import { Joueur } from '../models/joueur';
 import { JoueurActif } from '../models/joueurActif';
@@ -14,7 +14,8 @@ import { JoueursService } from './joueurs.service';
 export class CartesService {
   idPartie: string;
 
-  private carte = []; // La carte fait 6 cases de haut (y) et 9 cases de large (x)
+  // La carte fait 6 cases de haut (y) et 9 cases de large (x)
+  private carte$: BehaviorSubject<Case[][]> = new BehaviorSubject([]);
 
   constructor(private db: AngularFireDatabase,
               private init: InitService,
@@ -22,18 +23,20 @@ export class CartesService {
               private evenementsS: EvenementsService) {
     this.init.idPartie$.subscribe(idPartie => {
       this.idPartie = idPartie;
+      this.initCarte();
     });
   }
 
-  initCarte() {
+  createCarte() {
     // TODO: stocker ces tableaux en BDD
     // tous les tableaux sont de type array[y][x];
+    const carte = [];
     const casesPierre = ['0,0', '0,3', '0,7', '0,8'];
     const casesBois = ['0,2', '3,0', '4,6', '5,1', '5,2', '5,8'];
     const casesPoisson = ['0,5', '2,0', '3,8', '5,4', '5,5'];
 
     for (let y = 0; y < 6; y++) {
-      this.carte[y] = [];
+      carte[y] = [];
       for (let x = 0; x < 9; x++) {
         const currentCase = { x, y, content: null };
         if (casesPierre.indexOf(y + ',' + x) !== -1) {
@@ -44,35 +47,42 @@ export class CartesService {
           currentCase.content = { type: 'poisson'};
         }
 
-        this.carte[y][x] = currentCase;
+        carte[y][x] = currentCase;
       }
     }
+    this.carte$.next(carte);
+    return carte;
+  }
 
-    return this.carte;
+  initCarte(): void {
+    this.db.object('/parties/' + this.idPartie + '/carte').valueChanges()
+      .subscribe((carte: Case[][]) => { this.carte$.next(carte); });
   }
 
   getCarte(): Observable<Case[][]> {
-    return this.db.object('/parties/' + this.idPartie + '/carte').valueChanges() as Observable<Case[][]>;
+    return this.carte$.asObservable();
   }
 
-  placementOuvrier(carte: Case[][], idJoueur: string, joueur: Joueur): void {
-    this.updateCarte(carte);
+  placementOuvrier(idJoueur: string, joueur: Joueur): void {
+    this.updateCarte();
     this.joueursS.updateJoueur(idJoueur, joueur);
     this.joueursS.updateJoueurActif({ aJoue: true });
   }
 
-  placementBatiment(carte: Case[][], joueurActif: JoueurActif, joueur: Joueur): void {
-    this.updateCarte(carte);
+  placementBatiment(joueurActif: JoueurActif, joueur: Joueur): void {
+    this.updateCarte();
     this.joueursS.updateJoueur(joueurActif.id, joueur);
     this.joueursS.updateJoueurActif({ aJoue: true });
   }
 
   // TODO: Voir par la suite si on peut update qu'une seule case
-  updateCarte(carte: Case[][]): void {
-    this.db.object('/parties/' + this.idPartie + '/carte').update(carte);
+  updateCarte(): void {
+    this.db.object('/parties/' + this.idPartie + '/carte').update(this.carte$.getValue());
   }
 
-  videOuvriers(carte: Case[][]) {
+  videOuvriers() {
+    const carte = this.carte$.getValue();
+
     for (let y = 0; y < 6; y++) {
       for (let x = 0; x < 9; x++) {
         if (carte[y][x].content?.type === 'ouvrier') {
@@ -81,7 +91,7 @@ export class CartesService {
       }
     }
 
-    this.updateCarte(carte);
+    this.updateCarte();
   }
 
 }

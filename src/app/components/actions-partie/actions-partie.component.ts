@@ -107,7 +107,7 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
       manche: this.infosPartie.manche + 1,
       finManche: false
     });
-    this.cartesS.videOuvriers(this.carte);
+    this.cartesS.videOuvriers();
     this.joueurSuivant();
   }
 

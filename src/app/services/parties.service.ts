@@ -32,7 +32,7 @@ export class PartiesService {
 
   async createPartie(idJoueur) {
     const joueur = new Joueur(localStorage.getItem('nomUser'));
-    const carte = this.cartesS.initCarte();
+    const carte = this.cartesS.createCarte();
     const batiments = this.batimentsS.getRandomBatiments();
 
     return await this.db.list('/parties').push(new Partie(idJoueur, carte, batiments, joueur));

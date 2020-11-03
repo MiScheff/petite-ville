@@ -94,7 +94,7 @@ export class CarteComponent implements OnInit, OnDestroy {
       this.detailsJoueur.ressources, '+', this.getRessourcesAdjacentes(tuile.x, tuile.y)
     );
     // Sauvegarde les données en BDD
-    this.cartesS.placementOuvrier(this.carte, this.joueurActif.id, this.detailsJoueur);
+    this.cartesS.placementOuvrier(this.joueurActif.id, this.detailsJoueur);
     this.joueurActif.aJoue = true;
 
     this.activeBatimentsAdjacents(tuile);
@@ -119,7 +119,7 @@ export class CarteComponent implements OnInit, OnDestroy {
     else { this.batimentsS.setBatimentIndisponible(this.batiments.listeBatiments, batiment); }
 
     this.joueursS.buyBatiment(this.joueurActif.id, this.detailsJoueur, batiment.cout);
-    this.cartesS.placementBatiment(this.carte, this.joueurActif, this.detailsJoueur);
+    this.cartesS.placementBatiment(this.joueurActif, this.detailsJoueur);
 
     this.joueurActif.aJoue = true;
   }

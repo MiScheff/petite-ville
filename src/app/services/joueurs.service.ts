@@ -91,12 +91,9 @@ export class JoueursService {
   ressourcesSuffisantes(joueur: Joueur, ressources: Partial<Ressources>): boolean {
     const tabRess = Object.keys(ressources);
     let assez = true;
-    console.log(tabRess);
-    console.log(ressources);
 
     for (let i = 0; i < tabRess.length && assez; i++) {
       assez = joueur.ressources[tabRess[i]] >= ressources[tabRess[i]] ? true : false;
-      console.log(tabRess[i], ' : ', joueur.ressources[tabRess[i]], ' > ', ressources[tabRess[i]]);
     }
     return assez;
   }
