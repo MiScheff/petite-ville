@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { InfosPartie } from '../models/infosPartie';
 import { Joueur } from '../models/joueur';
 import { Partie } from '../models/partie';
@@ -15,7 +15,7 @@ import { JoueursService } from './joueurs.service';
 })
 export class PartiesService {
   idPartie: string;
-  partie: Partie;
+  infosPartie$: BehaviorSubject<InfosPartie> = new BehaviorSubject(null);
 
   constructor(private db: AngularFireDatabase,
               private cartesS: CartesService,
@@ -26,7 +26,7 @@ export class PartiesService {
 
     this.initS.idPartie$.subscribe(idPartie => {
       this.idPartie = idPartie;
-      this.getInfosPartie();
+      this.initInfosPartie();
     });
   }
 
@@ -38,8 +38,12 @@ export class PartiesService {
     return await this.db.list('/parties').push(new Partie(idJoueur, carte, batiments, joueur));
   }
 
+  initInfosPartie(): void {
+    this.db.object('/parties/' + this.idPartie + '/infosPartie').valueChanges()
+      .subscribe((infosPartie: InfosPartie) => { this.infosPartie$.next(infosPartie); });
+  }
   getInfosPartie(): Observable<InfosPartie> {
-    return this.db.object('/parties/' + this.idPartie + '/infosPartie').valueChanges() as Observable<InfosPartie>;
+    return this.infosPartie$.asObservable();
   }
 
   updateInfosPartie(infosPartie: Partial<InfosPartie>): void {

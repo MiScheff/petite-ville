@@ -41,6 +41,8 @@ export class PartieComponent implements OnInit, OnDestroy {
       this.joueursS.getJoueurs(),
       this.joueursS.getJoueurActif()
     ]).subscribe(([user, infosPartie, joueurs, joueurActif]) => {
+      if (!user || !infosPartie || !joueurs || !joueurActif) { return; }
+
       this.user = user;
       this.infosPartie = infosPartie;
       this.joueurs = joueurs;
