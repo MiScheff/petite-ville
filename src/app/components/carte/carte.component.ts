@@ -115,8 +115,10 @@ export class CarteComponent implements OnInit, OnDestroy {
     this.detailsJoueur.ressources.score += batiment.score;
 
     // Si champ de blé, on décrémente nbChampBle, sinon on rend le bâtiment indisponible à l'achat
-    if (batiment.nom === 'Champ de blé') { this.batimentsS.updateBatiments({ nbChampsBle: this.batiments.nbChampsBle - 1 }); }
-    else { this.batimentsS.setBatimentIndisponible(this.batiments.listeBatiments, batiment); }
+    if (batiment.nom === 'Champ de blé') {
+      this.batimentsS.updateBatiments({ nbChampsBle: this.batiments.nbChampsBle - 1 });
+    }
+    else { this.batimentsS.setBatimentIndisponible(batiment); }
 
     this.joueursS.buyBatiment(this.joueurActif.id, this.detailsJoueur, batiment.cout);
     this.cartesS.placementBatiment(this.joueurActif, this.detailsJoueur);
