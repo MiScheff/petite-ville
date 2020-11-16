@@ -1,15 +1,15 @@
 <div class="container row">
 	<ng-container *ngIf="joueurs">
 		<div *ngFor="let joueur of joueurs | keyvalue" class="col-6">
-		<h2>{{ joueur.value.nom }} : {{ joueur.value.ressources.score }} ⭐</h2>
+		<h2>{{ joueur.value.nom }} ⭐{{ joueur.value.ressources.score }}</h2>
 		<p>
-			{{ joueur.value.ressources.piece }} 💰
-			{{ joueur.value.ouvriers }} 👷
-			{{ joueur.value.batiments }} 🏛<br>
-			{{ joueur.value.ressources.pierre }} ⛰
-			{{ joueur.value.ressources.bois }} 🌳
-			{{ joueur.value.ressources.poisson }} 🐟
-			{{ joueur.value.ressources.ble }} 🌽
+			💰 {{ joueur.value.ressources.piece }} /
+			👷 {{ joueur.value.ouvriers }} /
+			🏛 {{ joueur.value.batiments }}<br>
+			⛰ {{ joueur.value.ressources.pierre }} /
+			🌳 {{ joueur.value.ressources.bois }} /
+			🐟 {{ joueur.value.ressources.poisson }} /
+			🌽 {{ joueur.value.ressources.ble }}
 		</p>
 		<p *ngIf="peutAcheterRessources(joueur.key)">
 			<button (click)="acheterRessource('pierre')">Acheter 1 pierre</button>
