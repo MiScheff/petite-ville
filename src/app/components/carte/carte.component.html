@@ -5,7 +5,8 @@
       class="case {{ case.content?.type }} {{ case.content?.indexJ }} "
       [ngClass]="{ 
         'highlight': showTuilesLibres(case),
-        'actionnable': isActionnable(case)
+        'actionnable': isActionnable(case),
+        'ble': case.content?.batiment?.nom === 'Champ de blé'
       }"
       (click)="actionCase(case)"
       [disabled]="disabledTuile(case)">
@@ -14,10 +15,14 @@
         <p class="bat-nom">{{ bat.nom }}</p>
         <p class="effet">
           <ng-container *ngIf="bat.entree">
-            <small *ngFor="let e of bat.entree | keyvalue " class="{{ e.key }}">{{ e.value }} </small> ➤ 
+            <small *ngFor="let e of bat.entree | keyvalue " class="{{ e.key }}">
+					    {{ e.value > 1 ? e.value : '' }}
+            </small> ➤ 
           </ng-container>
           <ng-container *ngIf="bat.sortie">
-            <small *ngFor="let s of bat.sortie | keyvalue " class="{{ s.key }}">{{ s.value }} </small>
+            <small *ngFor="let s of bat.sortie | keyvalue " class="{{ s.key }}">
+              {{ s.value > 1 ? s.value : '' }}
+            </small>
           </ng-container>
         </p>
       </ng-container>

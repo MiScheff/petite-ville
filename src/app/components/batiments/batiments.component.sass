@@ -18,13 +18,41 @@
 	background-color: lightgrey
 	border: 1px solid black
 
+	&.vendu
+		background-color: grey
+
 	&.ble
 		background-color: gold
+		&::before
+			content: '🌽'
+			position: absolute
+			width: 100%
+			height: 100%
+			text-align: center
+			font-size: 3em
+			line-height: 1.9
 		&.epuise
 			background-color: paleGoldenRod
 
-	&.vendu
-		background-color: grey
+	&:not(.ble)::before
+		content: '🏛'
+		position: absolute
+		width: 100%
+		height: 100%
+		font-size: 3em
+		line-height: 1.9
+		text-align: center
+
+.infos
+	position: absolute
+	width: 100%
+	height: 100%
+	z-index: 1
+
+	.titre
+		color: white
+		background: rgba(0, 0, 0, 0.5)
+		margin-top: 20px
 
 small
 	position: relative

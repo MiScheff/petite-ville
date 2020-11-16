@@ -117,7 +117,7 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
   }
 
   finPartie(): void {
-    alert('Le vainqueur est ' + this.gagnant.nom + ' avec ' + this.gagnant.ressources.score + ' points.');
+    // alert('Le vainqueur est ' + this.gagnant.nom + ' avec ' + this.gagnant.ressources.score + ' points.');
     this.partiesS.updateInfosPartie({ dateFin: new Date() });
   }
 
