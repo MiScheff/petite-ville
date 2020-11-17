@@ -14,7 +14,7 @@ export class EvenementsComponent implements OnInit, OnDestroy {
   constructor(private evenementsS: EvenementsService) { }
 
   ngOnInit(): void {
-    this.evenements$ = this.evenementsS.getEvenements().subscribe(evenements => this.evenements = evenements);
+    this.evenements$ = this.evenementsS.getEvenements().subscribe(evenements => this.evenements = evenements.reverse());
   }
 
   ngOnDestroy(): void {

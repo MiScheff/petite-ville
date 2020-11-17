@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Joueur } from 'src/app/models/joueur';
 import { Utilisateur } from 'src/app/models/utilisateur';
 import { AuthService } from 'src/app/services/auth.service';
+import { EvenementsService } from 'src/app/services/evenements.service';
 import { JoueursService } from 'src/app/services/joueurs.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class RejoindrePartieComponent implements OnInit {
   joueurs: Joueur[];
 
   constructor(private authS: AuthService,
-              private joueursS: JoueursService) { }
+              private joueursS: JoueursService,
+              private evenementsS: EvenementsService) { }
 
   ngOnInit(): void {
     this.joueursS.getJoueurs().subscribe(joueurs => {
@@ -33,8 +35,8 @@ export class RejoindrePartieComponent implements OnInit {
   rejoindre(): void {
     if (!this.user) { return; }
 
-    const msg = this.user.nom + ' a rejoint la partie.';
-    this.joueursS.addJoueur(this.user.id, new Joueur(this.user.nom), msg);
+    this.joueursS.addJoueur(this.user.id, new Joueur(this.user.nom));
+    this.evenementsS.addEvenement(this.user.nom + ' a rejoint la partie.');
   }
 
 }

@@ -3,6 +3,7 @@ import { combineLatest, Subscription } from 'rxjs';
 import { InfosPartie } from 'src/app/models/infosPartie';
 import { Joueur } from 'src/app/models/joueur';
 import { JoueurActif } from 'src/app/models/joueurActif';
+import { EvenementsService } from 'src/app/services/evenements.service';
 import { JoueursService } from 'src/app/services/joueurs.service';
 import { PartiesService } from 'src/app/services/parties.service';
 
@@ -22,7 +23,8 @@ export class JoueursComponent implements OnInit, OnDestroy {
   souscriptions$: Subscription;
 
   constructor(private joueursS: JoueursService,
-              private partiesS: PartiesService) {
+              private partiesS: PartiesService,
+              private evenementsS: EvenementsService) {
   }
 
   ngOnInit(): void {
@@ -42,6 +44,7 @@ export class JoueursComponent implements OnInit, OnDestroy {
     this.detailsJoueur.ressources = this.joueursS.updateRessources(this.detailsJoueur.ressources, '-', { piece: 3 });
     this.detailsJoueur.ressources[type]++;
     this.joueursS.updateJoueur(this.joueurActif.id, { ressources: this.detailsJoueur.ressources });
+    this.evenementsS.addEvenement(`${this.detailsJoueur.nom} achète 1 ${type} pour 3 pièces`);
   }
 
   peutAcheterRessources(idJoueur: string): boolean {

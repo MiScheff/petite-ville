@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { BehaviorSubject, Observable } from 'rxjs';
+
 import { InfosPartie } from '../models/infosPartie';
 import { Joueur } from '../models/joueur';
 import { Partie } from '../models/partie';
 import { BatimentsService } from './batiments.service';
 import { CartesService } from './cartes.service';
-import { EvenementsService } from './evenements.service';
 import { InitService } from './init.service';
 import { JoueursService } from './joueurs.service';
 
@@ -20,7 +20,6 @@ export class PartiesService {
   constructor(private db: AngularFireDatabase,
               private cartesS: CartesService,
               private batimentsS: BatimentsService,
-              private evenementsS: EvenementsService,
               private joueursS: JoueursService,
               private initS: InitService) {
 
@@ -50,7 +49,7 @@ export class PartiesService {
     this.db.object('/parties/' + this.idPartie + '/infosPartie').update(infosPartie);
   }
 
-  commencerPartie(idJoueurs: string[], parametres: {nbMaxOuvriers, nbMaxBatiments}, messageEvenement: string): void {
+  commencerPartie(idJoueurs: string[], parametres: {nbMaxOuvriers, nbMaxBatiments}): void {
     this.db.object('/parties/' + this.idPartie + '/infosPartie').update({
       dateDebut: Date.now(),
       nbMaxOuvriers: parametres.nbMaxOuvriers,
@@ -63,8 +62,6 @@ export class PartiesService {
     idJoueurs.forEach(idJoueur => {
       this.joueursS.updateJoueur(idJoueur, { ouvriers: parametres.nbMaxOuvriers });
     });
-
-    this.evenementsS.addEvenements(messageEvenement);
   }
 
 }

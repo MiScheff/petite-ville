@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { BehaviorSubject, Observable } from 'rxjs';
+
 import { Batiment } from '../models/batiment';
 import { Joueur } from '../models/joueur';
 import { JoueurActif } from '../models/joueurActif';
 import { Ressources } from '../models/ressources';
-import { EvenementsService } from './evenements.service';
 import { InitService } from './init.service';
 
 @Injectable({
@@ -19,17 +19,15 @@ export class JoueursService {
   });
 
   constructor(private db: AngularFireDatabase,
-              private init: InitService,
-              private evenementsS: EvenementsService) {
+              private init: InitService) {
     this.init.idPartie$.subscribe(idPartie => {
       this.idPartie = idPartie;
       this.initDonneesJoueurs();
     });
   }
 
-  addJoueur(idJoueur: string, joueur: Joueur, messageEvenement: string): void {
+  addJoueur(idJoueur: string, joueur: Joueur): void {
     this.updateJoueur(idJoueur, joueur);
-    this.evenementsS.addEvenements(messageEvenement);
   }
 
   initDonneesJoueurs() {

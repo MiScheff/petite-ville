@@ -59,8 +59,8 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
 
   commencerPartie(): void {
     const parametres = this.getParametres();
-    const msg = this.user.nom + ' a lancé la partie.';
-    this.partiesS.commencerPartie(Object.keys(this.joueurs), parametres, msg);
+    this.partiesS.commencerPartie(Object.keys(this.joueurs), parametres);
+    this.evenementsS.addEvenement(this.user.nom + ' a lancé la partie.');
   }
 
   // Définit le nombre d'ouvriers et de bâtiments max pour chaque joueur selon le nombre de joueur
@@ -80,7 +80,7 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
   }
 
   finTour(): void {
-    this.evenementsS.addEvenements(this.joueurActif.nom + ' a fini son tour.');
+    this.evenementsS.addEvenement(this.joueurActif.nom + ' a fini son tour.');
     this.joueurSuivant();
   }
 

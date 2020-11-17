@@ -15,7 +15,7 @@ export class EvenementsService {
     this.initS.idPartie$.subscribe(id => this.idPartie = id);
   }
 
-  addEvenements(messageEvenement: string) {
+  addEvenement(messageEvenement: string) {
     this.db.list('/parties/' + this.idPartie + '/evenements').push(messageEvenement);
   }
 

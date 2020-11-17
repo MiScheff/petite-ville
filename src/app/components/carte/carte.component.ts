@@ -9,6 +9,7 @@ import { JoueurActif } from 'src/app/models/joueurActif';
 import { Ressources } from 'src/app/models/ressources';
 import { BatimentsService } from 'src/app/services/batiments.service';
 import { CartesService } from 'src/app/services/cartes.service';
+import { EvenementsService } from 'src/app/services/evenements.service';
 import { JoueursService } from 'src/app/services/joueurs.service';
 import { PartiesService } from 'src/app/services/parties.service';
 import _ from 'underscore';
@@ -36,7 +37,8 @@ export class CarteComponent implements OnInit, OnDestroy {
   constructor(private cartesS: CartesService,
               private partiesS: PartiesService,
               private joueursS: JoueursService,
-              private batimentsS: BatimentsService) { }
+              private batimentsS: BatimentsService,
+              private evenementsS: EvenementsService) { }
 
   ngOnInit(): void {
     this.souscriptions$ = combineLatest([
@@ -70,6 +72,13 @@ export class CarteComponent implements OnInit, OnDestroy {
       .then(res => {
         if (res) {
           this.batimentsActionnables = _.without(this.batimentsActionnables, `${tuile.y},${tuile.x}`);
+
+          let msg = `${this.detailsJoueur.nom} utilise le bâtiment ${tuile.content.batiment.nom}`;
+          this.joueurActif.id === tuile.content.proprietaire ?
+            msg += ' lui appartenant.' :
+            msg += ` appartenant à ${this.joueurs[tuile.content.proprietaire].nom} et lui paye 1 pièce.`;
+
+          this.evenementsS.addEvenement(msg);
         } else {
           console.log('Vous n\'avez pas assez de ressources.');
         }
@@ -94,6 +103,7 @@ export class CarteComponent implements OnInit, OnDestroy {
     );
     // Sauvegarde les données en BDD
     this.cartesS.placementOuvrier(this.joueurActif.id, this.detailsJoueur);
+    this.evenementsS.addEvenement(`${this.detailsJoueur.nom} a placé un ouvrier sur la case ${tuile.x + 1},${tuile.y + 1}`);
     this.joueurActif.aJoue = true;
 
     this.activeBatimentsAdjacents(tuile);
@@ -121,6 +131,7 @@ export class CarteComponent implements OnInit, OnDestroy {
 
     this.joueursS.buyBatiment(this.joueurActif.id, this.detailsJoueur, batiment.cout);
     this.cartesS.placementBatiment(this.joueurActif, this.detailsJoueur);
+    this.evenementsS.addEvenement(`${this.detailsJoueur.nom} a construit ${batiment.nom} sur la case ${tuile.x + 1},${tuile.y + 1}`);
 
     this.joueurActif.aJoue = true;
   }
