@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { NotifierService } from 'angular-notifier';
 import { combineLatest, Subscription } from 'rxjs';
 import { Batiment } from 'src/app/models/batiment';
 import { Case } from 'src/app/models/case';
@@ -38,7 +39,8 @@ export class CarteComponent implements OnInit, OnDestroy {
               private partiesS: PartiesService,
               private joueursS: JoueursService,
               private batimentsS: BatimentsService,
-              private evenementsS: EvenementsService) { }
+              private evenementsS: EvenementsService,
+              private notifier: NotifierService) { }
 
   ngOnInit(): void {
     this.souscriptions$ = combineLatest([
@@ -80,7 +82,7 @@ export class CarteComponent implements OnInit, OnDestroy {
 
           this.evenementsS.addEvenement(msg);
         } else {
-          console.log('Vous n\'avez pas assez de ressources.');
+          this.notifier.notify('error', 'Vous n\'avez pas assez de ressources !');
         }
       });
     }

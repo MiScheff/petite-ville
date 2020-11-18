@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { NotifierService } from 'angular-notifier';
 import { combineLatest, Subscription } from 'rxjs';
 import { Batiment } from 'src/app/models/batiment';
 import { InfosBatiments } from 'src/app/models/infosBatiments';
@@ -25,7 +26,8 @@ export class BatimentsComponent implements OnInit, OnDestroy {
   souscriptions$: Subscription;
 
   constructor(private batimentsS: BatimentsService,
-              private joueursS: JoueursService) { }
+              private joueursS: JoueursService,
+              private notifier: NotifierService) { }
 
   ngOnInit(): void {
     this.champsBle = this.batimentsS.getChampsBle();
@@ -49,12 +51,15 @@ export class BatimentsComponent implements OnInit, OnDestroy {
   }
 
   actionBatiment(batiment: Batiment): void {
-    if (!this.monTour || this.detailsJoueur.batiments >= this.batiments.nbMaxBatiments || !batiment.disponible) { return; }
+    if (!this.monTour || this.joueurActif.aJoue
+        || this.detailsJoueur.batiments >= this.batiments.nbMaxBatiments || !batiment.disponible) { return; }
 
     if (this.joueursS.ressourcesSuffisantes(this.detailsJoueur, batiment.cout)) {
       this.joueurActif.batimentChoisi = batiment;
       this.joueursS.updateJoueurActif(this.joueurActif);
-      console.log(`Batiment ${batiment.nom} choisi. Cliquer où le placer.`);
+      this.notifier.notify('success', `Batiment ${batiment.nom} choisi. Cliquer où le placer.`);
+    } else {
+      this.notifier.notify('error', 'Vous n\'avez pas assez de ressources !');
     }
   }
 

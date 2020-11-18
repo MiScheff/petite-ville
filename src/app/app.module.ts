@@ -25,6 +25,7 @@ import { JoueursService } from './services/joueurs.service';
 import { EvenementsComponent } from './components/evenements/evenements.component';
 import { InitService } from './services/init.service';
 import { EvenementsService } from './services/evenements.service';
+import { NotifierModule } from 'angular-notifier';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { EvenementsService } from './services/evenements.service';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    NotifierModule
   ],
   providers: [
     InitService,
