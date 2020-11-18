@@ -23,6 +23,7 @@
 			</ng-template>
 	</div>
 	<div *ngSwitchCase="'En cours'">
+		<span class="float-left">Manche {{ infosPartie.manche }} :&nbsp;</span>
 		<div *ngIf="monTour; then mon_tour else pas_mon_tour"></div>
 		<ng-template #mon_tour>
 			<!-- Tour de jeu normal -->
