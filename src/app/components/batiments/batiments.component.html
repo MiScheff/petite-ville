@@ -3,7 +3,7 @@
 	<button (click)="annuleChoixBatiment()">Annuler</button>
 </p>
 <div class="batiments" *ngIf="batiments">
-	<div class="chantier d-inline-block">Chantier</div>
+	<div class="chantier"></div>
 	<div class="liste-batiments d-inline-block">
 		<div class="case ble"
 				 [ngClass]="{ 'epuise': batiments.nbChampsBle < 1 }"

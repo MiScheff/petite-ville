@@ -2,10 +2,16 @@
 	margin-top: 30px
 
 .chantier
+	display: flex
+	position: relative
 	width: 200px
 	height: 200px
-	border: 2px dashed orange
+	background: orange
 	float: left
+	&::before
+		content: '🛠'
+		margin: auto
+		font-size: 6em
 
 .liste-batiments
 	width: 700px
