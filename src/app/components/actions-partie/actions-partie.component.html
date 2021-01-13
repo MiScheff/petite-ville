@@ -1,12 +1,12 @@
-<ng-container [ngSwitch]="etatPartie" *ngIf="detailsJoueur && joueurActif">
-	<p *ngSwitchCase="'Finie'">
-		Cette partie est terminée. Le vainqueur est {{ gagnant.nom }} avec {{ gagnant.ressources.score }} points.
+<div class="actions-partie" [ngSwitch]="etatPartie" *ngIf="detailsJoueur && joueurActif">
+	<p class="text-center" *ngSwitchCase="'Finie'">
+		🏁 Cette partie est terminée. 🏁<br>🎉 Le vainqueur est {{ gagnant.nom }} avec {{ gagnant.ressources.score }} points. 🎉
 	</p>
 	<div *ngSwitchCase="'Non commencée'">
 			<!-- Si on n'est pas au moins deux -->
 			<div *ngIf="nbJoueurs < 2; then attente else lancement"></div>
 			<ng-template #attente>
-				<p>En attente d'autres joueurs... (min 2 / max 4)</p>
+				<p>En attente d'autres joueurs<span class="waitingDots"><span>.</span><span>.</span><span>.</span></span> (min 2 / max 4)</p>
 			</ng-template>
 			<ng-template #lancement>
 				<!-- Si je suis l'hôte -->
@@ -15,15 +15,15 @@
 					<p *ngIf="nbJoueurs < 4">
 						Vous pouvez attendre d'autres joueurs ou lancer la partie ({{ nbJoueurs }}/4)
 					</p>
-					<button (click)="commencerPartie()">Commencer</button>
+					<button class="btn btn-primary" (click)="commencerPartie()">Commencer</button>
 				</ng-template>
 				<ng-template #invite>
-					<p>En attente du lancement de la partie par {{ joueurActif?.nom }}</p>
+					<p>En attente du lancement de la partie par {{ joueurActif?.nom }}<span class="waitingDots"><span>.</span><span>.</span><span>.</span></span></p>
 				</ng-template>
 			</ng-template>
 	</div>
 	<div *ngSwitchCase="'En cours'">
-		<span class="float-left">Manche {{ infosPartie.manche }} :&nbsp;</span>
+		<p class="d-inline pacifico">Manche {{ infosPartie.manche }}</p>
 		<div *ngIf="monTour; then mon_tour else pas_mon_tour"></div>
 		<ng-template #mon_tour>
 			<!-- Tour de jeu normal -->
@@ -37,43 +37,43 @@
 					<p>
 						Vous avez utilisé tous les bâtiments que vous souhaitiez utiliser ?
 					</p>
-					<button (click)="finTour()">Fin du tour</button>
+					<button class="btn btn-light border" (click)="finTour()">Fin du tour</button>
 				</ng-template>
 			</div>
 			<!-- Fin de manche - Si je n'ai pas encore joué et que je n'ai plus d'ouvriers -->
 			<div *ngIf="!joueurActif?.aJoue && detailsJoueur.ouvriers == 0">
-				<h3>Fin de la manche {{ infosPartie.manche }}</h3>
-				<p>Vous pouvez activer vos bâtiments spéciaux si vous en avez. (Résidence ou Cathédrale)</p>
+				<h3 class="pacifico">Fin de la manche</h3>
+				<p class="d-inline">Vous pouvez activer vos bâtiments spéciaux si vous en avez. (Résidence ou Cathédrale)</p>
 				<div *ngIf="joueurActif.ouvriersANourrir > 0; else finirManche">
 					<p>Il vous reste {{ joueurActif.ouvriersANourrir }} ouvriers à nourrir.</p>
-					<button *ngIf="detailsJoueur.ressources.poisson > 0" (click)="nourrirOuvrier('poisson')">Donner 1 🐟</button>
-					<button *ngIf="detailsJoueur.ressources.ble > 0" (click)="nourrirOuvrier('ble')">Donner 1 🌽</button>
-					<button *ngIf="detailsJoueur.ressources.piece >= 3" (click)="nourrirOuvrier('piece')">Payer 3 💰</button>
-					<button (click)="nourrirOuvrier('score')">Perdre 3 ⭐</button>
+					<button class="btn btn-light border" *ngIf="detailsJoueur.ressources.poisson > 0" (click)="nourrirOuvrier('poisson')">Donner 1 🐟</button>
+					<button class="btn btn-light border" *ngIf="detailsJoueur.ressources.ble > 0" (click)="nourrirOuvrier('ble')">Donner 1 🌽</button>
+					<button class="btn btn-warning" *ngIf="detailsJoueur.ressources.piece >= 3" (click)="nourrirOuvrier('piece')">Payer 3 💰</button>
+					<button class="btn btn-danger" (click)="nourrirOuvrier('score')">Perdre 3 ⭐</button>
 				</div>
 				<ng-template #finirManche>
-					<button (click)="finManche()">Finir la manche</button>
+					<button class="btn btn-light border d-block mt-2 ml-auto mr-auto" (click)="finManche()">Finir la manche</button>
 				</ng-template>
 			</div>
 
 			<!-- Debut de manche - Si je n'ai pas encore joué, que j'ai des ouvriers et qu'on est en fin de manche -->
 			<div *ngIf="!joueurActif?.aJoue && detailsJoueur.ouvriers > 0 && infosPartie.finManche && infosPartie.manche < 4">
-				Prêt pour la manche suivante ? <button (click)="commencerManche()">Commencer la manche {{ infosPartie.manche + 1 }}</button>
+				Prêt pour la manche suivante ? <button class="btn btn-primary d-block mt-2 ml-auto mr-auto" (click)="commencerManche()">Commencer la manche {{ infosPartie.manche + 1 }}</button>
 			</div>
 
 			<!-- Fin de partie  -->
 			<div *ngIf="!joueurActif?.aJoue && detailsJoueur.ouvriers > 0 && infosPartie.finManche && infosPartie.manche == 4">
-				<h3>Fin de la partie</h3>
-				<button (click)="finPartie()">Calculer les scores</button>
+				<h3 class="pacifico">Fin de la partie</h3>
+				<button class="btn btn-primary" (click)="finPartie()">Calculer les scores</button>
 			</div>
 		</ng-template>
 
 		<ng-template #pas_mon_tour>
-			<p>C'est au tour de {{ joueurActif?.nom }}</p>
+			<p>C'est au tour de {{ joueurActif?.nom }}<span class="waitingDots"><span>.</span><span>.</span><span>.</span></span></p>
 		</ng-template>
 	</div>
 
 	<p *ngSwitchDefault>
 		Erreur : partie à l'état {{ etatPartie }}
 	</p>
-</ng-container>
+</div>
