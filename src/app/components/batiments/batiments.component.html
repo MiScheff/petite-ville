@@ -1,8 +1,8 @@
-<p *ngIf="monTour && joueurActif?.batimentChoisi && !joueurActif?.aJoue">
-	Vous avez sélectionné le bâtiment {{ joueurActif.batimentChoisi.nom }}. Cliquer sur la case où vous souhaitez le placer.
-	<button (click)="annuleChoixBatiment()">Annuler</button>
+<p class="banniere mt-3" *ngIf="monTour && joueurActif?.batimentChoisi && !joueurActif?.aJoue">
+	💡 Vous avez sélectionné le bâtiment <u>{{ joueurActif.batimentChoisi.nom }}</u>. Cliquez sur la case où vous souhaitez le placer.
+	<button class="btn btn-danger btn-sm" (click)="annuleChoixBatiment()">Annuler</button>
 </p>
-<div class="batiments" *ngIf="batiments">
+<div class="batiments mt-3 rounded" *ngIf="batiments">
 	<div class="chantier"></div>
 	<div class="liste-batiments d-inline-block">
 		<div class="case ble"

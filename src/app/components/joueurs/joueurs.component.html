@@ -1,22 +1,24 @@
-<div class="container row">
+<div class="mt-3 mb-3 d-flex justify-content-end">
 	<ng-container *ngIf="joueurs">
-		<div *ngFor="let joueur of joueurs | keyvalue" class="col-6">
-		<h2>{{ joueur.value.nom }} ⭐{{ joueur.value.ressources.score }}</h2>
-		<p>
-			💰 {{ joueur.value.ressources.piece }} /
-			👷 {{ joueur.value.ouvriers }} /
-			🏛 {{ joueur.value.batiments }}<br>
-			⛰ {{ joueur.value.ressources.pierre }} /
-			🌳 {{ joueur.value.ressources.bois }} /
-			🐟 {{ joueur.value.ressources.poisson }} /
-			🌽 {{ joueur.value.ressources.ble }}
-		</p>
-		<p *ngIf="peutAcheterRessources(joueur.key)">
-			<button (click)="acheterRessource('pierre')">Acheter 1 pierre</button>
-			<button (click)="acheterRessource('bois')">Acheter 1 bois</button>
-			<button (click)="acheterRessource('poisson')">Acheter 1 poisson</button>
-			<button (click)="acheterRessource('ble')">Acheter 1 blé</button>
-		</p>
+		<div *ngFor="let joueur of joueurs | keyvalue; index as i" class="d-flex p-0 col-6">
+		<div class="rounded justify-content-around py-3 text-center m-auto px-5 {{ 'J'+i }}">
+			<h2 class="pacifico">{{ joueur.value.nom }} ⭐{{ joueur.value.ressources.score }}</h2>
+			<p>
+				💰 {{ joueur.value.ressources.piece }} /
+				👷 {{ joueur.value.ouvriers }} /
+				🏛 {{ joueur.value.batiments }}<br>
+				⛰ {{ joueur.value.ressources.pierre }} /
+				🌳 {{ joueur.value.ressources.bois }} /
+				🐟 {{ joueur.value.ressources.poisson }} /
+				🌽 {{ joueur.value.ressources.ble }}
+			</p>
+			<p class="transition fade" [ngClass]="{'show': peutAcheterRessources(joueur.key) }">
+				<button class="m-1 btn btn-light border" (click)="acheterRessource('pierre')">Acheter 1 ⛰</button>
+				<button class="m-1 btn btn-light border" (click)="acheterRessource('bois')">Acheter 1 🌳</button><br>
+				<button class="m-1 btn btn-light border" (click)="acheterRessource('poisson')">Acheter 1 🐟</button>
+				<button class="m-1 btn btn-light border" (click)="acheterRessource('ble')">Acheter 1 🌽</button>
+			</p>
+		</div>
 	</div>
 </ng-container>
 </div>

@@ -1,4 +1,4 @@
-<div class="actions-partie" [ngSwitch]="etatPartie" *ngIf="detailsJoueur && joueurActif">
+<div class="actions-partie mb-3 banniere" [ngSwitch]="etatPartie" *ngIf="detailsJoueur && joueurActif">
 	<p class="text-center" *ngSwitchCase="'Finie'">
 		🏁 Cette partie est terminée. 🏁<br>🎉 Le vainqueur est {{ gagnant.nom }} avec {{ gagnant.ressources.score }} points. 🎉
 	</p>
@@ -23,7 +23,7 @@
 			</ng-template>
 	</div>
 	<div *ngSwitchCase="'En cours'">
-		<p class="d-inline pacifico">Manche {{ infosPartie.manche }}</p>
+		<p class="d-inline pacifico h5">Manche {{ infosPartie.manche }}</p>
 		<div *ngIf="monTour; then mon_tour else pas_mon_tour"></div>
 		<ng-template #mon_tour>
 			<!-- Tour de jeu normal -->
@@ -46,10 +46,10 @@
 				<p class="d-inline">Vous pouvez activer vos bâtiments spéciaux si vous en avez. (Résidence ou Cathédrale)</p>
 				<div *ngIf="joueurActif.ouvriersANourrir > 0; else finirManche">
 					<p>Il vous reste {{ joueurActif.ouvriersANourrir }} ouvriers à nourrir.</p>
-					<button class="btn btn-light border" *ngIf="detailsJoueur.ressources.poisson > 0" (click)="nourrirOuvrier('poisson')">Donner 1 🐟</button>
-					<button class="btn btn-light border" *ngIf="detailsJoueur.ressources.ble > 0" (click)="nourrirOuvrier('ble')">Donner 1 🌽</button>
-					<button class="btn btn-warning" *ngIf="detailsJoueur.ressources.piece >= 3" (click)="nourrirOuvrier('piece')">Payer 3 💰</button>
-					<button class="btn btn-danger" (click)="nourrirOuvrier('score')">Perdre 3 ⭐</button>
+					<button class="m-1 btn btn-light border" *ngIf="detailsJoueur.ressources.poisson > 0" (click)="nourrirOuvrier('poisson')">Donner 1 🐟</button>
+					<button class="m-1 btn btn-light border" *ngIf="detailsJoueur.ressources.ble > 0" (click)="nourrirOuvrier('ble')">Donner 1 🌽</button>
+					<button class="m-1 btn btn-warning" *ngIf="detailsJoueur.ressources.piece >= 3" (click)="nourrirOuvrier('piece')">Payer 3 💰</button>
+					<button class="m-1 btn btn-danger" (click)="nourrirOuvrier('score')">Perdre 3 ⭐</button>
 				</div>
 				<ng-template #finirManche>
 					<button class="btn btn-light border d-block mt-2 ml-auto mr-auto" (click)="finManche()">Finir la manche</button>
