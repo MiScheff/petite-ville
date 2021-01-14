@@ -1,5 +1,6 @@
 .batiments
 	margin-top: 30px
+	border-radius: 5px
 
 .chantier
 	display: flex
@@ -8,6 +9,7 @@
 	height: 200px
 	background: orange
 	float: left
+	box-shadow: 0 0 5px grey
 	&::before
 		content: '🛠'
 		margin: auto
@@ -15,6 +17,7 @@
 
 .liste-batiments
 	width: 700px
+	line-height: 0
 
 .case
 	position: relative
@@ -23,6 +26,8 @@
 	height: 100px
 	background-color: lightgrey
 	border: 1px solid black
+	line-height: normal
+	box-shadow: 0 0 5px grey
 
 	&.vendu
 		background-color: grey
