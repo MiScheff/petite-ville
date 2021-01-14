@@ -1,4 +1,4 @@
-<ng-container [ngSwitch]="etatPartie">
+<div class="rejoindre-partie" [ngSwitch]="etatPartie">
 	<p *ngSwitchCase="'Finie'">
 		Cette partie est terminée.
 	</p>
@@ -9,16 +9,16 @@
 		<div *ngIf="nbJoueurs < 4; then libre else complet"></div>
 
 		<ng-template #libre>
+			<h2 class="pacifico">Vous voulez jouer ?</h2>
 			<div *ngIf="user; then connu else inconnu"></div>
-
 			<ng-template #connu>
-				<p>Vous voulez jouer ? Il reste {{ 4 - nbJoueurs }} place(s)</p>
-				<button (click)="rejoindre()">Rejoindre la partie</button>
+				<p>Il reste {{ 4 - nbJoueurs }} place(s)</p>
+				<button class="btn btn-primary" (click)="rejoindre()">Rejoindre la partie</button>
 			</ng-template>
 
 			<ng-template #inconnu>
 				<p>Connectez-vous pour jouer. Il reste {{ 4 - nbJoueurs }} place(s)</p>
-				<button (click)="connexion()">Connexion</button>
+				<button class="btn btn-primary" (click)="connexion()">Connexion</button>
 			</ng-template>
 		</ng-template>
 
@@ -29,4 +29,4 @@
 	<p *ngSwitchDefault>
 		Erreur : partie à l'état {{ etatPartie }}
 	</p>
-</ng-container>
+</div>
