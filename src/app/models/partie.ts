@@ -1,16 +1,40 @@
+import { Batiment } from './batiment';
+import { Case } from './case';
+import { InfosBatiments } from './infosBatiments';
+import { InfosPartie } from './infosPartie';
 import { Joueur } from './joueur';
+import { JoueurActif } from './joueurActif';
 
 export class Partie {
+  carte: Case[][];
+  batiments: InfosBatiments;
   joueurs: Joueur[] = [];
-  joueurActif: string;
-  manche: number;
-  dateDebut: Date;
-  dateFin: Date;
-  dernieresActions: string[] = [];
+  joueurActif: JoueurActif;
+  evenements: string[] = [];
+  infosPartie: InfosPartie;
 
-  constructor(joueur: Joueur) {
-    this.joueurActif = 'joueurID'; // TODO: récupérer l'idUser dans le LocalStorage
-    this.joueurs['joueurID'] = joueur;
-    this.dernieresActions.push(joueur.nom + ' a créé la partie.');
+  constructor(idCreateur: string, carte: Case[][], batiments: Batiment[], joueur: Joueur) {
+    this.carte = carte;
+    this.batiments = {
+      listeBatiments: batiments,
+      nbMaxBatiments: 0,
+      nbChampsBle: 5
+    };
+    this.joueurActif = {
+      id: idCreateur,
+      nom: joueur.nom,
+      aJoue: false,
+      batimentChoisi: null,
+      ouvriersANourrir: 0
+    };
+    this.joueurs[idCreateur] = joueur;
+    this.evenements.push(joueur.nom + ' a créé la partie.');
+    this.infosPartie = {
+      manche: 1,
+      finManche: false,
+      nbMaxOuvriers: 0,
+      dateDebut: null,
+      dateFin: null
+    };
   }
 }

@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:fb": "ng build --prod && firebase deploy"
+    "deploy:fb": "ng build --prod && firebase deploy"
   },
   "private": true,
   "dependencies": {
@@ -21,9 +21,12 @@
     "@angular/platform-browser": "~9.1.12",
     "@angular/platform-browser-dynamic": "~9.1.12",
     "@angular/router": "~9.1.12",
+    "angular-notifier": "^6.0.1",
+    "bootstrap": "^4.5.2",
     "firebase": "^7.22.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
+    "underscore": "^1.11.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

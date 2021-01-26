@@ -1,0 +1,32 @@
+<div class="rejoindre-partie banniere" [ngSwitch]="etatPartie">
+	<p *ngSwitchCase="'Finie'">
+		Cette partie est terminée.
+	</p>
+	<p *ngSwitchCase="'En cours'">
+		Cette partie est en cours.
+	</p>
+	<div *ngSwitchCase="'Non commencée'">
+		<div *ngIf="nbJoueurs < 4; then libre else complet"></div>
+
+		<ng-template #libre>
+			<h2 class="pacifico">Vous voulez jouer ?</h2>
+			<div *ngIf="user; then connu else inconnu"></div>
+			<ng-template #connu>
+				<p>Il reste {{ 4 - nbJoueurs }} place(s)</p>
+				<button class="btn btn-primary" (click)="rejoindre()">Rejoindre la partie</button>
+			</ng-template>
+
+			<ng-template #inconnu>
+				<p>Connectez-vous pour jouer. Il reste {{ 4 - nbJoueurs }} place(s)</p>
+				<button class="btn btn-primary" (click)="connexion()">Connexion</button>
+			</ng-template>
+		</ng-template>
+
+		<ng-template #complet>
+			<p>La partie est complète. Vous pouvez regarder son déroulement ou en créer une nouvelle.</p>
+		</ng-template>
+	</div>
+	<p *ngSwitchDefault>
+		Erreur : partie à l'état {{ etatPartie }}
+	</p>
+</div>

@@ -1,6 +1,24 @@
-<p>partie works!</p>
-<p>ID de la partie : {{ idPartie }}</p>
-<pv-carte></pv-carte>
-<pv-batiments></pv-batiments>
-<pv-score></pv-score>
-<pv-joueurs></pv-joueurs>
+<div style="width: 900px;" class="m-auto">
+	<ng-container *ngIf="infosPartie && joueurs">
+		<pv-joueurs [monTour]="monTour"></pv-joueurs>
+
+		<div *ngIf="!participe(); else actions">
+			<pv-rejoindre-partie
+				[user]="user"
+				[etatPartie]="etatPartie()">
+			</pv-rejoindre-partie>
+		</div>
+		<ng-template #actions>
+			<pv-actions-partie
+				[user]="user"
+				[etatPartie]="etatPartie()"
+				[monTour]="monTour">
+			</pv-actions-partie>
+		</ng-template>
+
+		<pv-carte [monTour]="monTour"></pv-carte>
+		<pv-batiments [monTour]="monTour"></pv-batiments>
+		<pv-evenements></pv-evenements>
+
+	</ng-container>
+</div>

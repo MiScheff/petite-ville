@@ -1,0 +1,128 @@
+.carte
+	position: relative
+	border-radius: 7px
+	overflow: hidden
+	box-shadow: 0 0 5px grey
+	&::after
+		content: " "
+		position: absolute
+		top: 0
+		left: 0
+		width: 100%
+		height: 100%
+		border: 1px solid black
+		border-radius: 7px
+
+
+
+.ligne
+	line-height: 0
+
+.case
+	display: inline-block
+	position: relative
+	width: 100px
+	height: 100px
+	background-color: lightgreen
+	border: 1px solid black
+	vertical-align: top
+
+	&.highlight
+		background-color: darken(lightgreen, 10%)
+
+	&.actionnable
+		background-color: ivory
+
+	&.pierre
+		background-color: lightgrey
+		&::after
+			content: "⛰"
+			font-size: 50px
+			position: absolute
+			top: 44%
+			left: 15%
+			color: initial
+
+	&.bois
+		background-color: burlywood
+		&::after
+			content: "🌳"
+			font-size: 50px
+			position: absolute
+			top: 48%
+			left: 19%
+			color: initial
+
+	&.poisson
+		background-color: lightblue
+		&::after
+			content: "🐟"
+			font-size: 50px
+			position: absolute
+			top: 47%
+			left: 14%
+			color: initial
+
+	&.ouvrier::after
+		content: "👷"
+		font-size: 50px
+		position: absolute
+		top: 48%
+		left: 21%
+		color: initial
+
+	&.batiment
+		&::after
+			content: "🏛"
+			font-size: 3em
+			position: absolute
+			top: 46%
+			left: 15%
+			color: initial
+
+		&.ble::after
+			content: "🌽"
+
+		p.bat-nom
+			position: absolute
+			top: 0
+			left: 0
+			width: 100%
+			color: white
+			background-color: rgba(0, 0, 0, 0.5)
+			line-height: 1.3
+			z-index: 1
+
+		p.effet
+			position: absolute
+			bottom: 0
+			left: 0
+			width: 100%
+			color: initial
+
+		small
+			position: relative
+			&.pierre::before
+				position: relative
+				content: "⛰"
+				display: inline-block
+			&.bois::before
+				position: relative
+				content: "🌳"
+				display: inline-block
+			&.poisson::before
+				position: relative
+				content: "🐟"
+				display: inline-block
+			&.ble::before
+				position: relative
+				content: "🌽"
+				display: inline-block
+			&.piece::before
+				position: relative
+				content: "💰"
+				display: inline-block
+			&.score::before
+				position: relative
+				content: "⭐"
+				display: inline-block

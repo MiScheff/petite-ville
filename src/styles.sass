@@ -1,1 +1,85 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css"
+@import "~angular-notifier/styles.css"
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap')
+
+// ---------- //
+/*   Global   */
+// ---------- //
+
+// Bannière de texte
+.banniere
+	border: 5px solid #c16936
+	background: #e8e8e8
+	padding: 15px
+	border-radius: 7px
+	box-shadow: 0 0 5px gray
+
+	div
+		margin: auto
+		text-align: center
+
+	p:last-child
+		margin: 0
+
+
+
+// ------------ //
+/* Fonts Family */
+// ------------ //
+
+.pacifico
+	font-family: 'Pacifico', cursive
+
+
+
+// ------------ //
+/* Player color */
+// ------------ //
+
+.J0
+	box-shadow: 0 0 5px blue
+	&.case
+		box-shadow: inset 0 0 20px blue
+
+.J1
+	box-shadow: 0 0 5px red
+	&.case
+		box-shadow: inset 0 0 20px red
+
+.J2
+	box-shadow: 0 0 5px darkgreen
+	&.case
+		box-shadow: inset 0 0 20px darkgreen
+
+.J3
+	box-shadow: 0 0 5px darkgoldenrod
+	&.case
+		box-shadow: inset 0 0 20px darkgoldenrod
+
+
+
+// ------------ //
+/*  Animations  */
+// ------------ //
+
+// Waiting Dots
+@keyframes waiting
+	0%
+		transform: translateY(0px)
+	20%
+		transform: translateY(-5px)
+	40%
+		transform: translateY(0px)
+
+
+.waitingDots
+	display: inline-block
+	span
+		display: inline-block
+		&:nth-child(1)
+			animation: waiting 1.5s ease-out infinite
+		&:nth-child(2)
+			animation: waiting 1.5s ease-out 0.15s infinite
+		&:nth-child(3)
+			animation: waiting 1.5s ease-out 0.3s infinite
