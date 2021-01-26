@@ -1,5 +1,4 @@
-<!-- <ng-container *ngIf="values$"> -->
-
+<div class="carte">
   <div class="ligne" *ngFor="let ligne of carte">
     <button *ngFor="let case of ligne"
       class="case {{ case.content?.type }} {{ case.content?.indexJ }} "
@@ -28,4 +27,4 @@
       </ng-container>
     </button>
   </div>
-<!-- </ng-container> -->
+</div>

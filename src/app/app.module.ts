@@ -26,6 +26,7 @@ import { EvenementsComponent } from './components/evenements/evenements.componen
 import { InitService } from './services/init.service';
 import { EvenementsService } from './services/evenements.service';
 import { NotifierModule } from 'angular-notifier';
+import { GuideComponent } from './components/guide/guide.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { NotifierModule } from 'angular-notifier';
     RejoindrePartieComponent,
     ActionsPartieComponent,
     EvenementsComponent,
+    GuideComponent,
   ],
   imports: [
     BrowserModule,
