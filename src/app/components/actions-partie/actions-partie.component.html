@@ -1,4 +1,4 @@
-<div class="actions-partie mb-3 banniere" [ngSwitch]="etatPartie" *ngIf="detailsJoueur && joueurActif">
+<div class="actions-partie banniere" [ngSwitch]="etatPartie" *ngIf="detailsJoueur && joueurActif">
 	<p class="text-center" *ngSwitchCase="'Finie'">
 		🏁 Cette partie est terminée. 🏁<br>🎉 Le vainqueur est {{ gagnant.nom }} avec {{ gagnant.ressources.score }} points. 🎉
 	</p>
@@ -35,7 +35,7 @@
 				</ng-template>
 				<ng-template #passer>
 					<p>
-						Vous avez utilisé tous les bâtiments que vous souhaitiez utiliser ?
+						Avez-vous utilisé tous les bâtiments que vous souhaitiez utiliser ?
 					</p>
 					<button class="btn btn-light border" (click)="finTour()">Fin du tour</button>
 				</ng-template>

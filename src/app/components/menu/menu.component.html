@@ -1,21 +1,35 @@
 <div class="d-flex justify-content-center">
 	<div class="col-8 text-center">
 		<ul class="list-group pb-4">
-			<li class="list-group-item list-group-item-action pointer">Comment ça marche ?</li>
+			<li class="list-unstyled">
+				<button [routerLink]="['/comment-ca-marche']" class="list-group-item list-group-item-action">
+					Comment ça marche ?
+				</button>
+			</li>
 			<div *ngIf="!idJoueur; then noLogged else logged"></div>
 			<ng-template #noLogged>
-				<li class="list-group-item list-group-item-action pointer" (click)="connexion()">Se connecter</li>
+				<li class="list-unstyled">
+					<button class="list-group-item list-group-item-action" (click)="connexion()">
+						Se connecter
+					</button>
+				</li>
 			</ng-template>
 			<ng-template #logged>
-				<li class="list-group-item list-group-item-action pointer" (click)="deconnexion()">Se déconnecter</li>
+				<li class="list-unstyled">
+					<button class="list-group-item list-group-item-action" (click)="deconnexion()">
+						Se déconnecter
+					</button>
+				</li>
 			</ng-template>
 		</ul>
 		<p *ngIf="!idJoueur">Pour créer une partie, veuillez vous connecter.</p>
 		<ul class="list-group">
-			<li class="list-group-item list-group-item-action pointer"
-					[class.disabled]="!idJoueur"
-					(click)="nouvellePartie()">
-				Créer une partie
+			<li class="list-unstyled">
+					<button class="list-group-item list-group-item-action"
+						[class.disabled]="!idJoueur"
+						(click)="nouvellePartie()">
+						Créer une partie
+					</button>
 			</li>
 		</ul>
 	</div>
