@@ -81,6 +81,7 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
 
   finTour(): void {
     this.evenementsS.addEvenement(this.joueurActif.nom + ' a fini son tour.');
+    this.cartesS.setBatimentsActionnables([]); // A la fin du tour, plus aucun bâtiment ne peut être utilisé
     this.joueurSuivant();
   }
 
