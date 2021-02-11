@@ -5,5 +5,5 @@ import { PartieComponent } from './components/partie/partie.component';
 export const routes = [
   { path: '', component: HomeComponent },
   { path: 'comment-ca-marche', component: GuideComponent },
-  { path: 'partie/:id', component: PartieComponent },
+  { path: 'partie/:id', component: PartieComponent }
 ];

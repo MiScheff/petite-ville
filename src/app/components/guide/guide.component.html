@@ -1,0 +1,202 @@
+<div class="container">
+	<div class="row">
+		<div class="col-12 guide">
+			<h1 class="text-center">Comment ça marche ?</h1>
+			<h2>Présentation</h2>
+			<p>Petite Ville est un jeu de plateau développé en Angular 9, dont la version originale est le jeu <a href="https://www.iello.fr/fr/fiche/little-town" target="_blank">Little Town</a>.</p>
+
+			<h3 class="h5">Description</h3>
+			<p class="font-italic">
+				Il existe, bien au-delà des montagnes les plus reculées, une région riche et verdoyante encore inexplorée. Ce lieu regorgeant de richesses est l’endroit idéal pour bâtir la ville de vos rêves. Il vous faudra récolter des ressources pour ensuite ériger un premier bâtiment, puis un autre, et encore un autre… Faites naître ainsi une cité resplendissante !
+			</p>
+			<p>
+				Little Town est un jeu de stratégie et de placement d’ouvriers accessible et malin, destiné à être joué en famille et entre amis. Simple à prendre en main, sa profondeur permet à chacun de développer rapidement son propre style de jeu.
+				Le jeu prend place dans une vallée riche en ressources. Chacun leur tour, les joueurs placent leurs ouvriers aux emplacements les plus stratégiques pour collecter les ressources adjacentes, construire de nouveaux bâtiments ou activer les capacités des bâtiments déjà bâtis.
+			</p>
+			<p>
+				Chaque décision prise impacte immédiatement la suite de la partie pour l’ensemble des joueurs. Et si la tentation de construire est toujours forte, chacun doit veiller à conserver des ressources pour nourrir ses ouvriers. Après quatre manches, le joueur ayant cumulé le plus de points de victoire (constructions, argent amassé, objectifs réalisés) sera promu grand bâtisseur. Cumulez les parties ! Le plateau de jeu recto verso et la sélection des bâtiments disponibles pour chaque partie permettent une grande rejouabilité.
+			</p>
+
+			<h2>Comment jouer ?</h2>
+			<h3 class="h5">Créer/Rejoindre une partie</h3>
+			<p>Tout d'abord, assurez-vous d'avoir une adresse Gmail. Vous en aurez besoin pour vous connecter et ainsi rejoindre une partie.</p>
+			<p>Après votre connexion :</p>
+			<ul>
+				<li>Si vous êtes le premier joueur, vous pouvez commencer une partie en cliquant sur "Créer une partie" du menu principal.</li>
+				<li>
+					Si un autre membre de votre joyeuse troupe a déjà créé une partie, demandez-lui de vous envoyer l'URL de sa partie. Un bouton "Inviter un ami" lui permet de vous envoyer une invitation. <br>
+					Une fois arrivé sur la partie, diverses informations sont disponibles, comme les joueurs déjà présent, ainsi que le nombre de place restante. 4 places maximum.<br>
+					Cliquer sur le bouton "Rejoindre la partie", puis attendez que le joueur hôte lance la partie.
+				</li>
+			</ul>
+
+			<h3 class="h4">Déroulement d'une partie</h3>
+			<h4 class="h5">Tour de jeu</h4>
+			<p>
+				Une fois la partie lancée, chaque joueur reçoit 3 pièces.<br>
+				Le premier joueur commence son tour.<br>
+				Il peut :
+			</p>
+			<ul>
+				<li>Soit placer un ouvrier sur le plateau pour récupérer des ressources.</li>
+				<li>Soit construire un bâtiment s'il a assez de ressources, envoyant un de ses ouvriers au chantier.</li>
+			</ul>
+			<p>S'il place un ouvrier sur le plateau près d'un ou plusieurs bâtiments, il peut les activer dans l'ordre de son choix, gratuitement si le bâtiment lui appartient, ou en payant une pièce à son propriétaire. <br>
+			Enfin, il peut finir son tour en cliquant sur "Fin du tour", et c'est au joueur suivant de reproduire cette démarche.</p>
+
+			<h4 class="h5">Fin d'une manche</h4>
+			<p>
+				Lorsque le joueur n'a plus d'ouvriers et que vient son tour, la manche en cours arrive à sa fin. <br>
+				Le joueur doit alors nourrir ses ouvriers, qu'ils soient sur le plateau ou au chantier. <br>
+				Il existe plusieurs moyens pour nourrir un ouvrier :
+			</p>
+			<ul>
+				<li>donner 1 poisson (🐟),</li>
+				<li>donner 1 blé (🌽),</li>
+				<li>payer 3 pièces (💰),</li>
+				<li>perdre 3 points de victoire (⭐).</li>
+			</ul>
+			<p>⚠ Attention : les points de victoire (⭐) peuvent être négatif.</p>
+			<p>
+				Enfin, il est possible d'éventuellement activer des bâtiments spéciaux si vous les avez construits (Cathédrale, Résidence). ❌ Non implémentés pour l'instant ❌<br>
+				Le joueur peut maintenant cliquer sur "Finir la manche". <br>
+				Quand tous les joueurs ont nourri leurs ouvriers, le premier joueur clique sur "Commencer la manche 2", et c'est alors au joueur 2 d'entamer la manche.
+			</p>
+
+			<h4 class="h5">Fin de partie</h4>
+			<p>Lorsque chaque joueur a fini de nourrir ses ouvriers à la fin de la 4ème manche, le joueur ayant commencé obtient un bouton "Calculer les scores" permettant de finir la partie et d'afficher le vainqueur.</p>
+
+			<h3 class="h5">💡 Infos utiles :</h3>
+			<ul>
+				<li>
+					Il est possible d'acheter 1 ressource de n'importe quel type pour 3 pièces.
+				</li>
+				<li>
+					Lorsqu'un ouvrier est placé près d'un bâtiment, il peut activer le bâtiment. Si le bâtiment ne lui appartient pas, il doit payer 1 pièce au propriétaire. <br>
+				</li>
+				<li>
+					Lorsqu'on place un bâtiment, on ne peut pas utiliser son pouvoir immédiatement, il faut utiliser un ouvrier pour cela. Le joueur suivant sera le premier à pouvoir éventuellement l'utiliser.
+				</li>
+			</ul>
+
+			<h3 class="h4">Interface</h3>
+			<h4 class="h5">L'encart joueur</h4>
+			<div class="row">
+				<div class="col-md-6 d-flex align-self-center">
+					<div>
+						<p>Le bloc joueur contient les informations relative à chaque joueur :</p>
+						<ul>
+							<li>Score (⭐)</li>
+							<li>Nombre de pièces (💰)</li>
+							<li>Nombre d'ouvriers restants (👷)</li>
+							<li>Nombre de bâtiments acquis (🏛)</li>
+							<li>Nombre de pierre (⛰)</li>
+							<li>Nombre de bois (🌳)</li>
+							<li>Nombre de poisson (🐟)</li>
+							<li>Nombre de blé (🌽)</li>
+						</ul>
+						<p>
+							Une couleur est attribuée à chaque joueur, permettant de reconnaitre les propriétaires des cases sur le plateau. <br>
+							Si le joueur a au moins 3 pièces (💰), il peut acheter une ressource lors de son tour.
+						</p>
+					</div>
+				</div>
+				<div class="col-md-6 d-flex align-self-center d-flex align-self-center">
+					<div>
+						<img src="assets/img/encart_joueur.png" alt="Encart joueur">
+					</div>
+				</div>
+			</div>
+			<h4 class="h5">L'encart action</h4>
+			<div class="row">
+				<div class="col-md-6 d-flex align-self-center">
+					<div>
+						<p>
+							Le bloc action permet d'être informé de l'avancement de la partie.<br>
+							Il indique les actions en cours ou à faire, comme :
+						</p>
+						<ul>
+							<li>attendre qu'un autre joueur joue,</li>
+							<li>indiquer que c'est à nous de jouer, en plaçant un ouvrier ou en construisant un bâtiment,</li>
+							<li>finir notre tour,</li>
+							<li>finir la manche,</li>
+							<li>finir la partie en calculant les scores.</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-6 d-flex align-self-center">
+					<div>
+						<img class="w-100" src="assets/img/encart_action_1.png" alt="">
+						<img class="w-100" src="assets/img/encart_action_2.png" alt="">
+						<img class="w-100" src="assets/img/encart_action_3.png" alt="">
+						<img class="w-100" src="assets/img/encart_action_4.png" alt="">
+					</div>
+				</div>
+				<h4 class="h5">Le plateau</h4>
+				<div class="row">
+					<div class="col-md-6 d-flex align-self-center">
+						<div>
+							<p>
+								Élément central du jeu, le plateau permet de voir où sont placés les ressources, bâtiments et ouvriers.<br>
+								Lorsque c'est à votre tour, vous pouvez cliquer sur une case vide pour y placer un ouvrier. Cet ouvrier vous rapportera toutes les ressources présentes sur les 8 cases adjacentes, donc tout autour de lui, et vous permettra également d'activer les bâtiments présents dans ces mêmes cases adjacentes.
+							</p>
+							<p>
+								Les cases libres sont d'un vert plus foncé lorsque vous êtes en mesure de poser un ouvrier ou bâtiment dessus.
+							</p>
+						</div>
+					</div>
+					<div class="col-md-6 d-flex align-self-center">
+						<div>
+							<img class="w-100" src="assets/img/plateau.png" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<h4 class="h5">Les bâtiments</h4>
+			<div class="row">
+				<div class="col-md-6 d-flex align-self-center">
+					<div>
+						<p>
+							Pour gagner des points de victoires, il faut construire. Les 12 bâtiments sont sélectionnés au hasard dans une liste de 24 bâtiments, tous ayant des effets différents. <br>
+							Chaque bâtiment comporte des informations :
+						</p>
+						<ul>
+							<li>En haut à gauche : les ressources nécessaires pour construire le bâtiment</li>
+							<li>En haut à droite : les points de victoire reçus lors de la construction</li>
+							<li>Au centre : le nom du bâtiment</li>
+							<li>En bas : les effets du bâtiment.</li>
+						</ul>
+						<p>
+							Certains bâtiments ont besoin de ressources pour être activés. <br>
+							La boulangerie, par exemple, demande 2 bois (🌳) pour être construite, rapporte 4 points de victoire au joueur qui la construit, et a besoin d'1 blé (🌽) pour fournir 4 pièces (💰).
+						</p>
+						<p>
+							Pour placer un bâtiment, un joueur doit cliquer sur le bâtiment choisi, quand c'est son tour et <strong>sans</strong> placer un ouvrier sur le plateau. <br>
+							Une fois qu'un bâtiment est sélectionné, un encart indique quel bâtiment est sélectionné, et permet d'annuler la manoeuvre si c'était une erreur. Sinon, il suffit de cliquer sur une case vide du plateau pour y placer le bâtiment.<br>
+						</p>
+					</div>
+				</div>
+				<div class="col-md-6 d-flex align-self-center">
+					<div class="d-flex align-content-around flex-wrap justify-content-around">
+						<img class="w-100" src="assets/img/batiments.png" alt="">
+						<img class="my-3" src="assets/img/boulangerie.png" alt="">
+						<img class="w-100" src="assets/img/encart_batiment.png" alt="">
+					</div>
+				</div>
+			</div>
+
+			<h4 class="h5">Les évènements</h4>
+			<div class="row">
+				<div class="col-md-6 d-flex align-self-center">
+					<p>
+						Chaque action d'un joueur est enregistrée dans la liste des évènements. Si un joueur a joué pendant que vous ne regardiez pas, il est toujours possible de consulter les actions qui ont eu lieu.
+					</p>
+				</div>
+				<div class="col-md-6 d-flex align-self-center">
+					<img class="w-100" src="assets/img/encart_evenements.png" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
