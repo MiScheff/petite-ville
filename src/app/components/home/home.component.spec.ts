@@ -22,4 +22,12 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
+  it('should render title', () => {
+    const fixture = TestBed.createComponent(HomeComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('h1.pacifico').textContent).toContain('Petite');
+    expect(compiled.querySelector('h1.pacifico').textContent).toContain('Ville');
+  });
 });

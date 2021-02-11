@@ -50,7 +50,7 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
         this.detailsJoueur = joueurs[joueurActif.id];
         this.infosPartie = infosPartie;
 
-        if (infosPartie.dateFin) {
+        if (infosPartie && infosPartie.dateFin) {
           this.gagnant = this.joueursS.calculVainqueur();
         }
       }
@@ -87,7 +87,7 @@ export class ActionsPartieComponent implements OnInit, OnDestroy {
   nourrirOuvrier(type: string): void {
     if (type === 'poisson' || type === 'ble') {
       this.detailsJoueur.ressources[type]--;
-    } else {
+    } else if (type === 'score' || (type === 'piece' && this.detailsJoueur.ressources['piece'] >= 3)){
       this.detailsJoueur.ressources[type] -= 3;
     }
     this.joueurActif.ouvriersANourrir--;
