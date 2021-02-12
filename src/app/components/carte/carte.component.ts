@@ -136,7 +136,7 @@ export class CarteComponent implements OnInit, OnDestroy {
     this.joueurActif.aJoue = true;
   }
 
-  activeBatimentsAdjacents(tuile: Case) {
+  activeBatimentsAdjacents(tuile: Case): void {
     let batimentsActionnables = [];
     const casesAdj = this.getCasesAdjacentes(tuile.x, tuile.y);
     for (const c of casesAdj) {
