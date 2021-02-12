@@ -41,10 +41,12 @@ export class JoueursComponent implements OnInit, OnDestroy {
   }
 
   acheterRessource(type: string): void {
-    this.detailsJoueur.ressources = this.joueursS.updateRessources(this.detailsJoueur.ressources, '-', { piece: 3 });
-    this.detailsJoueur.ressources[type]++;
-    this.joueursS.updateJoueur(this.joueurActif.id, { ressources: this.detailsJoueur.ressources });
-    this.evenementsS.addEvenement(`${this.detailsJoueur.nom} achète 1 ${type} pour 3 pièces`);
+    if (this.detailsJoueur.ressources.piece >= 3) {
+      this.detailsJoueur.ressources = this.joueursS.updateRessources(this.detailsJoueur.ressources, '-', { piece: 3 });
+      this.detailsJoueur.ressources[type]++;
+      this.joueursS.updateJoueur(this.joueurActif.id, { ressources: this.detailsJoueur.ressources });
+      this.evenementsS.addEvenement(`${this.detailsJoueur.nom} achète 1 ${type} pour 3 pièces`);
+    }
   }
 
   peutAcheterRessources(idJoueur: string): boolean {

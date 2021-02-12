@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { NotifierModule } from 'angular-notifier';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { routes } from 'src/app/app.routes';
+import { Case } from 'src/app/models/case';
 import { BatimentsService } from 'src/app/services/batiments.service';
 import { CartesService } from 'src/app/services/cartes.service';
 import { InitService } from 'src/app/services/init.service';
@@ -21,7 +22,12 @@ describe('CarteComponent', () => {
   let joueursService: JoueursService;
   let fixture: ComponentFixture<CarteComponent>;
 
-  let caseTestVide, caseVide, caseTestPleine, casePleine, caseEpicerie, epicerie;
+  let caseTestVide: Case;
+  let caseVide: Case;
+  let caseTestPleine: Case;
+  let casePleine: Case;
+  let caseEpicerie: Case;
+  let epicerie;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -42,9 +48,9 @@ describe('CarteComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CarteComponent);
     component = fixture.componentInstance;
-    batService = TestBed.get(BatimentsService);
-    carteService = TestBed.get(CartesService);
-    joueursService = TestBed.get(JoueursService);
+    batService = TestBed.inject(BatimentsService);
+    carteService = TestBed.inject(CartesService);
+    joueursService = TestBed.inject(JoueursService);
     fixture.detectChanges();
 
     batService.batiments$.next({
@@ -54,7 +60,7 @@ describe('CarteComponent', () => {
           cout: {bois: 2},
           disponible: false,
           entree: {piece: 1},
-          nom: "Epicerie",
+          nom: 'Epicerie',
           score: 4,
           sortie: {ble: 1, poisson: 1},
           image: null,
@@ -65,14 +71,14 @@ describe('CarteComponent', () => {
       nbChampsBle: 5
     });
 
-    carteService.batimentsActionnables = ["3,4"];
+    carteService.batimentsActionnables = ['3,4'];
 
     epicerie = {
       activable: true,
       cout: {bois: 2},
       disponible: false,
       entree: {piece: 1},
-      nom: "Epicerie",
+      nom: 'Epicerie',
       score: 4,
       sortie: {ble: 1, poisson: 1},
       image: null,
@@ -81,15 +87,15 @@ describe('CarteComponent', () => {
 
     component.carte = [
       [
-        { x: 0, y: 0, content: { type: "pierre", } },
+        { x: 0, y: 0, content: { type: 'pierre', } },
         { x: 1, y: 0, content: null },
-        { x: 2, y: 0, content: { type: "bois", } },
-        { x: 3, y: 0, content: { type: "pierre", } },
+        { x: 2, y: 0, content: { type: 'bois', } },
+        { x: 3, y: 0, content: { type: 'pierre', } },
         { x: 4, y: 0, content: null },
-        { x: 5, y: 0, content: { type: "poisson", } },
+        { x: 5, y: 0, content: { type: 'poisson', } },
         { x: 6, y: 0, content: null },
-        { x: 7, y: 0, content: { type: "pierre", } },
-        { x: 8, y: 0, content: { type: "pierre", } },
+        { x: 7, y: 0, content: { type: 'pierre', } },
+        { x: 8, y: 0, content: { type: 'pierre', } },
       ],
       [
         { x: 0, y: 1, content: null },
@@ -97,13 +103,13 @@ describe('CarteComponent', () => {
         { x: 2, y: 1, content: null },
         { x: 3, y: 1, content: null },
         { x: 4, y: 1, content: null },
-        { x: 5, y: 1, content: { indexJ: "J0", proprietaire: "O9ex7MQ6J3T5MA5s1H0flqbLnmk1", type: "ouvrier", } },
+        { x: 5, y: 1, content: { indexJ: 'J0', proprietaire: 'O9ex7MQ6J3T5MA5s1H0flqbLnmk1', type: 'ouvrier', } },
         { x: 6, y: 1, content: null },
-        { x: 7, y: 1, content: { indexJ: "J0", proprietaire: "O9ex7MQ6J3T5MA5s1H0flqbLnmk1", type: "ouvrier", } },
+        { x: 7, y: 1, content: { indexJ: 'J0', proprietaire: 'O9ex7MQ6J3T5MA5s1H0flqbLnmk1', type: 'ouvrier', } },
         { x: 8, y: 1, content: null },
       ],
       [
-        { x: 0, y: 2, content: { type: "poisson", } },
+        { x: 0, y: 2, content: { type: 'poisson', } },
         { x: 1, y: 2, content: null },
         { x: 2, y: 2, content: null },
         { x: 3, y: 2, content: null },
@@ -114,44 +120,44 @@ describe('CarteComponent', () => {
         { x: 8, y: 2, content: null },
       ],
       [
-        { x: 0, y: 3, content: { type: "bois", } },
+        { x: 0, y: 3, content: { type: 'bois', } },
         { x: 1, y: 3, content: null },
         { x: 2, y: 3, content: null },
         { x: 3, y: 3, content: null },
-        { x: 4, y: 3, content: { batiment: epicerie, indexJ: "J0", proprietaire: "O9ex7MQ6J3T5MA5s1H0flqbLnmk1", type: "batiment", } },
+        { x: 4, y: 3, content: { batiment: epicerie, indexJ: 'J0', proprietaire: 'O9ex7MQ6J3T5MA5s1H0flqbLnmk1', type: 'batiment', } },
         { x: 5, y: 3, content: null },
         { x: 6, y: 3, content: null },
-        { x: 7, y: 3, content: { indexJ: "J1", proprietaire: "gX2eXTGkY3P98nPbA0har0qmcCZ2", type: "ouvrier", } },
-        { x: 8, y: 3, content: { type: "poisson", } },
+        { x: 7, y: 3, content: { indexJ: 'J1', proprietaire: 'gX2eXTGkY3P98nPbA0har0qmcCZ2', type: 'ouvrier', } },
+        { x: 8, y: 3, content: { type: 'poisson', } },
       ],
       [
         { x: 0, y: 4, content: null },
         { x: 1, y: 4, content: null },
         { x: 2, y: 4, content: null },
-        { x: 3, y: 4, content: { indexJ: "J0", proprietaire: "O9ex7MQ6J3T5MA5s1H0flqbLnmk1", type: "ouvrier", } },
-        { x: 4, y: 4, content: { indexJ: "J1", proprietaire: "gX2eXTGkY3P98nPbA0har0qmcCZ2", type: "ouvrier", } },
-        { x: 5, y: 4, content: { indexJ: "J1", proprietaire: "gX2eXTGkY3P98nPbA0har0qmcCZ2", type: "ouvrier", } },
-        { x: 6, y: 4, content: { type: "bois", } },
+        { x: 3, y: 4, content: { indexJ: 'J0', proprietaire: 'O9ex7MQ6J3T5MA5s1H0flqbLnmk1', type: 'ouvrier', } },
+        { x: 4, y: 4, content: { indexJ: 'J1', proprietaire: 'gX2eXTGkY3P98nPbA0har0qmcCZ2', type: 'ouvrier', } },
+        { x: 5, y: 4, content: { indexJ: 'J1', proprietaire: 'gX2eXTGkY3P98nPbA0har0qmcCZ2', type: 'ouvrier', } },
+        { x: 6, y: 4, content: { type: 'bois', } },
         { x: 7, y: 4, content: null },
         { x: 8, y: 4, content: null },
       ],
       [
         { x: 0, y: 5, content: null },
-        { x: 1, y: 5, content: { type: "bois", } },
-        { x: 2, y: 5, content: { type: "bois", } },
+        { x: 1, y: 5, content: { type: 'bois', } },
+        { x: 2, y: 5, content: { type: 'bois', } },
         { x: 3, y: 5, content: null },
-        { x: 4, y: 5, content: { type: "poisson", } },
-        { x: 5, y: 5, content: { type: "poisson", } },
+        { x: 4, y: 5, content: { type: 'poisson', } },
+        { x: 5, y: 5, content: { type: 'poisson', } },
         { x: 6, y: 5, content: null },
         { x: 7, y: 5, content: null },
-        { x: 8, y: 5, content: { type: "bois", } },
+        { x: 8, y: 5, content: { type: 'bois', } },
       ],
     ];
 
     component.monTour = true;
     component.joueurActif = {
-      id: "O9ex7MQ6J3T5MA5s1H0flqbLnmk1",
-      nom: "Michel",
+      id: 'O9ex7MQ6J3T5MA5s1H0flqbLnmk1',
+      nom: 'Michel',
       aJoue: false,
       batimentChoisi: null,
       ouvriersANourrir: 0
@@ -190,14 +196,14 @@ describe('CarteComponent', () => {
       console.log(caseTestVide, caseEpicerie);
     });
     it('should call placerOuvrier()', () => {
-      let spy = spyOn(component, 'placerOuvrier').and.callFake(caseTestVide => null);
+      const spy = spyOn(component, 'placerOuvrier').and.callFake(() => null);
       component.actionCase(caseTestVide);
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call placerBatiment()', () => {
       component.joueurActif.batimentChoisi = epicerie;
-      let spy = spyOn(component, 'placerBatiment').and.callFake(caseTestVide => null);
+      const spy = spyOn(component, 'placerBatiment').and.callFake(() => null);
       component.actionCase(caseTestVide);
       expect(spy).toHaveBeenCalled();
     });
@@ -206,7 +212,7 @@ describe('CarteComponent', () => {
   describe('placerOuvrier', () => {
     it('should place a worker when I haven\'t reached the max nb of workers and the cell is empty', () => {
       component.placerOuvrier(caseTestVide);
-      expect(caseTestVide).toEqual({x: caseTestVide.x, y: caseTestVide.y, content: { indexJ: "J-1", proprietaire: "O9ex7MQ6J3T5MA5s1H0flqbLnmk1", type: "ouvrier" } });
+      expect(caseTestVide).toEqual({x: caseTestVide.x, y: caseTestVide.y, content: { indexJ: 'J-1', proprietaire: 'O9ex7MQ6J3T5MA5s1H0flqbLnmk1', type: 'ouvrier' } });
     });
 
     it('should not place a worker when I reached the max nb of workers', () => {
@@ -228,7 +234,7 @@ describe('CarteComponent', () => {
       caseEpicerie.x = caseTestVide.x;
       caseEpicerie.y = caseTestVide.y;
       caseEpicerie.content.indexJ = 'J-1';
-    })
+    });
 
     it('should place a building when I haven\'t reached the nb max of buildings and the cell is empty', () => {
       component.placerBatiment(caseTestVide, epicerie);
@@ -236,8 +242,8 @@ describe('CarteComponent', () => {
     });
 
     it('should update player\'s score', () => {
-      let score = component.detailsJoueur.ressources.score;
-      let newScore = score + epicerie.score;
+      const score = component.detailsJoueur.ressources.score;
+      const newScore = score + epicerie.score;
       component.placerBatiment(caseTestVide, epicerie);
       expect(component.detailsJoueur.ressources.score).toBe(newScore);
     });
@@ -250,7 +256,7 @@ describe('CarteComponent', () => {
     it('should set aJoue to true', () => {
       component.placerBatiment(caseTestVide, epicerie);
       expect(component.joueurActif.aJoue).toBe(true);
-    })
+    });
 
     it('should not place a building when I have reached the nb max of buildings', () => {
       component.detailsJoueur.batiments = component.batiments.nbMaxBatiments;
@@ -267,7 +273,7 @@ describe('CarteComponent', () => {
 
   describe('activeBatimentsAdjacents', () => {
     beforeEach(() => {
-      component.carte[3][3] = { x: 3, y: 3, content: { batiment: epicerie, indexJ: "J0", proprietaire: "O9ex7MQ6J3T5MA5s1H0flqbLnmk1", type: "batiment", } }
+      component.carte[3][3] = { x: 3, y: 3, content: { batiment: epicerie, indexJ: 'J0', proprietaire: 'O9ex7MQ6J3T5MA5s1H0flqbLnmk1', type: 'batiment', } };
     });
     it('should return an array of the near buildings coordinates', () => {
       component.activeBatimentsAdjacents(component.carte[2][3]);
@@ -282,31 +288,31 @@ describe('CarteComponent', () => {
 
   describe('getCasesAdjacentes', () => {
     it('should return 8 coordinates of adjacent cells', () => {
-      expect(component.getCasesAdjacentes(3,3)).toEqual(['2,2', '2,3', '2,4', '3,2', '3,4', '4,2', '4,3', '4,4']);
+      expect(component.getCasesAdjacentes(3, 3)).toEqual(['2,2', '2,3', '2,4', '3,2', '3,4', '4,2', '4,3', '4,4']);
     });
 
     it('should return 5 coordinates of adjacent cells', () => {
-      expect(component.getCasesAdjacentes(8,2)).toEqual(['1,7', '1,8', '2,7', '3,7', '3,8']);
+      expect(component.getCasesAdjacentes(8, 2)).toEqual(['1,7', '1,8', '2,7', '3,7', '3,8']);
     });
 
     it('should return 3 coordinates of adjacent cells', () => {
-      expect(component.getCasesAdjacentes(0,5)).toEqual(['4,0', '4,1', '5,1']);
+      expect(component.getCasesAdjacentes(0, 5)).toEqual(['4,0', '4,1', '5,1']);
     });
   });
 
   describe('getRessourcesAdjacentes', () => {
     it('should return 2 fishes and 1 wood', () => {
-      expect(component.getRessourcesAdjacentes(5,4)).toEqual({pierre: 0, poisson: 2, bois: 1});
+      expect(component.getRessourcesAdjacentes(5, 4)).toEqual({pierre: 0, poisson: 2, bois: 1});
     });
     it('should return 1 fish, 1 stone and 1 wood', () => {
-      expect(component.getRessourcesAdjacentes(1,1)).toEqual({pierre: 1, poisson: 1, bois: 1});
+      expect(component.getRessourcesAdjacentes(1, 1)).toEqual({pierre: 1, poisson: 1, bois: 1});
     });
     it('should return no ressources', () => {
-      expect(component.getRessourcesAdjacentes(2,2)).toEqual({pierre: 0, poisson: 0, bois: 0});
+      expect(component.getRessourcesAdjacentes(2, 2)).toEqual({pierre: 0, poisson: 0, bois: 0});
     });
   });
 
-  fdescribe('isActionnable', () => {
+  describe('isActionnable', () => {
     it('should be actionnable when the building is in the batimentsActionnables array and it\'s the player turn', () => {
       expect(component.isActionnable(caseEpicerie)).toBeTrue();
     });
