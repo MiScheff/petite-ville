@@ -49,7 +49,7 @@ describe('JoueursComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('acheterRessource', () => {
+  describe('acheterRessource', () => {
     it('should add 1 wood selected and substract 3 coins when I have at least 3 coins', () => {
       component.acheterRessource('bois');
       expect(component.detailsJoueur.ressources).toEqual({piece: 7, score: 0, pierre: 0, bois: 1, poisson: 0, ble: 0});

@@ -137,7 +137,7 @@ export class CarteComponent implements OnInit, OnDestroy {
   }
 
   activeBatimentsAdjacents(tuile: Case): void {
-    let batimentsActionnables = [];
+    const batimentsActionnables = [];
     const casesAdj = this.getCasesAdjacentes(tuile.x, tuile.y);
     for (const c of casesAdj) {
       const tx = +c.split(',')[1];
@@ -145,7 +145,6 @@ export class CarteComponent implements OnInit, OnDestroy {
       const t = this.getCase(tx, ty);
 
       if (t.content?.type === 'batiment' && t.content?.batiment.activable) {
-        console.log(`${tx},${ty} : ${this.carte[ty][tx].content.batiment.nom}`);
         batimentsActionnables.push(`${ty},${tx}`);
       }
     }

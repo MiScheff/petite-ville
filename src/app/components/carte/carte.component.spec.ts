@@ -191,10 +191,6 @@ describe('CarteComponent', () => {
   });
 
   describe('actionCase', () => {
-
-    beforeEach(() => {
-      console.log(caseTestVide, caseEpicerie);
-    });
     it('should call placerOuvrier()', () => {
       const spy = spyOn(component, 'placerOuvrier').and.callFake(() => null);
       component.actionCase(caseTestVide);
