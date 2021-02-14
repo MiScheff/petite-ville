@@ -2,21 +2,21 @@
   <div class="ligne" *ngFor="let ligne of carte">
     <button *ngFor="let case of ligne"
       class="case {{ case.content?.type }} {{ case.content?.indexJ }} "
-      [ngClass]="{ 
+      [ngClass]="{
         'highlight': showTuilesLibres(case),
         'actionnable': isActionnable(case),
         'ble': case.content?.batiment?.nom === 'Champ de blé'
       }"
       (click)="actionCase(case)"
       [disabled]="disabledTuile(case)">
-      
+
       <ng-container *ngIf="case.content?.batiment as bat">
         <p class="bat-nom">{{ bat.nom }}</p>
         <p class="effet">
           <ng-container *ngIf="bat.entree">
             <small *ngFor="let e of bat.entree | keyvalue " class="{{ e.key }}">
 					    {{ e.value > 1 ? e.value : '' }}
-            </small> ➤ 
+            </small> ➤
           </ng-container>
           <ng-container *ngIf="bat.sortie">
             <small *ngFor="let s of bat.sortie | keyvalue " class="{{ s.key }}">

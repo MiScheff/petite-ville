@@ -30,8 +30,6 @@ export class CarteComponent implements OnInit, OnDestroy {
   joueurActif: JoueurActif;
   detailsJoueur: Joueur;
 
-  batimentsActionnables: string[] = [];
-
   souscriptions$: Subscription;
 
 
@@ -73,7 +71,7 @@ export class CarteComponent implements OnInit, OnDestroy {
       this.joueursS.actionneBatiment(this.joueurActif.id, tuile.content.batiment, tuile.content.proprietaire)
       .then(res => {
         if (res) {
-          this.batimentsActionnables = _.without(this.batimentsActionnables, `${tuile.y},${tuile.x}`);
+          this.cartesS.setBatimentsActionnables(_.without(this.cartesS.getBatimentsActionnables(), `${tuile.y},${tuile.x}`));
 
           let msg = `${this.detailsJoueur.nom} utilise le bâtiment ${tuile.content.batiment.nom}`;
           this.joueurActif.id === tuile.content.proprietaire ?
@@ -138,8 +136,8 @@ export class CarteComponent implements OnInit, OnDestroy {
     this.joueurActif.aJoue = true;
   }
 
-  activeBatimentsAdjacents(tuile: Case) {
-    this.batimentsActionnables = [];
+  activeBatimentsAdjacents(tuile: Case): void {
+    const batimentsActionnables = [];
     const casesAdj = this.getCasesAdjacentes(tuile.x, tuile.y);
     for (const c of casesAdj) {
       const tx = +c.split(',')[1];
@@ -147,10 +145,11 @@ export class CarteComponent implements OnInit, OnDestroy {
       const t = this.getCase(tx, ty);
 
       if (t.content?.type === 'batiment' && t.content?.batiment.activable) {
-        console.log(`${tx},${ty} : ${this.carte[ty][tx].content.batiment.nom}`);
-        this.batimentsActionnables.push(`${ty},${tx}`);
+        batimentsActionnables.push(`${ty},${tx}`);
       }
     }
+
+    this.cartesS.setBatimentsActionnables(batimentsActionnables);
   }
 
   getCase(x: number, y: number): Case {
@@ -201,7 +200,7 @@ export class CarteComponent implements OnInit, OnDestroy {
   }
 
   isActionnable(tuile: Case) {
-    return _.contains(this.batimentsActionnables, `${tuile.y},${tuile.x}`) && this.monTour;
+    return _.contains(this.cartesS.getBatimentsActionnables(), `${tuile.y},${tuile.x}`) && this.monTour;
   }
 
   disabledTuile(tuile: Case): boolean {

@@ -13,6 +13,7 @@ import { JoueursService } from './joueurs.service';
 })
 export class CartesService {
   idPartie: string;
+  batimentsActionnables: string[] = []; // Liste de coordonnées des cases contenant un bâtiment pouvant être actionné
 
   // La carte fait 6 cases de haut (y) et 9 cases de large (x)
   private carte$: BehaviorSubject<Case[][]> = new BehaviorSubject([]);
@@ -61,6 +62,14 @@ export class CartesService {
 
   getCarte(): Observable<Case[][]> {
     return this.carte$.asObservable();
+  }
+
+  getBatimentsActionnables(): string[] {
+    return this.batimentsActionnables;
+  }
+
+  setBatimentsActionnables(listBat: string[]): void {
+    this.batimentsActionnables = listBat;
   }
 
   placementOuvrier(idJoueur: string, joueur: Joueur): void {
